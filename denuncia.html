@@ -8,6 +8,8 @@
   <!-- Fontes e Ícones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
   <link rel="stylesheet" href="assets/css/denuncia.css">
 
   <!-- Leaflet -->
@@ -15,168 +17,106 @@
 </head>
 <body>
 
-
-<!-- Header -->
+ <!-- Navbar / Header -->
 <header class="main-nav">
   <div class="container flex-container">
     <!-- Logo -->
     <a href="index.html" class="logo">
-      <img src="assets/img/logo/Logo-Bio.jpg1-removebg-preview.png" alt="Logo Bio">
-      <span>Bio-Guiné</span>
+      <img src="assets/img/logo/logo-bioma-removebg-preview.png" alt="Logo Bio">
     </a>
 
-    <!-- Navegação principal -->
+    <!-- Menu de links -->
     <nav class="main-nav-links" id="nav-links">
       <a href="index.html">Home</a>
       <a href="cadastro.html">Espécies</a>
       <a href="denuncia.html">Denúncias</a>
       <a href="sobre.html">Sobre</a>
       <a href="contacto.html">Contato</a>
-      <a href="#">Blog</a>
+      <a href="blogtexte.html">Notícias</a>
+      <a href="quiz.html">Quiz</a>
+
+      <!-- Botão de login -->
+      <div id="user-menu" class="user-menu">
+        <i class="fas fa-user"></i>
+        <span>Entrar</span>
+      </div>
     </nav>
 
-    <!-- Botão do usuário (fora do menu lateral) -->
-    <div id="user-menu"></div>
-
-    <!-- Hamburger -->
-    <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+    <!-- Hamburger Mobile -->
+    <button class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </button>
   </div>
 </header>
 
-
-  <!-- Hero -->
-  <section class="hero-denuncia">
-    <div class="hero-denuncia-content">
-      <h1>Bio-Guiné</h1>
-      <p>Ajude a conservar a biodiversidade enviando denúncias detalhadas.</p>
-      <a class="fale" href="contacto.html">Fale conosco</a>
-    </div>
-  </section>
-
-  <br><br><br><br><br>
+<!-- Hero -->
+<section class="hero-denuncia">
+  <div class="hero-denuncia-content">
+    <h1>Denúncias</h1>
+    <p>Ajude a proteger a vida silvestre denunciando atividades ilegais.</p>
+  </div>
+</section>
 
 
+<!-- Filtros -->
+<div class="filtro-denuncias">
+  <input type="text" id="buscaTitulo" placeholder="Buscar por título">
+  <select id="statusFiltro">
+    <option value="">Todos</option>
+    <option value="NAO_RESOLVIDA">Não resolvida</option>
+    <option value="RESOLVIDA">Resolvida</option>
+    <option value="REJEITADA">Rejeitada</option>
+  </select>
+</div>
 
-  <div id="denuncias-container"></div>
-  <!-- Botão para mostrar formulário -->
-  <button id="btnMostrarForm" class="btn btn-success mb-3">Fazer Denúncia</button>
+<div style="text-align:center; margin: 20px 0;">
+  <a href="denuncia-ser.html" class="btn-link">Fazer Denúncia</a>
+</div>
 
-  <!-- Formulário escondido inicialmente -->
-  <form id="serForm" enctype="multipart/form-data" style="display:none; position: relative;">
-    <h1>Faça a sua denuncia</h1>
-    <!-- Botão X (fechar) -->
-<button type="button" id="btnFecharForm" 
-        style="position: absolute; top: 10px; right: 10px; 
-               background: transparent; border: none; 
-               font-size: 22px; cursor: pointer; 
-               z-index: 9999;">
-  ✖
-</button>
+<!-- Container de Denúncias -->
+<div id="denuncias-container"></div>
 
-    <div class="form-row">
-      <!-- Coluna esquerda -->
-      <div class="form-col form-left">
-        <div class="mb-3">
-          <label for="titulo" class="form-label">Título da Denúncia</label>
-          <input type="text" id="titulo" class="form-control" required>
-        </div>
-        
-        <div class="mb-3">
-          <label for="descricao" class="form-label">Descrição</label>
-          <textarea id="descricao" class="form-control" rows="3"></textarea>
-        </div>
-
-        <div class="mb-3">
-          <label for="especieId" class="form-label">Espécie</label>
-          <select id="especieId" class="form-control">
-            <option value="">Selecione a espécie</option>
-          </select>
-        </div>
-
-        <!-- Upload -->
-        <div class="mb-3">
-          <label class="form-label">Imagem</label>
-          <div class="d-flex gap-2">
-            <button type="button" id="btnTirarFoto" class="btn btn-outline-primary">Tirar Foto</button>
-            <button type="button" id="btnEscolherGaleria" class="btn btn-outline-secondary">Escolher da Galeria</button>
-          </div>
-          <input type="file" id="imagem" accept="image/*" style="display:none;">
-          <img id="previewImagem" src="" alt="Preview da Imagem" style="display:none; max-width: 50%; margin-top: 10px;">
-        </div>
-      </div>
-
-      <!-- Coluna direita: mapa -->
-      <div class="form-col form-right">
-        <div id="map" style="height:300px;"></div>
-        <input type="hidden" id="latitude" name="latitude">
-        <input type="hidden" id="longitude" name="longitude">
-      </div>
-    </div>
-
-    <!-- Botão enviar -->
-    <button type="submit" class="btn btn-primary mt-3 btn-full">Denunciar</button>
-  </form>
+<!-- Formulário -->
 
 
-  
+<!-- Footer -->
 <footer class="footer">
   <div class="footer-content">
     <div class="footer-section">
       <h3>Contato</h3>
       <ul>
-        <li><a href="mailto:exemplo@email.com">bioguine@email.com</a></li>
+        <li><a href="mailto:exemplo@email.com">biomaguine@email.com</a></li>
         <li><a href="tel:+123456789">+245 95 633 48 24</a></li>
       </ul>
     </div>
+
     <div class="footer-section">
       <h3>Links Úteis</h3>
       <ul>
         <li><a href="index.html">Inicio</a></li>
         <li><a href="cadastro.html">Seres</a></li>
-        <li><a href="denuncia.html">Denuncias</a></li>
+        <li><a href="denuncia.html">Denúncias</a></li>
       </ul>
     </div>
-    
+
     <div class="footer-section">
       <h3>Siga-nos</h3>
-     <ul class="social-icons">
-  <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-  <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-  <li><a href="https://wa.me/956334824" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
-</ul>
-
-
+      <ul class="social-icons">
+        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="https://wa.me/956334824" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
+      </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>&copy; 2025 Bio-Guiné. Todos os direitos reservados.</p>
+    <p>&copy; 2025 Bioma-Guiné. Todos os direitos reservados.</p>
   </div>
 </footer>
 
+<!-- Scripts -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/page/denuncia.js"></script>
+<script src="assets/page/usuariospage.js"></script>
 
-<script>
- document.addEventListener('DOMContentLoaded', () => {
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
-
-    if (!hamburger || !navLinks) return;
-
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-    });
-
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-        });
-    });
-});
-
-
-</script>
-  <!-- Scripts -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="assets/page/denuncia.js"></script>
-  <script src="assets/page/usuariospage.js"></script>
 </body>
 </html>

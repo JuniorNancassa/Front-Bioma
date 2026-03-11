@@ -1,640 +1,186 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quiz da Biodiversidade Guineense</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    /*
-      =============================================
-      🎮 Quiz da Biodiversidade Guineense — Estilo Candy
-      Página independente, responsiva e moderna.
-      - Design "candy" com cores vibrantes, vidro/glassmorphism e sombras suaves
-      - Mapa de níveis (como fases) com progresso, estrelas e bloqueio
-      - Transições/efeitos, confete ao passar de nível e concluir o jogo
-      - Código bem comentado para facilitar manutenção
-      =============================================
-    */
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bioma-Guiné: O Jogo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="assets/css/quiz.css">
 
-    :root {
-      --bg-1: #ff9ff3;   /* rosa */
-      --bg-2: #feca57;   /* amarelo */
-      --bg-3: #48dbfb;   /* azul claro */
-      --primary: #ff6b6b; /* botão principal */
-      --secondary: #54a0ff;
-      --success: #10ac84;
-      --warning: #feca57;
-      --text: #2d2a3a;
-      --card: rgba(255,255,255,0.28);
-      --card-border: rgba(255,255,255,0.45);
-      --shadow: 0 10px 30px rgba(0,0,0,0.18);
-    }
-
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      color: var(--text);
-      background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
-      background-size: 200% 200%;
-      animation: bgShift 12s ease infinite;
-      display: flex;
-      flex-direction: column;
-    }
-
-    @keyframes bgShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .container {
-      width: min(1100px, 92%);
-      margin: auto;
-      padding: 24px;
-    }
-
-    /* Header com pontuação e progresso */
-    .topbar {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .brand {
-      display: flex; align-items: center; gap: 10px;
-      user-select: none;
-    }
-
-    .logo {
-      width: 44px; height: 44px; border-radius: 12px;
-      background: linear-gradient(135deg,#ff6b6b,#ff9ff3);
-      box-shadow: var(--shadow);
-      position: relative;
-    }
-    .logo::after{
-      content:""; position:absolute; inset:6px; border-radius:10px; background: rgba(255,255,255,0.5);
-      filter: blur(4px);
-    }
-
-    h1.title { margin: 0; font-size: clamp(18px, 3.2vw, 26px); letter-spacing: 0.3px; }
-
-    .stats {
-      display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;
-    }
-
-    .pill {
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      box-shadow: var(--shadow);
-      border-radius: 999px; padding: 10px 14px; font-weight: 600; display: flex; gap: 8px; align-items: center;
-    }
-
-    .progress {
-      height: 12px; background: rgba(255,255,255,0.45); border-radius: 999px; overflow: hidden; width: 100%;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.12);
-    }
-    .progress > span { display: block; height: 100%; background: linear-gradient(90deg, #54a0ff,#5f27cd,#ff9ff3); width: 0%; transition: width .6s ease; }
-
-    /* Card principal com mapa de níveis */
-    .card {
-      margin-top: 18px;
-      padding: clamp(14px, 2vw, 20px);
-      border-radius: 24px;
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: var(--shadow);
-    }
-
-    .map-header { display:flex; justify-content:space-between; align-items:center; gap: 10px; flex-wrap: wrap; }
-    .map-title { font-size: clamp(18px, 3vw, 22px); font-weight: 700; }
-
-    .btn {
-      border: none; cursor: pointer; font-weight: 700;
-      border-radius: 16px; padding: 12px 16px; transition: transform .06s ease, filter .2s ease, box-shadow .2s ease;
-      color: #fff; box-shadow: var(--shadow);
-    }
-    .btn:active { transform: translateY(1px) scale(0.998); }
-    .btn-primary { background: linear-gradient(135deg, #ff6b6b, #ff9ff3); }
-    .btn-secondary { background: linear-gradient(135deg, #54a0ff, #48dbfb); }
-    .btn-success { background: linear-gradient(135deg, #1dd1a1, #10ac84); }
-    .btn-warning { background: linear-gradient(135deg, #feca57, #ff9f43); color:#2d2a3a; }
-
-    /* Grid do mapa de níveis (candy-style) */
-    .levels-grid {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
-      gap: 16px;
-    }
-
-    .level-item {
-      position: relative;
-      border-radius: 20px;
-      padding: 16px 12px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.6));
-      border: 1px solid rgba(255,255,255,0.6);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.12), inset 0 2px 10px rgba(255,255,255,0.6);
-      text-align: center;
-      user-select: none;
-      transition: transform .15s ease, filter .2s ease;
-    }
-    .level-item:hover { filter: brightness(1.03); transform: translateY(-2px); }
-
-    .level-num { font-weight: 800; font-size: 18px; color: #5f27cd; }
-    .lock { font-size: 12px; opacity: .7; }
-
-    .stars { display:flex; gap:4px; justify-content:center; margin-top: 6px; }
-    .star { width: 18px; height: 18px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.12)); }
-
-    /* Modal do Quiz */
-    .modal {
-      position: fixed; inset: 0; display: none; place-items: center; padding: 20px; z-index: 20;
-      background: linear-gradient(135deg, rgba(255,159,243,0.22), rgba(72,219,251,0.22));
-      backdrop-filter: blur(4px);
-    }
-    .modal.active { display: grid; animation: fadeIn .22s ease; }
-
-    @keyframes fadeIn { from{opacity:0; transform: scale(0.98);} to{opacity:1; transform: scale(1);} }
-
-    .quiz-card {
-      width: min(720px, 96vw);
-      border-radius: 24px; padding: 22px;
-      background: rgba(255,255,255,0.95);
-      border: 1px solid var(--card-border);
-      box-shadow: var(--shadow);
-      position: relative;
-    }
-
-    .quiz-top { display:flex; align-items:center; justify-content:space-between; gap: 10px; }
-    .level-badge { font-weight: 800; background: #5f27cd; color:#fff; padding: 8px 12px; border-radius: 999px; }
-
-    .timer { font-weight: 800; }
-
-    .question { font-size: clamp(18px, 3.2vw, 22px); font-weight: 700; margin: 14px 0; }
-
-    .options { display:grid; gap: 10px; }
-    .option {
-      border: 2px solid transparent; border-radius: 14px; padding: 12px; text-align:left; font-weight: 600; cursor: pointer;
-      background: linear-gradient(180deg, #fff, #f7f7ff);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-      transition: transform .08s ease, border-color .2s ease, background .2s ease;
-    }
-    .option:hover { transform: translateY(-1px); }
-    .option.correct { border-color: var(--success); background: linear-gradient(180deg, #eafff6, #f6fffb); }
-    .option.wrong { border-color: #ee5253; background: linear-gradient(180deg, #fff0f0, #fffbfb); }
-
-    .quiz-actions { display:flex; justify-content:space-between; align-items:center; margin-top: 12px; gap: 10px; flex-wrap: wrap; }
-
-    .feedback { font-weight: 700; min-height: 24px; }
-
-    .footer { text-align:center; padding: 18px; opacity:.9; font-size: 14px; }
-
-    /* Banner de Level Up */
-    .levelup {
-      position: fixed; left: 50%; top: 18%; transform: translateX(-50%);
-      padding: 12px 18px; border-radius: 999px; color:#fff; font-weight: 800;
-      background: linear-gradient(135deg,#1dd1a1,#10ac84);
-      box-shadow: var(--shadow);
-      z-index: 30; display: none;
-    }
-    .levelup.show { display: inline-block; animation: floatUp 1.6s ease forwards; }
-
-    @keyframes floatUp { 0%{opacity:0; transform: translate(-50%, 10px);} 20%{opacity:1;} 100%{opacity:0; transform: translate(-50%, -40px);} }
-
-    /* Confete simples */
-    .confetti { position: fixed; inset: 0; pointer-events:none; z-index: 25; }
-
-    /* Responsividade extra */
-    @media (max-width: 520px) {
-      .levels-grid { grid-template-columns: repeat(auto-fit, minmax(88px, 1fr)); }
-    }
-  </style>
+  
 </head>
 <body>
-  <div class="container">
-    <!-- Topbar -->
-    <div class="topbar">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <h1 class="title">Quiz da Biodiversidade Guineense</h1>
-      </div>
 
-      <div class="stats">
-        <div class="pill" title="Pontuação total">
-          🧮 <span id="score">0</span> pts
-        </div>
-        <div class="pill" title="Vidas restantes">
-          ❤ <span id="lives">3</span>
-        </div>
-        <div class="pill" style="min-width: 200px;">
-          <div class="progress" aria-label="Progresso geral"><span id="progressBar"></span></div>
-        </div>
-      </div>
+<a href="index.html" class="btn-home"><i class="fas fa-home"></i></a>
 
-      <div style="display:flex; gap:8px; justify-content:flex-end;">
-        <button class="btn btn-secondary" id="btnReset">Reiniciar</button>
-        <button class="btn btn-primary" id="btnHow">Como jogar</button>
-      </div>
+<section id="screen-start" class="screen active">
+    <div style="flex-grow:1; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+        <h1 style="font-family:'Montserrat'; font-size:clamp(3rem, 10vw, 5rem); color:var(--verde-guine); text-align:center;">BIOMA<br><span style="color:var(--vermelho-guine)">GUINÉ</span></h1>
+        <div id="user-welcome" style="margin-top:20px; font-weight:bold;">Carregando perfil...</div>
     </div>
+    <button class="btn-action" onclick="fetchCategories()">INICIAR JOGO</button>
+</section>
 
-    <!-- Card do mapa de níveis -->
-    <div class="card">
-      <div class="map-header">
-        <div class="map-title">Mapa de Níveis</div>
-        <div>
-          <button class="btn btn-success" id="btnPlay">Começar/Continuar ▶</button>
+<section id="screen-categories" class="screen">
+    <h2 style="color:var(--verde-guine)">MISSÕES DISPONÍVEIS</h2>
+    <div id="categories-grid" class="grid-layout"></div>
+    <button onclick="goToScreen('screen-start')" style="margin-top:auto; background:none; border:none; cursor:pointer; font-weight:bold;">VOLTAR</button>
+</section>
+
+<section id="screen-levels" class="screen">
+    <h2 id="cat-title" style="color:var(--verde-guine)">NÍVEIS</h2>
+    <div id="levels-grid" class="grid-layout"></div>
+    <button onclick="goToScreen('screen-categories')" style="margin-top:auto; background:none; border:none; cursor:pointer; font-weight:bold;">VOLTAR</button>
+</section>
+
+<section id="screen-quiz" class="screen">
+    <div class="hud-wrapper">
+        <div class="hud-info">
+            <div id="lives">❤️❤️❤️</div>
+            <div id="score" style="color:var(--verde-guine)">⭐ 0</div>
         </div>
-      </div>
-
-      <div class="levels-grid" id="levelsGrid" aria-live="polite"></div>
+        <div class="progress-container"><div id="progress-bar" class="progress-fill"></div></div>
     </div>
+    <div class="question-area"><h2 id="q-text">...</h2></div>
+    <div id="ans-container" class="options-grid"></div>
+    <button id="next-btn" class="btn-action" style="display:none; width:100%;">PRÓXIMA</button>
+</section>
 
-    <div class="footer">© 2025 — BIO-GUINÉ. Conteúdo sobre fauna e flora da Guiné-Bissau. 🌿</div>
-  </div>
+<script>
+    const API_BASE = "http://localhost:8080/api/quiz"; 
+    let currentQuestions = [], currentIdx = 0, lives = 3, score = 0, currentLevelId = null;
 
-  <!-- Banner de Level Up -->
-  <div class="levelup" id="levelUpBanner">Nível concluído! 🎉</div>
+    // --- FUNÇÕES DE API ---
 
-  <!-- Canvas de Confete -->
-  <canvas class="confetti" id="confetti"></canvas>
-
-  <!-- Modal do Quiz -->
-  <div class="modal" id="quizModal" role="dialog" aria-modal="true" aria-labelledby="quizTitle">
-    <div class="quiz-card">
-      <div class="quiz-top">
-        <span class="level-badge" id="levelBadge">Nível 1</span>
-        <span class="pill">⏱ <span class="timer" id="timer">30</span>s</span>
-      </div>
-      <div class="question" id="quizTitle">Pergunta</div>
-      <div class="options" id="options"></div>
-      <div class="quiz-actions">
-        <div class="feedback" id="feedback"></div>
-        <div style="display:flex; gap:8px;">
-          <button class="btn btn-warning" id="btnClose">Sair</button>
-          <button class="btn btn-primary" id="btnNext" disabled>Próximo ▶</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    /* ======================================================
-       📚 Banco de Níveis & Perguntas
-       - Simples: 1 pergunta por nível (estilo "fases" do Candy)
-       - Você pode adicionar mais níveis facilmente
-    ====================================================== */
-
-    
-    function pegarQuiz() {
+    async function fetchCategories() {
+        const res = await fetch(`${API_BASE}/categories`);
+        const categories = await res.json();
+        const grid = document.getElementById('categories-grid');
+        grid.innerHTML = "";
         
-        var xhr= new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:8080/api/quizzes/pegar-em-ordem', true);
-        const LEVELS = []
-        xhr.onload = function() {
-            if (this.status == 200) {
-                var quizzes = JSON.parse(this.responseText);
-                var level= []
-                console.log(quizzes);
-                quizzes.forEach(element => {
-                    var dados={
-                        q:element.pergunta,
-                        options: (element.respostas),
-                        a: (element.correta)
-                    }
-                    level.push(dados);
-                    mostrar(level)
-                });
-                
-                // Aqui você pode processar os quizzes recebidos
-            } else {
-                console.error('Erro ao carregar os quizzes');
-            }
-        };
-
-        xhr.send()
-
-        return LEVELS;
+        categories.forEach(cat => {
+            grid.innerHTML += `
+                <div class="card-game" onclick="fetchLevels(${cat.id}, '${cat.name}')">
+                    <i class="fas fa-leaf fa-3x" style="color:var(--verde-guine)"></i>
+                    <h3>${cat.name}</h3>
+                </div>`;
+        });
+        goToScreen('screen-categories');
     }
 
-   
+    async function fetchLevels(catId, catName) {
+        document.getElementById('cat-title').textContent = catName;
+        const res = await fetch(`${API_BASE}/categories/${catId}/levels`);
+        const levels = await res.json();
+        const grid = document.getElementById('levels-grid');
+        grid.innerHTML = "";
 
-    console.log(pegarQuiz());
-
-    var LEVELS =[]
-     function mostrar(params) {
-        LEVELS=params
-        console.log(LEVELS);
-        
+        levels.forEach(lvl => {
+            // Supondo que seu LevelDTO tenha 'unlocked' e 'stars'
+            const lockedClass = lvl.unlocked ? '' : 'locked';
+            grid.innerHTML += `
+                <div class="card-game ${lockedClass}" onclick="${lvl.unlocked ? `startQuiz(${lvl.id})` : ''}">
+                    <h3>Nível ${lvl.number}</h3>
+                    <p style="color:var(--amarelo-guine)">${'⭐'.repeat(lvl.stars || 0)}</p>
+                </div>`;
+        });
+        goToScreen('screen-levels');
     }
 
-      setTimeout(() => {
+    async function startQuiz(levelId) {
+        currentLevelId = levelId;
+        const res = await fetch(`${API_BASE}/levels/${levelId}/questions`);
+        currentQuestions = await res.json();
+        
+        lives = 3; score = 0; currentIdx = 0;
+        updateHUD();
+        showQuestion();
+        goToScreen('screen-quiz');
+    }
 
+    async function checkAnswerApi(questionId, selectedIndex, btn) {
+        const res = await fetch(`${API_BASE}/questions/${questionId}/answer`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ selectedIndex })
+        });
+        const result = await res.json(); // { correct: true/false }
 
+        document.querySelectorAll(".option-btn").forEach(b => b.disabled = true);
 
-    /* ============================
-       ⚙ Estado do Jogo (com persistência)
-    ============================ */
-    const STORAGE_KEY = 'quiz_gw_biodiv_progress_v1';
-    const state = {
-      level: 0,      // índice do nível atual
-      score: 0,      // pontuação total
-      lives: 3,      // vidas
-      stars: [],     // estrelas por nível (0-3)
+        if(result.correct) {
+            btn.classList.add("correct");
+            score++;
+            playSfx('correct');
+        } else {
+            btn.classList.add("wrong");
+            playSfx('wrong');
+            lives--;
+        }
+
+        updateHUD();
+        document.getElementById("next-btn").style.display = "block";
+        if(lives <= 0) {
+            setTimeout(() => { alert("Game Over! Tente novamente."); goToScreen('screen-levels'); }, 500);
+        }
+    }
+
+    async function saveFinalProgress() {
+        await fetch(`${API_BASE}/levels/${currentLevelId}/progress`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ stars: score })
+        });
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        setTimeout(() => { alert("Nível Concluído!"); fetchCategories(); }, 1000);
+    }
+
+    // --- LÓGICA DE INTERFACE ---
+
+    function showQuestion() {
+        const q = currentQuestions[currentIdx];
+        document.getElementById("q-text").textContent = q.text; // Ajuste para o nome do campo no seu QuestionDTO
+        const container = document.getElementById("ans-container");
+        container.innerHTML = "";
+        document.getElementById("next-btn").style.display = "none";
+        
+        document.getElementById("progress-bar").style.width = `${(currentIdx / currentQuestions.length) * 100}%`;
+
+        q.answers.forEach((ans, i) => {
+            const btn = document.createElement("button");
+            btn.className = "option-btn";
+            btn.textContent = ans;
+            btn.onclick = () => checkAnswerApi(q.id, i, btn);
+            container.appendChild(btn);
+        });
+    }
+
+    document.getElementById("next-btn").onclick = () => {
+        currentIdx++;
+        if(currentIdx < currentQuestions.length) showQuestion();
+        else saveFinalProgress();
     };
 
-    // Carrega progresso salvo, se houver
-    (function loadProgress(){
-        
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-      if (saved && Array.isArray(saved.stars) && saved.stars.length <= LEVELS.length) {
-        state.level = Math.min(saved.level ?? 0, LEVELS.length - 1);
-        state.score = saved.score ?? 0;
-        state.lives = saved.lives ?? 3;
-        state.stars = saved.stars.concat(Array(Math.max(0, LEVELS.length - saved.stars.length)).fill(0));
-      } else {
-        state.stars = Array(LEVELS.length).fill(0);
-      }
-    })();
-
-    function saveProgress(){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    function goToScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
     }
 
-    /* ============================
-       🗺 UI: Mapa de Níveis
-    ============================ */
-    const levelsGrid = document.getElementById('levelsGrid');
-    const scoreEl = document.getElementById('score');
-    const livesEl = document.getElementById('lives');
-    const progressBar = document.getElementById('progressBar');
-
-    function renderStats(){
-
-      scoreEl.textContent = state.score;
-      livesEl.textContent = state.lives;
-      const completed = state.stars.reduce((acc, s)=> acc + (s>0?1:0), 0);
-      const percent = Math.round((completed / LEVELS.length) * 100);
-      progressBar.style.width = percent + '%';
-      progressBar.setAttribute('aria-valuenow', String(percent));
+    function updateHUD() {
+        document.getElementById("lives").textContent = "❤️".repeat(lives);
+        document.getElementById("score").textContent = "⭐ " + score;
     }
 
-    function starSVG(filled){
-      return `<svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.401 8.168L12 18.896l-7.335 3.868 1.401-8.168L.132 9.21l8.2-1.192z" fill="${filled? '#feca57' : '#e0e0e0'}"></svg>`;
+    function playSfx(type) {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.frequency.setValueAtTime(type === 'correct' ? 600 : 200, audioCtx.currentTime);
+        osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3); osc.stop(audioCtx.currentTime + 0.3);
     }
-
-    function renderMap(){
- 
-      levelsGrid.innerHTML = '';
-      for (let i=0;i<LEVELS.length;i++){
-        const locked = i > nextUnlockedIndex();
-        const stars = state.stars[i] || 0;
-        const item = document.createElement('button');
-        item.className = 'level-item';
-        item.innerHTML = `
-          <div class="level-num">Pergunta ${i+1}</div>
-          <div class="stars">${starSVG(stars>=1)}${starSVG(stars>=2)}${starSVG(stars>=3)}</div>
-          <div class="lock">${locked? '🔒 Bloqueado' : '▶ Jogar'}</div>
-        `;
-        item.disabled = locked;
-        item.addEventListener('click', ()=> startLevel(i));
-        levelsGrid.appendChild(item);
-      }
-      renderStats();
-    }
-
-    function nextUnlockedIndex(){
-      // Próximo nível jogável é o primeiro ainda sem 3 estrelas e sequencial
-      // Liberamos em sequência: se o nível i tem pelo menos 1 estrela, i+1 desbloqueia
-      let idx = 0;
-      for (let i=0;i<LEVELS.length;i++){
-        if ((state.stars[i]||0) > 0) idx = i+1; else break;
-      }
-      return Math.min(idx, LEVELS.length-1);
-    }
-
-    /* ============================
-       🧠 Lógica de Quiz por nível
-    ============================ */
-    const modal = document.getElementById('quizModal');
-    const levelBadge = document.getElementById('levelBadge');
-    const quizTitle = document.getElementById('quizTitle');
-    const optionsWrap = document.getElementById('options');
-    const feedbackEl = document.getElementById('feedback');
-    const timerEl = document.getElementById('timer');
-    const btnNext = document.getElementById('btnNext');
-    const btnClose = document.getElementById('btnClose');
-
-    let currentLevelIndex = 0;
-    let picked = -1;
-    let correctIndex = -1;
-    let timer = null;
-    let timeLeft = 30; // segundos por nível
-
-    function startLevel(i){
-      currentLevelIndex = i;
-      openModal();
-      loadQuestion();
-    }
-
-    function openModal(){ modal.classList.add('active'); }
-    function closeModal(){ modal.classList.remove('active'); }
-
-    function loadQuestion(){
-      const L = LEVELS[currentLevelIndex];
-      picked = -1; correctIndex = L.a; btnNext.disabled = true; feedbackEl.textContent='';
-      levelBadge.textContent = `Nível ${currentLevelIndex+1}`;
-      quizTitle.textContent = L.q;
-
-      const shuffled = L.options.map((t,idx)=>({t,idx})).sort(()=>Math.random()-0.5);
-      optionsWrap.innerHTML = '';
-      shuffled.forEach(({t,idx})=>{
-        const btn = document.createElement('button');
-        btn.className = 'option';
-        btn.innerHTML = t;
-        btn.addEventListener('click', ()=> pickOption(btn, idx));
-        optionsWrap.appendChild(btn);
-      });
-
-      // Timer
-      stopTimer();
-      timeLeft = 60;
-      timerEl.textContent = timeLeft;
-      timer = setInterval(()=>{
-        timeLeft--; timerEl.textContent = timeLeft;
-        if (timeLeft <= 0){
-          stopTimer();
-          lockOptions();
-          feedbackEl.textContent = '⏳ Tempo esgotado!';
-          feedbackEl.style.color = '#ee5253';
-          loseLife();
-          btnNext.disabled = false;
-        }
-      }, 1000);
-    }
-
-    function stopTimer(){ if (timer) { clearInterval(timer); timer = null; } }
-
-    function pickOption(btn, idx){
-      if (picked !== -1) return; // já respondeu
-      picked = idx;
-      const isCorrect = (idx === correctIndex);
-      const optionButtons = [...document.querySelectorAll('.option')];
-      optionButtons.forEach((b)=> b.disabled = true);
-
-      if (isCorrect){
-        btn.classList.add('correct');
-        feedbackEl.textContent = '✅ Resposta correta!';
-        feedbackEl.style.color = '#10ac84';
-        const bonus = Math.max(5, timeLeft); // bônus por tempo
-        const stars = timeLeft>=24 ? 3 : timeLeft>=14 ? 2 : 1;
-        state.stars[currentLevelIndex] = Math.max(state.stars[currentLevelIndex]||0, stars);
-        state.score += 10 + bonus;
-        saveProgress();
-        renderStats();
-      } else {
-        btn.classList.add('wrong');
-        feedbackEl.textContent = '❌ Resposta errada.';
-        feedbackEl.style.color = '#ee5253';
-        revealCorrect();
-        loseLife();
-      }
-
-      btnNext.disabled = false;
-      stopTimer();
-    }
-
-    function revealCorrect(){
-      const optionButtons = [...document.querySelectorAll('.option')];
-      optionButtons.forEach((b)=>{
-        const txt = b.textContent;
-        const L = LEVELS[currentLevelIndex];
-        if (txt === L.options[L.a]) b.classList.add('correct');
-      });
-    }
-
-    function lockOptions(){
-      const optionButtons = [...document.querySelectorAll('.option')];
-      optionButtons.forEach((b)=> b.disabled = true);
-    }
-
-    function loseLife(){
-      state.lives = Math.max(0, state.lives - 1); renderStats(); saveProgress();
-      if (state.lives === 0){
-        setTimeout(()=>{
-          alert('💔 Você perdeu todas as vidas. Reinicie para tentar novamente.');
-          closeModal();
-        }, 200);
-      }
-    }
-
-    btnNext.addEventListener('click', ()=>{
-      // Se acertou, anima e libera próximo nível
-      const passed = (state.stars[currentLevelIndex]||0) > 0;
-      console.log(passed)
-      if (passed) {
-        showLevelUp();
-      }
-      // Avança o ponteiro do nível atual para o próximo disponível
-      const nextIdx = Math.min(currentLevelIndex + 1, LEVELS.length - 1);
-      // Fechar modal para dar sensação de troca de fase
-      closeModal();
-
-      // Se concluiu todos os níveis com pelo menos 1 estrela
-      const finishedAll = state.stars.every(s => s>0);
-      if (finishedAll){
-        launchConfetti(600);
-        setTimeout(()=>{
-          alert(`🏆 Parabéns! Você concluiu todos os ${LEVELS.length} níveis!\nPontuação: ${state.score} pontos`);
-        }, 50);
-      }
-
-      renderMap();
-    });
-
-    btnClose.addEventListener('click', ()=>{ closeModal(); stopTimer(); });
-
-    // Botões gerais
-    document.getElementById('btnHow').addEventListener('click', ()=>{
-      alert('Como jogar:\n\n• Escolha um nível desbloqueado para responder.\n• Você tem 30s por nível; quanto mais rápido, mais estrelas.\n• Acerte para desbloquear o próximo.\n• Você começa com 3 vidas. Boa sorte!');
-    });
-
-    document.getElementById('btnPlay').addEventListener('click', ()=>{
-      // Navega ao próximo nível desbloqueado
-      const i = nextUnlockedIndex();
-      startLevel(i);
-    });
-
-    document.getElementById('btnReset').addEventListener('click', ()=>{
-      if (confirm('Reiniciar progresso? Isso zera pontuação, vidas e estrelas.')){
-        localStorage.removeItem(STORAGE_KEY);
-        state.level = 0; state.score = 0; state.lives = 3; state.stars = Array(LEVELS.length).fill(0);
-        renderMap();
-      }
-    });
-
-    // Banner Level Up
-    function showLevelUp(){
-      const el = document.getElementById('levelUpBanner');
-      el.classList.add('show');
-      setTimeout(()=> el.classList.remove('show'), 1600);
-    }
-
-    // Confete simples no canvas
-    const confettiCanvas = document.getElementById('confetti');
-    const ctx = confettiCanvas.getContext('2d');
-    let confettiPieces = [];
-
-    function resizeCanvas(){
-      confettiCanvas.width = window.innerWidth;
-      confettiCanvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    function launchConfetti(amount = 300){
-      confettiPieces = Array.from({length: amount}).map(()=>({
-        x: Math.random()*confettiCanvas.width,
-        y: -10 - Math.random()*confettiCanvas.height,
-        r: 2 + Math.random()*4,
-        s: 1 + Math.random()*3,
-        a: 0.6 + Math.random()*0.4,
-        dx: (Math.random()-0.5)*1.5,
-      }));
-    }
-
-    function drawConfetti(){
-      ctx.clearRect(0,0,confettiCanvas.width, confettiCanvas.height);
-      confettiPieces.forEach(p=>{
-        ctx.globalAlpha = p.a;
-        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle = randomCandyColor(); ctx.fill();
-        p.y += p.s; p.x += p.dx; if (p.y>confettiCanvas.height) p.y = -10;
-      });
-      requestAnimationFrame(drawConfetti);
-    }
-    function randomCandyColor(){
-      const cs = ['#ff6b6b','#ff9ff3','#54a0ff','#48dbfb','#feca57','#5f27cd','#1dd1a1'];
-      return cs[Math.floor(Math.random()*cs.length)];
-    }
-
-    drawConfetti();
-
-    // Inicialização
-   
-        renderMap();
-    }, 1000);
-    
- 
-  </script>
+</script>
 </body>
 </html>

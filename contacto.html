@@ -1,191 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-
-  <!-- Font Awesome 6 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <!-- Bootstrap Icons (opcional) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
-
+    <title>Bio-Guiné | Contato</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="assets/css/contacto.css">
 </head>
 <body>
 
-
-
-
-
-
-<!-- Header -->
 <header class="main-nav">
   <div class="container flex-container">
-    <!-- Logo -->
     <a href="index.html" class="logo">
-      <img src="assets/img/logo/Logo-Bio.jpg1-removebg-preview.png" alt="Logo Bio">
-      <span>Bio-Guiné</span>
+      <img src="assets/img/logo/logo-bioma-removebg-preview.png" alt="Logo Bio">
     </a>
-
-    <!-- Navegação principal -->
     <nav class="main-nav-links" id="nav-links">
       <a href="index.html">Home</a>
       <a href="cadastro.html">Espécies</a>
       <a href="denuncia.html">Denúncias</a>
       <a href="sobre.html">Sobre</a>
       <a href="contacto.html">Contato</a>
-      <a href="#">Blog</a>
+      <a href="blogtexte.html">Notícias</a>
+      <div id="user-menu" class="user-menu">
+        <i class="fas fa-user"></i>
+        <span>Entrar</span>
+      </div>
     </nav>
-
-    <!-- Botão do usuário (fora do menu lateral) -->
-    <div id="user-menu"></div>
-
-    <!-- Hamburger -->
-    <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+    <button class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </button>
   </div>
 </header>
 
-   
-       
-    
-    <!-- Conteúdo Principal -->
-  
-        <!-- Seção Hero (Banner) -->
-        <section class="hero-denuncia">
-            <div class="hero-denuncia-content">
-                <h1>Bio-Guiné</h1>
-                <p>Ajude a conservar a biodiversidade enviando denúncias detalhadas.</p>
-                <!-- <a class="fale" href="#">Fale conosco</a> -->
-            </div>
-        </section>
-        <br><br>
+<main class="secao-contato-premium">
+    <div class="container">
+        <div class="glass-card-container">
+            
+            <div class="glass-info">
+                <span class="subtitulo">CONTACTO</span>
+                <h2>Entre em <br><span class="destaque">Contato</span></h2>
+                <p>Tem alguma dúvida ou deseja mais informações? Estamos aqui para ajudar!</p>
+                
+                <div class="lista-contatos">
+                    <div class="item-contato">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <span>Telefone</span>
+                            <p>+245 956334824</p>
+                        </div>
+                    </div>
+                    <div class="item-contato">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <span>E-mail</span>
+                            <p>biomaguine@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
 
-    
-    
-     <section class="contato-1">
-        <div class="container-contato">
-            <h2>Entre em Contato</h2>
-            <div class="contato-grid">
-                <div class="contato-item">
-                    <div class="icone">
-                        <i class="fas fa-phone-alt"></i> <!-- Ícone de telefone -->
-                    </div>
-                    <h3>Telefone</h3>
-                    <p>+245 955291452</p>
-                </div>
-                <div class="contato-item">
-                    <div class="icone">
-                        <i class="fas fa-envelope"></i> <!-- Ícone de e-mail -->
-                    </div>
-                    <h3>E-mail</h3>
-                    <p>info@liceuermondadebor.com</p>
-                </div>
-                <div class="contato-item">
-                    <div class="icone">
-                        <i class="fas fa-map-marker-alt"></i> <!-- Ícone de localização -->
-                    </div>
-                    <h3>Localização</h3>
-                    <p>Bôr, Bissau, Guiné-Bissau</p>
+                <div class="redes-sociais-pills">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/956334824"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
-    
-        </div>
-    </section>
-    
 
-
-    <section class="contato">
-        <div class="container">
-            <h2></h2>
-            <p>Tem alguma dúvida ou deseja mais informações? Entre em contato conosco pelo formulário abaixo ou pelas nossas redes sociais!</p>
-    
-            <!-- Formulário de Contato -->
-            <div class="contato-form">
-                <!-- Formulário de contato -->
+            <div class="glass-form">
                 <form action="https://api.web3forms.com/submit" method="POST">
-                    <!-- Chave Web3Forms -->
                     <input type="hidden" name="access_key" value="b8a05d47-8f3d-4c1d-8ac3-6b8f9a377919">
-                    <input type="hidden" name="" value="Novo Contacto!">
                     
-                  
-                    <div class="form-container">
-                        <!-- Inputs à esquerda -->
-                        <div class="input-left">
-                            <input type="text" name="name" placeholder="Digite seu nome" required>
-                            <input type="email" name="email" placeholder="Digite seu e-mail" required>
-                    
-                            <!-- Campo de telefone com indicativo da Guiné-Bissau -->
-                            <div style="display: flex;">
-                                <span style="
-                                    background: #eee;
-                                    padding: 10px 12px;
-                                    border: 1px solid #ccc;
-                                    border-right: none;
-                                    border-radius: 5px 0 0 5px;
-                                    font-size: 16px;
-                                    height: 80px;
-                                    display: flex;
-                                    align-items: center;
-                                ">+245</span>
-                                <input type="number" name="numero" placeholder="Telefone" required style="
-                                    border: 1px solid #ccc;
-                                    border-left: none;
-                                    border-radius: 0 5px 5px 0;
-                                    flex: 1;
-                                    font-size: 16px;
-                                    padding: 10px;
-                                    height: 80px;
-                                ">
-                            </div>
-                        </div>
-                  
-                        <!-- Textarea à direita -->
-                        <div class="textarea-right">
-                            <textarea name="mensagem" cols="30" rows="10" placeholder="Digite a mensagem" required></textarea>
-                        </div>
+                    <div class="grupo-input">
+                        <input type="text" name="name" placeholder="Seu Nome" required>
                     </div>
-                  
-                    <!-- Botão de envio -->
-                    <button type="submit" class="btn" style="background-color: #4caf50; width: 60%;">ENVIAR</button>
+
+                    <div class="grupo-input">
+                        <input type="email" name="email" placeholder="Seu E-mail" required>
+                    </div>
+
+                    <div class="grupo-input-combo">
+                        <span class="indicativo">+245</span>
+                        <input type="number" name="numero" placeholder="Telefone" required>
+                    </div>
+
+                    <div class="grupo-input">
+                        <textarea name="mensagem" rows="5" placeholder="Sua mensagem..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-enviar-moderno">ENVIAR AGORA</button>
                 </form>
             </div>
-            
-              
-            <!-- Contato por WhatsApp -->
-            <div class="whatsapp">
-                <a href="https://wa.me/956334824" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Fale Conosco pelo WhatsApp
-                </a>
-            </div>
-    
-            <!-- Redes Sociais -->
-            <div class="redes-sociais">
-                <h3>Siga-nos nas redes sociais:</h3>
-                <div class="icones">
-                    <a href="https://facebook.com/seu-perfil" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://instagram.com/seu-perfil" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="https://twitter.com/seu-perfil" target="_blank"><i class="fab fa-twitter"></i></a>
-                </div>
-            </div>
+
         </div>
-    </section>
-    
+    </div>
+</main>
 
 <footer class="footer">
   <div class="footer-content">
     <div class="footer-section">
       <h3>Contato</h3>
       <ul>
-        <li><a href="mailto:exemplo@email.com">bioguine@email.com</a></li>
-        <li><a href="tel:+123456789">+245 95 633 48 24</a></li>
+        <li><a href="mailto:bioguine08@gmail.com">biomaguine@gmail.com</a></li>
+        <li><a href="tel:+245956334824">+245 95 633 48 24</a></li>
       </ul>
     </div>
     <div class="footer-section">
@@ -196,47 +115,40 @@
         <li><a href="denuncia.html">Denuncias</a></li>
       </ul>
     </div>
-    
     <div class="footer-section">
       <h3>Siga-nos</h3>
-     <ul class="social-icons">
-  <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-  <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-  <li><a href="https://wa.me/956334824" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
-</ul>
-
-
+      <ul class="social-icons">
+        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="https://wa.me/956334824" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
+      </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>&copy; 2025 Bio-Guiné. Todos os direitos reservados.</p>
+    <p>&copy; 2026 Bio-Guiné. Todos os direitos reservados.</p>
   </div>
 </footer>
 
+ <!-- Scripts -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const hamburger = document.getElementById('hamburger');
+                const navLinks = document.getElementById('nav-links');
 
+                if (!hamburger || !navLinks) return;
 
-<script>
- document.addEventListener('DOMContentLoaded', () => {
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
+                hamburger.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                });
 
-    if (!hamburger || !navLinks) return;
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                    });
+                });
+            });
+        </script>
 
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-    });
-
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-        });
-    });
-});
-
-
-</script>
-
-<script src="assets/page/contacto.js"></script>
-<script src="assets/page/usuariospage.js"></script>
+        <script src="assets/page/usuariospage.js"></script>
 </body>
 </html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário de Denúncia</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    body { background: #f4f4f4; font-family: Arial, sans-serif; }
+
+    :root {
+      --cor-verde-escuro: #2e7d32;
+      --cor-verde-musgo: #4caf50;
+      --cor-branco: #ffffff;
+      --cor-cinza-claro: #f4f4f4;
+    }
+
+    /* ------------------ Toasts Animados ------------------ */
+    #toastContainer {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .toast {
+      min-width: 280px;
+      max-width: 90%;
+      border-radius: 12px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(-30px);
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+    .toast.showing {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .toast-success { background-color: #4caf50; color: #fff; }
+    .toast-error   { background-color: #f44336; color: #fff; }
+    .toast-warning { background-color: #ff9800; color: #fff; }
+    .toast-info    { background-color: #2196f3; color: #fff; }
+
+    /* ------------------ Layout ------------------ */
+    .hero-denuncia {
+      height: 40vh;
+      background-color: var(--cor-verde-escuro);
+      display: flex; justify-content: center; align-items: center;
+      text-align: center; color: var(--cor-branco);
+    }
+    .hero-denuncia h1 { font-size: clamp(2rem, 4vw, 2.5rem); }
+    .hero-denuncia p { font-size: clamp(1rem, 2vw, 1.2rem); }
+
+    .form-denuncia {
+      max-width: 900px; margin: 30px auto; padding: 20px;
+      background-color: var(--cor-branco); border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+    }
+    h2 { text-align: center; color: var(--cor-verde-escuro); margin-bottom: 25px; }
+    .form-row { display: flex; gap: 30px; }
+    .form-col { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+    .form-control, select, textarea {
+      padding: 10px; border-radius: 8px; border: 1px solid #ccc;
+      background-color: var(--cor-cinza-claro); font-size: 0.95rem;
+    }
+    textarea { min-height: 150px; resize: vertical; }
+    .btn-full {
+      width: 100%; margin-top: 20px; padding: 12px;
+      background: linear-gradient(135deg, var(--cor-verde-musgo), var(--cor-verde-escuro));
+      color: var(--cor-branco); font-weight: bold; border: none;
+      border-radius: 10px; cursor: pointer; transition: all 0.3s ease;
+    }
+    .btn-full:hover { background: linear-gradient(135deg, var(--cor-verde-escuro), #2e5330); }
+    @media (max-width: 768px) { .form-row { flex-direction: column; } }
+
+    .footer {
+      background-color: var(--cor-verde-escuro); color: var(--cor-branco);
+      padding: 20px; text-align: center; margin-top: 40px;
+    }
+    #previewImagem { display: none; max-width:50%; margin-top:10px; border-radius:10px; border:1px solid #ccc; }
+    #map { height: 300px; border-radius:12px; border:1px solid #ccc; }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero-denuncia">
+    <div class="hero-denuncia-content">
+      <h1>Faça sua denúncia</h1>
+      <p>Preencha o formulário abaixo para enviar sua denúncia de forma rápida e segura.</p>
+    </div>
+  </section>
+
+  <!-- FORMULÁRIO -->
+  <section class="form-denuncia">
+    <h2>Formulário de Denúncia</h2>
+    <form id="serFormPage" enctype="multipart/form-data">
+      <div class="form-row">
+        <!-- Coluna Esquerda -->
+        <div class="form-col form-left">
+          <label for="titulo" class="form-label">Título da Denúncia</label>
+          <input type="text" id="titulo" class="form-control" required>
+
+          <label for="descricao" class="form-label">Descrição</label>
+          <textarea id="descricao" class="form-control" rows="3" required></textarea>
+
+          <label for="especieId" class="form-label">Espécie</label>
+          <select id="especieId" class="form-control" required>
+            <option value="">Selecione a espécie</option>
+          </select>
+
+          <label class="form-label">Imagem</label>
+          <div class="d-flex gap-2">
+            <input type="file" id="inputCamera" accept="image/*" capture="environment" style="display:none">
+            <button type="button" id="btnTirarFoto" class="btn btn-outline-primary">
+              <i class="bi bi-camera me-1"></i> Tirar Foto
+            </button>
+            <input type="file" id="inputGaleria" accept="image/*" style="display:none">
+            <button type="button" id="btnEscolherGaleria" class="btn btn-outline-secondary">
+              <i class="bi bi-image me-1"></i> Escolher da Galeria
+            </button>
+          </div>
+          <img id="previewImagem" alt="Preview da Imagem">
+        </div>
+
+        <!-- Coluna Direita -->
+        <div class="form-col form-right">
+          <label class="form-label">Localização</label>
+          <div id="map"></div>
+
+          <div class="d-flex mb-2 gap-2 mt-2">
+            <button type="button" id="btnGPS" class="btn btn-outline-success flex-shrink-0">📍 Usar GPS</button>
+            <input type="text" id="inputEndereco" class="form-control" placeholder="Pesquisar cidade/rua na Guiné-Bissau...">
+            <button type="button" id="btnBuscarEndereco" class="btn btn-outline-primary flex-shrink-0">🔍 Buscar</button>
+          </div>
+
+          <input type="hidden" id="latitude" name="latitude">
+          <input type="hidden" id="longitude" name="longitude">
+
+          <p class="mt-2">
+            <strong>Latitude:</strong> <span id="latValue">—</span> | 
+            <strong>Longitude:</strong> <span id="lngValue">—</span><br>
+            <strong>Endereço:</strong> <span id="enderecoValue">—</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Botão -->
+      <button type="submit" id="btnSubmit" class="btn btn-primary btn-full">Denunciar</button>
+    </form>
+  </section>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toastContainer"></div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-bottom">&copy; 2025 - Sistema de Denúncias</div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const serForm = document.getElementById("serFormPage");
+    const inputCamera = document.getElementById("inputCamera");
+    const inputGaleria = document.getElementById("inputGaleria");
+    const previewImagem = document.getElementById("previewImagem");
+    const btnTirarFoto = document.getElementById("btnTirarFoto");
+    const btnEscolherGaleria = document.getElementById("btnEscolherGaleria");
+    const latitudeInput = document.getElementById("latitude");
+    const longitudeInput = document.getElementById("longitude");
+    const especieSelect = document.getElementById("especieId");
+    const inputEndereco = document.getElementById("inputEndereco");
+    const btnBuscarEndereco = document.getElementById("btnBuscarEndereco");
+    const btnGPS = document.getElementById("btnGPS");
+    const btnSubmit = document.getElementById("btnSubmit");
+    const token = localStorage.getItem("token");
+    let map, marker;
+
+    // ---------- Toast com animação ----------
+    function showToast(message, type="info") {
+      const toastId = "toast" + Date.now();
+      const toast = document.createElement("div");
+      toast.id = toastId;
+      toast.className = `toast toast-${type}`;
+      toast.innerHTML = `<i class="bi ${
+        type==="success"?"bi-check-circle-fill":
+        type==="error"?"bi-x-circle-fill":
+        type==="warning"?"bi-exclamation-triangle-fill":"bi-info-circle-fill"
+      } me-2"></i>${message}`;
+      document.getElementById("toastContainer").appendChild(toast);
+      setTimeout(() => toast.classList.add("showing"), 10);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    // ---------- Inicializar mapa ----------
+    function inicializarMapa() {
+      const boundsGuine = [[10.9, -16.9],[12.7, -13.6]];
+      map = L.map("map",{maxBounds: boundsGuine,maxBoundsViscosity:1.0,minZoom:7}).fitBounds(boundsGuine);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"&copy; OpenStreetMap"}).addTo(map);
+      map.on("click", (e) => { atualizarLocalizacao(e.latlng.lat, e.latlng.lng); });
+      usarGPSAtual();
+    }
+
+    function atualizarLocalizacao(lat,lng){
+      latitudeInput.value = lat;
+      longitudeInput.value = lng;
+      document.getElementById("latValue").textContent = lat.toFixed(6);
+      document.getElementById("lngValue").textContent = lng.toFixed(6);
+      if(marker) marker.setLatLng([lat,lng]);
+      else marker = L.marker([lat,lng], {draggable:true}).addTo(map);
+      marker.on("dragend", (e)=>{ const pos=e.target.getLatLng(); atualizarLocalizacao(pos.lat,pos.lng); });
+      buscarEnderecoReverso(lat,lng);
+    }
+
+    async function buscarEnderecoReverso(lat,lng){
+      try{
+        const res=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&countrycodes=GW`);
+        const data=await res.json();
+        document.getElementById("enderecoValue").textContent=data.display_name || "Não encontrado";
+      }catch{ document.getElementById("enderecoValue").textContent="Erro"; }
+    }
+
+    // ---------- Upload Imagem ----------
+    btnTirarFoto.onclick = ()=>inputCamera.click();
+    btnEscolherGaleria.onclick = ()=>inputGaleria.click();
+    [inputCamera,inputGaleria].forEach(input=>{
+      input.addEventListener("change", ()=>{
+        if(!input.files[0]) return;
+        previewImagem.src=URL.createObjectURL(input.files[0]);
+        previewImagem.style.display="block";
+      });
+    });
+
+    // ---------- Buscar Endereço ----------
+    btnBuscarEndereco.addEventListener("click", async ()=>{
+      const endereco=inputEndereco.value.trim();
+      if(!endereco) return showToast("Digite um endereço","warning");
+      try{
+        const res=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(endereco)}&format=json&limit=1&countrycodes=GW`);
+        const data=await res.json();
+        if(!data.length) return showToast("Endereço não encontrado","warning");
+        const {lat,lon}=data[0];
+        atualizarLocalizacao(+lat,+lon);
+        map.setView([+lat,+lon],14);
+        showToast("Endereço localizado!","success");
+      }catch{ showToast("Erro ao buscar endereço","error"); }
+    });
+
+    // ---------- GPS ----------
+    function usarGPSAtual(){
+      if(!navigator.geolocation) return showToast("Geolocalização não suportada","error");
+      navigator.geolocation.getCurrentPosition(
+        pos=>{
+          atualizarLocalizacao(pos.coords.latitude,pos.coords.longitude);
+          map.setView([pos.coords.latitude,pos.coords.longitude],14);
+          showToast("Localização obtida!","success");
+        },
+        ()=>{
+          atualizarLocalizacao(11.8037,-15.1804);
+          map.setView([11.8037,-15.1804],7);
+          showToast("Usando posição padrão","warning");
+        }
+      );
+    }
+    btnGPS.addEventListener("click",usarGPSAtual);
+
+    // ---------- Carregar Espécies ----------
+    async function carregarEspecies(){
+      try{
+        const res=await fetch("http://localhost:8080/api/especies");
+        const data=await res.json();
+        especieSelect.innerHTML='<option value="">Selecione uma Espécie</option>';
+        data.forEach(esp=>{
+          especieSelect.appendChild(new Option(esp.nome,esp.id));
+        });
+      }catch{ showToast("Erro ao carregar espécies","error"); }
+    }
+
+    // ---------- Form Submit ----------
+    serForm.addEventListener("submit", async (event)=>{
+      event.preventDefault();
+      if(!token) return showToast("Você precisa estar logado","error");
+      const titulo=document.getElementById("titulo").value.trim();
+      const descricao=document.getElementById("descricao").value.trim();
+      const latitude=latitudeInput.value;
+      const longitude=longitudeInput.value;
+      const especieId=especieSelect.value;
+      if(!titulo||!descricao||!latitude||!longitude||!especieId) return showToast("Preencha todos os campos","warning");
+
+      const formData=new FormData();
+      formData.append("titulo",titulo);
+      formData.append("descricao",descricao);
+      formData.append("latitude",latitude);
+      formData.append("longitude",longitude);
+      formData.append("especieId",especieId);
+      if(inputCamera.files[0]) formData.append("imagem",inputCamera.files[0]);
+      else if(inputGaleria.files[0]) formData.append("imagem",inputGaleria.files[0]);
+
+      const originalBtn=btnSubmit.innerHTML;
+      btnSubmit.disabled=true;
+      btnSubmit.innerHTML='<span class="spinner-border spinner-border-sm me-2"></span> Enviando...';
+
+      try{
+        const res=await fetch("http://localhost:8080/api/denuncias/multipart",{method:"POST",headers:{"Authorization":`Bearer ${token}`},body:formData});
+        if(!res.ok) throw new Error(await res.text()||"Erro ao enviar denúncia");
+        showToast("Denúncia enviada com sucesso!","success");
+        serForm.reset();
+        previewImagem.style.display="none";
+        latitudeInput.value=""; longitudeInput.value="";
+        document.getElementById("latValue").textContent="—";
+        document.getElementById("lngValue").textContent="—";
+        document.getElementById("enderecoValue").textContent="—";
+      }catch(err){ showToast("Erro: "+err.message,"error"); }
+      finally{ btnSubmit.disabled=false; btnSubmit.innerHTML=originalBtn; }
+    });
+
+    // ---------- Inicializar ----------
+    inicializarMapa();
+    carregarEspecies();
+  });
+  </script>
+</body>
+</html>

@@ -10,7 +10,7 @@ async function fetchUsuarios() {
       <h2 style="margin-bottom:15px;">Usuários</h2>
       <div id="usuarios-container" style="
         display:grid;
-        grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
         gap:20px;
       "></div>
     `;

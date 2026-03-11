@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plataforma de Notícias</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/noticia.css">
+<style>
+/* =========================
+   Comentários Header
+========================= */
+.comentarios-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.comentarios-header h3 {
+    margin: 0;
+    color: var(--cor-verde-escuro);
+}
+
+#toggleComentarios {
+    background: var(--cor-verde-musgo);
+    border: none;
+    color: var(--cor-branco);
+    padding: 6px 14px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#toggleComentarios:hover {
+    background: var(--cor-verde-escuro);
+    transform: scale(1.05);
+}
+
+/* =========================
+   Mostrar/Esconder
+========================= */
+#comentariosContainer {
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.comentarios-escondidos {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    display: none;
+}
+
+.comentarios-visiveis {
+    max-height: 800px;
+    opacity: 1;
+    margin-top: 15px;
+    display: block;
+}
+
+/* =========================
+   Novo Comentário (TikTok style)
+========================= */
+.novo-comentario {
+    position: relative;
+    margin-top: 15px;
+}
+
+.novo-comentario textarea {
+    width: 100%;
+    padding: 12px 50px 12px 15px; /* espaço para o botão */
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    resize: none;
+    min-height: 50px;
+    outline: none;
+}
+
+.novo-comentario button {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--cor-verde-musgo);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.novo-comentario button:hover {
+    background: var(--cor-verde-escuro);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* =========================
+   Lista de Comentários
+========================= */
+#listaComentarios div {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    animation: fadeIn 0.3s ease;
+}
+
+#listaComentarios strong {
+    display: block;
+    font-size: 14px;
+    color: var(--cor-verde-escuro);
+}
+
+#listaComentarios em {
+    font-size: 12px;
+    color: #777;
+}
+
+#listaComentarios p {
+    margin: 5px 0 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+<header class="main-nav">
+    <div class="container flex-container">
+        <a href="index.html" class="logo">
+            <img src="assets/img/logo/logo-bioma-removebg-preview.png" alt="Logo Bio">
+        </a>
+
+        <nav class="main-nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="cadastro.html">Espécies</a>
+            <a href="denuncia.html">Denúncias</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="contacto.html">Contato</a>
+            <a href="blogtexte.html">Noticias</a>
+            <a href="quiz.html">Quiz</a>
+
+            <div id="user-menu" class="user-menu">
+                <i class="fas fa-user"></i>
+                <span>Entrar</span>
+            </div>
+        </nav>
+
+        <button class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</header>
+
+<!-- =========================
+     HERO SLIDER
+========================= -->
+<section class="hero-denuncia">
+  <div class="hero-slides" id="hero-slides"></div>
+</section>
+
+<!-- =========================
+     SEARCH / FILTRO
+========================= -->
+<section class="search-section">
+  <input type="text" id="search" placeholder="Pesquisar posts...">
+  <select id="categoryFilter">
+      <option value="all">Todas Categorias</option>
+  </select>
+</section>
+
+<!-- =========================
+     MAIN CONTENT
+========================= -->
+<section class="main-content">
+
+    <!-- PAINEL DIREITO (LISTA DE POSTS) -->
+    <div class="panel-right">
+        <div id="posts-list"></div>
+    </div>
+
+    <!-- PAINEL ESQUERDO (NOTÍCIA COMPLETA) -->
+    <div id="noticia-completa" class="panel-left">
+        <button id="voltarLista" class="btn-fechar">
+            <i class="bi bi-x-lg"></i>
+        </button>
+
+        <h2 id="tituloCompleto"></h2>
+        <small id="dataCompleto"></small>
+        <img id="imagemCompleto" src="" alt="">
+        <p id="descricaoCompleto"></p>
+        <p id="conteudoCompleto"></p>
+        <a id="linkCompleto" href="#" target="_blank" style="display:none;">Link externo</a>
+
+        <!-- =========================
+             COMENTÁRIOS
+        ========================== -->
+        <div id="comentarios">
+            <div class="comentarios-header">
+                <h3>Comentários</h3>
+                <button id="toggleComentarios">
+                    <i class="bi bi-chat-dots"></i>
+                    <span id="contadorComentarios">0</span>
+                </button>
+            </div>
+
+            <div id="comentariosContainer" class="comentarios-escondidos">
+                <div id="listaComentarios"></div>
+
+                <div class="novo-comentario">
+                    <textarea id="novoComentario" placeholder="Escreva um comentário..."></textarea>
+                    <button id="btnComentario">
+                        <i class="bi bi-send-fill"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================
+     FOOTER
+========================= -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Contato</h3>
+            <ul>
+                <li><a href="mailto:bioguine@email.com">bioguine@email.com</a></li>
+                <li><a href="tel:+245956334824">+245 95 633 48 24</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Links Úteis</h3>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="cadastro.html">Seres</a></li>
+                <li><a href="denuncia.html">Denuncias</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Siga-nos</h3>
+            <ul class="social-icons">
+                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="https://wa.me/956334824" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 Bioma-Guiné. Todos os direitos reservados.</p>
+    </div>
+</footer>
+
+<script src="assets/page/usuariospage.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const postsContainer = document.getElementById('posts-list');
+    const searchInput = document.getElementById('search');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const mainContent = document.querySelector('.main-content');
+
+    const tituloCompleto = document.getElementById('tituloCompleto');
+    const dataCompleto = document.getElementById('dataCompleto');
+    const imagemCompleto = document.getElementById('imagemCompleto');
+    const descricaoCompleto = document.getElementById('descricaoCompleto');
+    const conteudoCompleto = document.getElementById('conteudoCompleto');
+    const linkCompleto = document.getElementById('linkCompleto');
+    const voltarLista = document.getElementById('voltarLista');
+
+    const listaComentarios = document.getElementById('listaComentarios');
+    const btnComentario = document.getElementById('btnComentario');
+    const novoComentarioInput = document.getElementById('novoComentario');
+    const toggleBtn = document.getElementById("toggleComentarios");
+    const comentariosContainer = document.getElementById("comentariosContainer");
+    const contadorComentarios = document.getElementById("contadorComentarios");
+
+    const heroSlidesContainer = document.getElementById('hero-slides');
+
+    let noticias = [];
+    let noticiaAtualId = null;
+    let heroSlideIndex = 0;
+
+    const API_URL = "http://localhost:8080/api/noticias";
+
+    async function carregarNoticias() {
+        try {
+            const res = await fetch(API_URL);
+            if (!res.ok) return;
+            noticias = await res.json();
+
+            criarSlidesHero();
+            criarCardsNoticias();
+            populateCategories();
+
+        } catch (err) { console.error(err); }
+    }
+
+    function criarCardsNoticias() {
+        postsContainer.innerHTML = '';
+        noticias.forEach(n => {
+            const card = document.createElement('div');
+            card.className = 'post-card';
+            card.innerHTML = `
+                <img src="${n.imagemUrl ? 'http://localhost:8080'+n.imagemUrl : 'assets/img/default.jpg'}">
+                <div class="post-content">
+                    <span class="category">${n.categoria || 'Geral'}</span>
+                    <h3>${n.titulo}</h3>
+                    <p>${n.descricaoCurta}</p>
+                    <small>${n.data || ''}</small>
+                    <a href="#" class="btn-read-more">Ler Mais →</a>
+                </div>
+            `;
+            card.querySelector('.btn-read-more').addEventListener('click', e => {
+                e.preventDefault();
+                mostrarNoticia(n);
+            });
+            postsContainer.appendChild(card);
+        });
+    }
+
+    function mostrarNoticia(n) {
+        noticiaAtualId = n.id;
+        tituloCompleto.innerText = n.titulo;
+        dataCompleto.innerText = n.data || '';
+        imagemCompleto.src = n.imagemUrl ? 'http://localhost:8080'+n.imagemUrl : '';
+        descricaoCompleto.innerText = n.descricaoCurta;
+        conteudoCompleto.innerText = n.conteudoCompleto || '';
+        if(n.linkExterno){ 
+            linkCompleto.innerText = 'Link externo';
+            linkCompleto.href = n.linkExterno;
+            linkCompleto.style.display = 'inline-block';
+        } else { linkCompleto.style.display = 'none'; }
+
+        listaComentarios.innerHTML = '';
+        if(n.id) carregarComentarios(n.id);
+
+        mainContent.classList.add('show-noticia');
+    }
+
+    voltarLista.addEventListener('click', e => {
+        e.preventDefault();
+        mainContent.classList.remove('show-noticia');
+    });
+
+    async function carregarComentarios(noticiaId) {
+        try {
+            const token = localStorage.getItem("token");
+            const res = await fetch(`http://localhost:8080/api/noticias/${noticiaId}/comentarios`, {
+                headers: { "Authorization": token ? `Bearer ${token}` : "" }
+            });
+            if(!res.ok) throw new Error("Erro ao carregar comentários");
+            const comentarios = await res.json();
+
+            listaComentarios.innerHTML = '';
+            comentarios.forEach(c => {
+                const div = document.createElement('div');
+                const dataFormatada = new Date(c.dataComentario).toLocaleString("pt-BR");
+                div.innerHTML = `<strong>${c.autor.nomeCompleto}</strong><em>${dataFormatada}</em><p>${c.texto}</p>`;
+                listaComentarios.appendChild(div);
+            });
+
+            // Atualiza contador
+            contadorComentarios.innerText = comentarios.length;
+
+        } catch(err){ console.error(err); }
+    }
+
+    btnComentario.addEventListener('click', async () => {
+        const texto = novoComentarioInput.value.trim();
+        if(!texto || !noticiaAtualId) return;
+
+        try {
+            const token = localStorage.getItem("token");
+            const res = await fetch(`http://localhost:8080/api/noticias/${noticiaAtualId}/comentarios`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ texto })
+            });
+            if(!res.ok) throw new Error("Erro ao enviar");
+            novoComentarioInput.value = '';
+            carregarComentarios(noticiaAtualId);
+        } catch(err){
+            console.error(err);
+            alert("Não foi possível enviar o comentário");
+        }
+    });
+
+    // Toggle comentários
+    if(toggleBtn && comentariosContainer){
+        toggleBtn.addEventListener('click', () => {
+            comentariosContainer.classList.toggle("comentarios-escondidos");
+            comentariosContainer.classList.toggle("comentarios-visiveis");
+        });
+    }
+
+    function criarSlidesHero(){
+        heroSlidesContainer.innerHTML = '';
+        noticias.forEach((n,i)=>{
+            const slide = document.createElement('div');
+            slide.className = 'hero-slide';
+            if(i===0) slide.classList.add('active');
+            slide.style.backgroundImage = n.imagemUrl ? `url('http://localhost:8080${n.imagemUrl}')` : "url('assets/img/default.jpg')";
+            slide.innerHTML = `<h1>${n.titulo}</h1>`;
+            heroSlidesContainer.appendChild(slide);
+        });
+        setInterval(animarHeroSlides, 5000);
+    }
+
+    function animarHeroSlides(){
+        const slides = document.querySelectorAll('.hero-slide');
+        if(slides.length===0) return;
+        slides.forEach(s=>s.classList.remove('active'));
+        slides[heroSlideIndex].classList.add('active');
+        heroSlideIndex = (heroSlideIndex + 1) % slides.length;
+    }
+
+    function populateCategories(){
+        const setCat = new Set(noticias.map(n=>n.categoria || 'Geral'));
+        categoryFilter.innerHTML = '<option value="all">Todas</option>';
+        setCat.forEach(cat=>{
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            categoryFilter.appendChild(opt);
+        });
+    }
+
+    function filterPosts(){
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedCategory = categoryFilter.value;
+        document.querySelectorAll('.post-card').forEach(card=>{
+            const title = card.querySelector('h3').textContent.toLowerCase();
+            const summary = card.querySelector('p').textContent.toLowerCase();
+            const category = card.querySelector('.category').textContent;
+            card.style.display = ((title.includes(searchTerm) || summary.includes(searchTerm)) &&
+                (selectedCategory==='all' || category===selectedCategory)) ? 'block' : 'none';
+        });
+    }
+
+    searchInput.addEventListener('input', filterPosts);
+    categoryFilter.addEventListener('change', filterPosts);
+
+    carregarNoticias();
+
+});
+</script>
+
+</body>
+</html>

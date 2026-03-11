@@ -1,298 +1,518 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sobre | Bio Guiné</title>
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Bootstrap Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós | Bioma Guiné</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+:root {
+  --cor-verde-escuro: #2e7d32;
+  --cor-verde-musgo: #4caf50;
+  --cor-branco: #ffffff;
+  --cor-cinza-claro: #f4f4f4;
+  --cor-fundo: #f0f9f5;
+  --cor-texto: #21312a;
+}
 
-  <style>
-    :root {
-      --primary-green: #1b5e20;
-      --secondary-green: #388e3c;
-      --light-green: #e8f5e9;
+/* =========================
+   Reset e fonte
+========================= */
+body {
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  margin: 0; padding: 0;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+/* =========================
+   Navbar
+========================= */
+.main-nav {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 0.9rem 1.5rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-radius: 14px;
+  margin: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+  transition: all 0.3s ease;
+}
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.4rem;
+  text-decoration: none;
+  color: var(--cor-verde-escuro);
+}
+
+.logo img {
+  height: 70px;
+  width: auto;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover img {
+  transform: scale(1.15);
+}
+
+/* Links */
+.main-nav-links {
+  display: flex;
+  gap: 1.8rem;
+  align-items: center;
+}
+
+.main-nav-links a {
+  text-decoration: none;
+  color: var(--cor-verde-escuro);
+  font-weight: 600;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.main-nav-links a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--cor-verde-musgo);
+  transition: width 0.3s ease;
+}
+
+.main-nav-links a:hover::after {
+  width: 100%;
+}
+
+/* User menu */
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--cor-verde-escuro);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.user-menu:hover {
+  background-color: var(--cor-cinza-claro);
+  transform: scale(1.05);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 30px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  z-index: 1300;
+}
+
+.hamburger i {
+  font-size: 1.5rem;
+  color: var(--cor-verde-escuro);
+}
+
+/* =========================
+   Responsividade
+========================= */
+@media (max-width: 992px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .logo {
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
+  .main-nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 65%;
+    max-width: 280px;
+    height: 100vh;
+    background: var(--cor-branco);
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 6rem 1.5rem;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 3px 0 20px rgba(0,0,0,0.15);
+    border-radius: 0 12px 12px 0;
+    z-index: 999;
+  }
+
+  .main-nav-links.active {
+    transform: translateX(0);
+  }
+
+  .main-nav-links a {
+    padding: 12px 0;
+    font-size: 1.1rem;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+
+  .user-menu {
+    width: 100%;
+    justify-content: center;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 15px;
+  }
+}
+
+/* Desktop fixes */
+@media (min-width: 992px) {
+  .main-nav-links {
+    display: flex !important;
+    position: static;
+    flex-direction: row;
+    background: none;
+    box-shadow: none;
+    width: auto;
+    padding: 0;
+  }
+
+  .main-nav-links a { border: none; padding: 0 15px; }
+}
+/* =========================
+   Hero
+========================= */
+.hero {
+    height: 50vh;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                url('assets/img/img2/WhatsApp Image 2026-03-09 at 15.43.20.jpeg') center/cover;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; color: var(--cor-branco);
+}
+.hero h1 { font-size: clamp(1.8rem, 5vw, 2.8rem); max-width: 800px; padding: 0 20px; }
+
+/* =========================
+   Conteúdo e Grid
+========================= */
+.section-container { max-width: 1200px; margin: 0 auto; padding: 60px 5%; }
+
+.sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.sobre-texto h2 { font-size: 2.2rem; color: var(--cor-verde-escuro); }
+.sobre-imagem-wrapper img { width: 100%; border-radius: 20px; box-shadow: 20px 20px 60px rgba(0,0,0,0.05); }
+
+/* =========================
+   Seção Missão (Usa Verde Escuro do Root)
+========================= */
+.missao-section { 
+    background: var(--cor-verde-escuro); 
+    color: var(--cor-branco); 
+    padding: 80px 5%; 
+    border-radius: 50px 50px 0 0;
+}
+.missao-grid { 
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; 
+}
+.card-mvv { 
+    background: rgba(255, 255, 255, 0.08); 
+    padding: 35px; border-radius: 20px; 
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.card-mvv h3 { color: var(--cor-verde-musgo); margin-top: 0; }
+
+/* =========================
+   Tecnologia (Cards)
+========================= */
+.grid-recursos {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px; margin-top: 40px;
+}
+.card-recurso {
+    background: var(--cor-branco); padding: 30px; border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: 0.3s;
+}
+.card-recurso i { font-size: 2.5rem; color: var(--cor-verde-musgo); margin-bottom: 15px; }
+
+/* =========================
+   Footer
+========================= */
+.footer {
+    background-color: #386b3a;
+    color: var(--cor-branco);
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+}
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.footer-section {
+    flex: 1;
+    margin: 10px;
+}
+.footer-section h3 { margin-bottom: 10px; }
+.footer-section ul { list-style: none; padding: 0; }
+.footer-section ul li { margin-bottom: 8px; }
+.footer-section ul li a {
+    color: var(--cor-branco);
+    text-decoration: none;
+}
+.footer-section ul li a:hover { text-decoration: underline; }
+.footer-section form { display: flex; }
+.footer-section input {
+    padding: 10px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    flex: 1;
+}
+.footer-section button {
+    padding: 10px;
+    background-color: var(--cor-verde-musgo);
+    color: var(--cor-branco);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.footer-section button:hover { background-color: var(--cor-verde-escuro); }
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+.social-icons a {
+    color: var(--cor-branco);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background-color: var(--cor-verde-musgo);
+    transition: background-color 0.3s, color 0.3s;
+}
+.social-icons a:hover { background-color: var(--cor-verde-escuro); }
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+}
+/* Responsividade Footer */
+@media (max-width: 768px) {
+    .footer-content { flex-direction: column; align-items: center; text-align: center; }
+    .footer-section { flex: 1 1 100%; margin: 15px 0; }
+    .footer-section form { flex-direction: column; gap: 10px; width: 100%; }
+    .footer-section input { margin: 0 0 10px 0; width: 100%; }
+    .social-icons { justify-content: center; }
+}
+
+
+/* =========================
+   Responsividade
+========================= */
+@media (max-width: 992px) {
+    .hamburger { display: flex; }
+    .main-nav-links {
+        position: fixed; top: 0; left: 0; width: 65%; height: 100vh;
+        background: var(--cor-branco); flex-direction: column;
+        padding: 6rem 1.5rem; transform: translateX(-100%);
+        transition: 0.4s ease; z-index: 999;
     }
+    .main-nav-links.active { transform: translateX(0); }
+    .sobre-grid { grid-template-columns: 1fr; text-align: center; }
+}
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, var(--light-green), #f9fff9);
-      color: #333;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
-
-    /* Navbar */
-    .navbar {
-      background: var(--primary-green);
-    }
-
-    .navbar .nav-link {
-      color: white !important;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .navbar .nav-link:hover {
-      color: #c8e6c9 !important;
-    }
-
-    header {
-      background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
-      color: white;
-      padding: 6rem 2rem 4rem;
-      text-align: center;
-      margin-top: 56px;
-    }
-
-    header h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      animation: fadeInDown 1s ease-out;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      margin-top: 1rem;
-      animation: fadeInUp 1.5s ease-out;
-    }
-
-    @keyframes fadeInDown {
-      from {opacity: 0; transform: translateY(-50px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    @keyframes fadeInUp {
-      from {opacity: 0; transform: translateY(50px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    .section-title {
-      font-size: 2rem;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 2.5rem;
-      color: var(--primary-green);
-    }
-
-    /* Cards base */
-    .card {
-      border: none;
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
-      transform-style: preserve-3d;
-    }
-
-    .card:hover {
-      transform: rotateY(8deg) rotateX(5deg) scale(1.03);
-      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.25);
-    }
-
-    /* Quem Somos */
-    .about-card {
-      max-width: 420px;
-      margin: auto;
-      border-radius: 15px;
-      overflow: hidden;
-    }
-
-    .about-card img {
-      height: 160px;
-      object-fit: cover;
-      border-bottom: 4px solid var(--secondary-green);
-    }
-
-    /* Equipe */
-    .team-card {
-      max-width: 240px;
-      margin: auto;
-      padding: 1.5rem 1rem;
-      border-radius: 20px;
-    }
-
-    .team-card img {
-      width: 110px;
-      height: 110px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin: 0 auto 1rem;
-      display: block;
-      border: 4px solid var(--secondary-green);
-      transition: transform 0.4s ease;
-    }
-
-    .team-card:hover img {
-      transform: scale(1.1);
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 15px 25px rgba(0,0,0,0.5);
-    }
-
-    footer {
-      background: var(--primary-green);
-      color: white;
-      text-align: center;
-      padding: 1.5rem 1rem;
-      margin-top: 3rem;
-    }
-
-    /* Scroll animations */
-    [data-animate] {
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 0.8s ease;
-    }
-
-    [data-animate].visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    [data-animate="left"] { transform: translateX(-50px); }
-    [data-animate="right"] { transform: translateX(50px); }
-    [data-animate="zoom"] { transform: scale(0.8); }
-  </style>
+.reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="index.html">Bio Guiné</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link active" href="sobre.html">Sobre</a></li>
-          <li class="nav-item"><a class="nav-link" href="#quemsomos">Quem Somos</a></li>
-          <li class="nav-item"><a class="nav-link" href="#equipa">Nossa Equipa</a></li>
-          <li class="nav-item"><a class="nav-link" href="contacto.html">Contacte-nos</a></li>
-        </ul>
+<!-- Navbar / Header -->
+<header class="main-nav">
+  <div class="container flex-container">
+    <!-- Logo -->
+    <a href="index.html" class="logo">
+      <img src="assets/img/logo/logo-bioma-removebg-preview.png" alt="Logo Bio">
+    </a>
+
+    <!-- Menu de links -->
+    <nav class="main-nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="cadastro.html">Espécies</a>
+      <a href="denuncia.html">Denúncias</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="contacto.html">Contato</a>
+      <a href="blogtexte.html">Notícias</a>
+      <a href="quiz.html">Quiz</a>
+
+      <!-- Botão de login -->
+      <div id="user-menu" class="user-menu">
+        <i class="fas fa-user"></i>
+        <span>Entrar</span>
       </div>
+    </nav>
+
+    <!-- Hamburger Mobile -->
+    <button class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+
+<section class="hero">
+    <h1>Protegendo a biodiversidade da Guiné-Bissau com inteligência e tecnologia.</h1>
+</section>
+
+<div class="section-container">
+    <section class="sobre-grid reveal">
+        <div class="sobre-texto">
+            <h2>Quem Somos</h2>
+            <p>O <strong>Bioma Guiné</strong> é uma plataforma tecnológica pioneira dedicada ao mapeamento e preservação do patrimônio natural da Guiné-Bissau.</p>
+            <p>Nascemos da necessidade de digitalizar o conhecimento ambiental para proteger ecossistemas críticos e promover o desenvolvimento sustentável.</p>
+        </div>
+        <div class="sobre-imagem-wrapper">
+            <img src="assets/img/img2/WhatsApp Image 2026-03-09 at 15.43.20 (2).jpeg" alt="Natureza Guiné">
+        </div>
+    </section>
+</div>
+
+<section class="missao-section">
+    <div class="missao-grid">
+        <div class="card-mvv reveal">
+            <h3>Missão</h3>
+            <p>Democratizar o acesso a dados ambientais e promover a conservação ativa através da inovação digital.</p>
+        </div>
+        <div class="card-mvv reveal">
+            <h3>Visão</h3>
+            <p>Ser o principal ecossistema digital de inteligência ambiental da África Ocidental até 2030.</p>
+        </div>
+        <div class="card-mvv reveal">
+            <h3>Valores</h3>
+            <p>Integridade científica, transparência radical e compromisso inabalável com a sustentabilidade.</p>
+        </div>
     </div>
-  </nav>
+</section>
 
-  <!-- Header -->
-  <header>
-    <h1>Sobre o Projeto Bio Guiné</h1>
-    <p>Protegendo a biodiversidade e promovendo a sustentabilidade na Guiné-Bissau</p>
-  </header>
-
-  <!-- Quem Somos -->
-  <section id="quemsomos" class="container py-5" data-animate="left">
-    <h2 class="section-title">Quem Somos</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-5">
-        <div class="card about-card shadow">
-          <img src="https://images.unsplash.com/photo-1508780709619-79562169bc64" class="card-img-top" alt="Natureza">
-          <div class="card-body text-center">
-            <h5 class="card-title text-success">Nossa Missão</h5>
-            <p class="card-text">
-              O Bio Guiné nasceu com o objetivo de preservar os recursos naturais, 
-              sensibilizar comunidades locais e implementar projetos que promovam a 
-              sustentabilidade e a conservação da biodiversidade.
-            </p>
-          </div>
+<div class="section-container">
+    <section class="reveal">
+        <h3 style="text-align:center; font-size: 2rem; color: var(--cor-verde-escuro);">Nossa Tecnologia</h3>
+        <div class="grid-recursos">
+            <div class="card-recurso">
+                <i class="fas fa-seedling"></i>
+                <h4>Monitoramento</h4>
+                <p>Base de dados viva sobre a flora e fauna local com verificação científica.</p>
+            </div>
+            <div class="card-recurso">
+                <i class="fas fa-bullhorn"></i>
+                <h4>Denúncias</h4>
+                <p>Canal direto para reporte de crimes ambientais com geolocalização.</p>
+            </div>
+            <div class="card-recurso">
+                <i class="fas fa-chart-pie"></i>
+                <h4>BI & Analytics</h4>
+                <p>Dashboards estratégicos para auxiliar políticas públicas de conservação.</p>
+            </div>
         </div>
-      </div>
-      <div class="col-md-5">
-        <div class="card about-card shadow">
-          <img src="https://images.unsplash.com/photo-1523978591478-c753949ff840" class="card-img-top" alt="Comunidade">
-          <div class="card-body text-center">
-            <h5 class="card-title text-success">Nossa Visão</h5>
-            <p class="card-text">
-              Sonhamos com uma Guiné-Bissau sustentável, onde o desenvolvimento 
-              caminha lado a lado com a proteção ambiental, garantindo qualidade de vida 
-              às futuras gerações e equilíbrio ecológico.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+</div>
 
-  <!-- Equipe -->
-  <section id="equipa" class="container py-5" data-animate="zoom">
-    <h2 class="section-title">Nossa Equipa</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-3 col-sm-6">
-        <div class="card team-card text-center shadow">
-          <img src="https://via.placeholder.com/300x300.png?text=Fundador" alt="Membro">
-          <h5 class="card-title">Augusto Té Júnior</h5>
-          <p class="card-text">CEO</p>
-          <div>
-            <a href="#" class="text-success fs-5 mx-2"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="text-success fs-5 mx-2"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="text-success fs-5 mx-2"><i class="bi bi-linkedin"></i></a>
-          </div>
-        </div>
-      </div>
+ <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <ul>
+                        <li><a href="mailto:exemplo@email.com">bioguine@email.com</a></li>
+                        <li><a href="tel:+123456789">+245 95 633 48 24</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Links Úteis</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="cadastro.html">Seres</a></li>
+                        <li><a href="denuncia.html">Denuncias</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Siga-nos</h3>
+                    <ul class="social-icons">
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="https://wa.me/956334824" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Bioma-Guiné. Todos os direitos reservados.</p>
+            </div>
+        </footer>
 
-      <div class="col-md-3 col-sm-6">
-        <div class="card team-card text-center shadow">
-          <img src="https://via.placeholder.com/300x300.png?text=Membro" alt="Membro">
-          <h5 class="card-title">Cromuel Sanca</h5>
-          <p class="card-text">Gestora Ambiental</p>
-          <div>
-            <a href="#" class="text-success fs-5 mx-2"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="text-success fs-5 mx-2"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="text-success fs-5 mx-2"><i class="bi bi-linkedin"></i></a>
-          </div>
-        </div>
-      </div>
+<script>
+    // Reveal Animation
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        reveals.forEach(el => {
+            var windowHeight = window.innerHeight;
+            var elementTop = el.getBoundingClientRect().top;
+            if (elementTop < windowHeight - 100) { el.classList.add("active"); }
+        });
+    }
+    window.addEventListener("scroll", reveal);
+    reveal();
+</script>
 
-      <div class="col-md-3 col-sm-6">
-        <div class="card team-card text-center shadow">
-          <img src="https://via.placeholder.com/300x300.png?text=Membro" alt="Membro">
-          <h5 class="card-title">Jociliana Sanca</h5>
-          <p class="card-text">Gestora Ambiental</p>
-          <div>
-            <a href="#" class="text-success fs-5 mx-2"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="text-success fs-5 mx-2"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="text-success fs-5 mx-2"><i class="bi bi-linkedin"></i></a>
-          </div>
-        </div>
-      </div>
 
-      <div class="col-md-3 col-sm-6">
-        <div class="card team-card text-center shadow">
-          <img src="https://via.placeholder.com/300x300.png?text=Membro" alt="Membro">
-          <h5 class="card-title">Júnior Nancassa</h5>
-          <p class="card-text">Gestor Ambiental</p>
-          <div>
-            <a href="#" class="text-success fs-5 mx-2"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="text-success fs-5 mx-2"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="text-success fs-5 mx-2"><i class="bi bi-linkedin"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Bio Guiné - Todos os direitos reservados</p>
-  </footer>
+ <!-- Scripts -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const hamburger = document.getElementById('hamburger');
+                const navLinks = document.getElementById('nav-links');
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+                if (!hamburger || !navLinks) return;
 
-  <!-- Scroll animation script -->
-  <script>
-    const elements = document.querySelectorAll('[data-animate]');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.2 });
-    elements.forEach(el => observer.observe(el));
-  </script>
+                hamburger.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                });
+
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                    });
+                });
+            });
+        </script>
+
+        <script src="assets/page/usuariospage.js"></script>
+
 </body>
 </html>

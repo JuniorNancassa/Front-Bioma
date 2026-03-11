@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa da Biodiversidade – Guiné-Bissau</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f5;
+    }
+
+    header {
+      background: #1b5e20;
+      color: #fff;
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    #filters {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      background: #ffffff;
+      border-bottom: 1px solid #ddd;
+      overflow-x: auto;
+    }
+
+    #filters label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    #map {
+      height: calc(100vh - 110px);
+      width: 100%;
+    }
+
+    .bottom-actions {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 12px 16px;
+      border-radius: 30px;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+      color: #fff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .btn-green { background: #2e7d32; }
+    .btn-red { background: #c62828; }
+  </style>
+</head>
+<body>
+
+  <header>🗺️ Mapa da Biodiversidade</header>
+
+  <div id="filters">
+    <label><input id="filter-species" type="checkbox" checked /> 🌱 Espécies</label>
+    <label><input id="filter-reports" type="checkbox" checked /> 🚨 Denúncias</label>
+  </div>
+
+  <div id="map"></div>
+
+  <div class="bottom-actions">
+    <button class="btn btn-green">➕ Registar Espécie</button>
+    <button class="btn btn-red">🚨 Denunciar</button>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // Definir limites geográficos da Guiné-Bissau (bounding box)
+    const guineaBissauBounds = L.latLngBounds(
+      [10.8, -16.8], // sudoeste
+      [12.7, -13.6]  // nordeste
+    );
+
+    // Inicializar mapa centrado na Guiné-Bissau e limitado ao país
+    const map = L.map('map', {
+      maxBounds: guineaBissauBounds,
+      maxBoundsViscosity: 1.0,
+      minZoom: 6,
+      maxZoom: 18 // permite ver bairros/ruas
+    }).fitBounds(guineaBissauBounds);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    // Ícones
+    const speciesIcon = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/427/427735.png',
+      iconSize: [28, 28]
+    });
+
+    const reportIcon = L.icon({
+      iconUrl: 'https://cdn-icons-png.flaticon.com/512/564/564619.png',
+      iconSize: [28, 28]
+    });
+
+    // Camadas
+    const speciesLayer = L.layerGroup().addTo(map);
+    const reportsLayer = L.layerGroup().addTo(map);
+
+    // Marcadores de exemplo (apenas dentro da Guiné-Bissau)
+    function isDentroDaGuine(lat, lng) {
+      return guineaBissauBounds.contains([lat, lng]);
+    }
+
+    function adicionarMarcadorSeguro(lat, lng, options, popupHtml, layer) {
+      if (!isDentroDaGuine(lat, lng)) {
+        console.warn('Coordenadas fora da Guiné-Bissau:', lat, lng);
+        return;
+      }
+      L.marker([lat, lng], options).addTo(layer).bindPopup(popupHtml);
+    }
+
+    L.marker([12.0675, -16.0333], { icon: speciesIcon })
+      .addTo(speciesLayer)
+      .bindPopup(`
+        <strong>Macaco-verde</strong><br/>
+        📍 Cacheu<br/>
+        📅 12/08/2025<br/>
+        Estado: <span style="color:green">Verificado</span>
+      `);
+
+    L.marker([11.8597, -15.5953], { icon: reportIcon })
+      .addTo(reportsLayer)
+      .bindPopup(`
+        <strong>Denúncia: Corte ilegal</strong><br/>
+        📍 Bafatá<br/>
+        📅 10/08/2025<br/>
+        Estado: <span style="color:orange">Em análise</span>
+      `);
+
+    // Mostrar nome do bairro/local ao clicar no mapa (reverse geocoding via Nominatim)
+    async function obterNomeLocal(lat, lng) {
+      try {
+        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        return data.address?.suburb || data.address?.neighbourhood || data.address?.village || data.address?.town || data.address?.city || 'Local desconhecido';
+      } catch (e) {
+        return 'Local desconhecido';
+      }
+    }
+
+    map.on('click', async (e) => {
+      const { lat, lng } = e.latlng;
+
+      // Garantir que o clique é dentro da Guiné-Bissau
+      if (!guineaBissauBounds.contains([lat, lng])) return;
+
+      const local = await obterNomeLocal(lat, lng);
+
+      L.popup()
+        .setLatLng(e.latlng)
+        .setContent(`
+          <strong>📍 Local:</strong> ${local}<br/>
+          <small>${lat.toFixed(5)}, ${lng.toFixed(5)}</small><br/><br/>
+          <button onclick="alert('Abrir formulário de espécie')">🌱 Registar espécie aqui</button><br/><br/>
+          <button onclick="alert('Abrir formulário de denúncia')">🚨 Denunciar aqui</button>
+        `)
+        .openOn(map);
+    });
+
+    // Filtros
+    document.getElementById('filter-species').addEventListener('change', (e) => {
+      if (e.target.checked) map.addLayer(speciesLayer);
+      else map.removeLayer(speciesLayer);
+    });
+
+    document.getElementById('filter-reports').addEventListener('change', (e) => {
+      if (e.target.checked) map.addLayer(reportsLayer);
+      else map.removeLayer(reportsLayer);
+    });
+  </script>
+</body>
+</html>

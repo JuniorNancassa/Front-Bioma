@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bioma-Guiné – Dashboard 3.7</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+body { background:#f4f6f5; }
+.sidebar {
+    height:100vh; background:#1b5e20; color:white; position:fixed; width:230px; padding:20px;
+}
+.sidebar h4 { margin-bottom:30px; }
+.sidebar a { display:block; color:white; text-decoration:none; margin-bottom:15px; }
+.sidebar a:hover { opacity:0.8; }
+.main { margin-left:250px; padding:20px; }
+.card-kpi { border-left:5px solid #2e7d32; cursor:pointer; }
+.card-kpi:hover { opacity:0.9; }
+.badge-urgente { background:#c62828; }
+.badge-pendente { background:#f9a825; color:#000; }
+.badge-analise { background:#1565c0; }
+.badge-verificado { background:#2e7d32; }
+#map { height:350px; border-radius:8px; margin-bottom:20px; }
+canvas {
+    background:white;
+    padding:10px;
+    border-radius:8px;
+    min-height:150px;  /* menor que 250px */
+    max-height:200px;  /* opcional: limite máximo */
+    width:100% !important;  /* garante que ocupe a largura disponível */
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h4>🌿 Bioma-Guiné</h4>
+    <a href="#">📊 Dashboard</a>
+    <a href="#">🌱 Espécies</a>
+    <a href="#">🏞 Habitats</a>
+    <a href="#">🚨 Denúncias</a>
+    <a href="#">📄 Relatórios</a>
+    <a href="#">⚙ Configurações</a>
+</div>
+
+<div class="main">
+
+<h3 class="mb-4">Dashboard Institucional – Plano Básico 3.7</h3>
+
+<!-- KPIs -->
+<div class="row g-3 mb-4">
+    <div class="col-md-2"><div class="card card-kpi p-3 shadow-sm" onclick="filtrarKPI('Espécie')"><h6>🌱 Espécies</h6><h4 id="kpiEspecies">0</h4></div></div>
+    <div class="col-md-2"><div class="card card-kpi p-3 shadow-sm" onclick="filtrarKPI('Protegidas')"><h6>🛡 Protegidas</h6><h4 id="kpiProtegidas">0</h4></div></div>
+    <div class="col-md-2"><div class="card card-kpi p-3 shadow-sm" onclick="filtrarKPI('Habitat')"><h6>🏞 Habitats</h6><h4 id="kpiHabitats">0</h4></div></div>
+    <div class="col-md-2"><div class="card card-kpi p-3 shadow-sm" onclick="filtrarKPI('Denúncia')"><h6>🚨 Denúncias</h6><h4 id="kpiDenuncias">0</h4></div></div>
+    <div class="col-md-2"><div class="card card-kpi p-3 shadow-sm" onclick="filtrarKPI('Urgente')"><h6>🔴 Urgentes</h6><h4 id="kpiUrgentes">0</h4></div></div>
+    <div class="col-md-2"><div class="card card-kpi p-3 shadow-sm"><h6>✅ Taxa Resolução</h6><h4 id="kpiResolucao">0%</h4></div></div>
+</div>
+
+<!-- Filtros -->
+<div class="row mb-3 g-2">
+    <div class="col-md-2"><select id="filtroRegiao" class="form-select"><option value="">📍 Região</option><option>Bissau</option><option>Cacheu</option><option>Bafatá</option><option>Gabú</option></select></div>
+    <div class="col-md-2"><select id="filtroTipo" class="form-select"><option value="">📂 Tipo</option><option>Espécie</option><option>Habitat</option><option>Denúncia</option></select></div>
+    <div class="col-md-2"><select id="filtroEstado" class="form-select"><option value="">📌 Estado</option><option>Pendente</option><option>Em análise</option><option>Verificado</option><option>Urgente</option><option>Protegido</option></select></div>
+    <div class="col-md-2"><input type="date" id="dataInicio" class="form-control" placeholder="Data Início"></div>
+    <div class="col-md-2"><input type="date" id="dataFim" class="form-control" placeholder="Data Fim"></div>
+    <div class="col-md-2"><button class="btn btn-success w-100" onclick="aplicarFiltros()">Filtrar</button></div>
+</div>
+
+<!-- Abas -->
+<ul class="nav nav-tabs mb-3" id="abasDashboard" role="tablist">
+  <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#conteudoEspecies">Espécies</button></li>
+  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#conteudoHabitats">Habitats</button></li>
+  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#conteudoDenuncias">Denúncias</button></li>
+</ul>
+
+<div class="tab-content">
+  <!-- Espécies -->
+  <div class="tab-pane fade show active" id="conteudoEspecies">
+    <div class="d-flex gap-3 mb-3 flex-wrap">
+        <div class="flex-fill"><canvas id="chartRisco"></canvas></div>
+        <div class="flex-fill"><canvas id="chartHabitatDist"></canvas></div>
+    </div>
+    <div class="mb-3"><button class="btn btn-outline-success" onclick="gerarRelatorio('Espécies')">📄 Gerar Relatório</button></div>
+    <div class="card p-3 shadow-sm mb-3">
+      <h5>📋 Espécies Registradas</h5>
+      <div class="table-responsive"><table class="table table-striped"><thead class="table-success"><tr><th>Nome</th><th>Risco</th><th>Habitat</th><th>Região</th></tr></thead><tbody id="tabelaEspecies"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- Habitats -->
+  <div class="tab-pane fade" id="conteudoHabitats">
+    <div class="d-flex gap-3 mb-3 flex-wrap">
+        <div class="flex-fill"><canvas id="chartHabitats"></canvas></div>
+        <div class="flex-fill"><canvas id="chartProtecao"></canvas></div>
+    </div>
+    <div class="mb-3"><button class="btn btn-outline-success" onclick="gerarRelatorio('Habitats')">📄 Gerar Relatório</button></div>
+    <div class="card p-3 shadow-sm mb-3">
+      <h5>📋 Habitats Registrados</h5>
+      <div class="table-responsive"><table class="table table-striped"><thead class="table-success"><tr><th>Nome</th><th>Tipo</th><th>Região</th><th>Estado</th></tr></thead><tbody id="tabelaHabitats"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- Denúncias -->
+  <div class="tab-pane fade" id="conteudoDenuncias">
+    <div class="d-flex gap-3 mb-3 flex-wrap">
+        <div class="flex-fill"><canvas id="chartEstados"></canvas></div>
+        <div class="flex-fill"><canvas id="chartTendencia"></canvas></div>
+        <div class="flex-fill"><canvas id="chartRegiaoDenuncias"></canvas></div>
+    </div>
+    <div class="mb-3"><button class="btn btn-outline-success" onclick="gerarRelatorio('Denúncias')">📄 Gerar Relatório</button></div>
+    <div class="card p-3 shadow-sm mb-3">
+      <h5>📋 Gestão de Denúncias</h5>
+      <div class="table-responsive"><table class="table table-striped"><thead class="table-success"><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Local</th><th>Estado</th><th>Ações</th></tr></thead><tbody id="tabelaDenuncias"></tbody></table></div>
+    </div>
+  </div>
+</div>
+
+<!-- Botão Relatório Completo -->
+<div class="mb-4">
+    <button class="btn btn-success w-100" onclick="gerarRelatorioCompleto()">📄 Gerar Relatório Completo</button>
+</div>
+
+<!-- Mapa -->
+<div class="card p-3 shadow-sm">
+  <h5>🗺 Mapa de Ocorrências</h5>
+  <div id="map"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+// ---------- DADOS SIMULADOS ----------
+let dados = [
+  {data:'2025-08-12', tipo:'Espécie', desc:'Macaco-verde', local:'Cacheu', estado:'Verificado', lat:12.06, lng:-16.03, risco:'Médio', habitat:'Floresta'},
+  {data:'2025-08-13', tipo:'Espécie', desc:'Papagaio-cinzento', local:'Bissau', estado:'Verificado', lat:11.87, lng:-15.60, risco:'Alto', habitat:'Mangais'},
+  {data:'2025-08-08', tipo:'Habitat', desc:'Mangais de Cacheu', local:'Cacheu', estado:'Protegido', lat:12.06, lng:-16.03, tipoHabitat:'Mangais'},
+  {data:'2025-08-10', tipo:'Denúncia', desc:'Corte ilegal', local:'Bafatá', estado:'Pendente', lat:11.85, lng:-15.59},
+  {data:'2025-08-08', tipo:'Denúncia', desc:'Queimada', local:'Bissau', estado:'Urgente', lat:11.87, lng:-15.59}
+];
+
+// ---------- DASHBOARD ----------
+let chartRefs = {};
+function carregarDashboard(lista){
+  document.getElementById('kpiEspecies').innerText = lista.filter(d=>d.tipo==='Espécie').length;
+  document.getElementById('kpiProtegidas').innerText = lista.filter(d=>d.tipo==='Espécie' && d.risco==='Alto').length;
+  document.getElementById('kpiHabitats').innerText = lista.filter(d=>d.tipo==='Habitat').length;
+  document.getElementById('kpiDenuncias').innerText = lista.filter(d=>d.tipo==='Denúncia').length;
+  document.getElementById('kpiUrgentes').innerText = lista.filter(d=>d.estado==='Urgente').length;
+  let resolvidas = lista.filter(d=>d.estado==='Verificado').length;
+  let totalDen = lista.filter(d=>d.tipo==='Denúncia').length;
+  document.getElementById('kpiResolucao').innerText = totalDen ? ((resolvidas/totalDen)*100).toFixed(1)+'%' : '0%';
+  carregarTabelas(lista);
+  carregarGraficos(lista);
+  atualizarMapa(lista);
+}
+
+// ---------- FILTROS ----------
+function aplicarFiltros(){
+  let regiao=document.getElementById('filtroRegiao').value;
+  let tipo=document.getElementById('filtroTipo').value;
+  let estado=document.getElementById('filtroEstado').value;
+  let inicio=document.getElementById('dataInicio').value;
+  let fim=document.getElementById('dataFim').value;
+
+  let filtrados = dados.filter(d=>{
+    let checkData = true;
+    if(inicio) checkData = d.data >= inicio;
+    if(fim) checkData = checkData && d.data <= fim;
+    return (!regiao||d.local===regiao)&&(!tipo||d.tipo===tipo)&&(!estado||d.estado===estado)&&checkData;
+  });
+
+  carregarDashboard(filtrados);
+}
+
+// ---------- KPIs CLICÁVEIS ----------
+function filtrarKPI(kpi){
+  let filtrados = dados.filter(d=>{
+      if(kpi==='Espécie') return d.tipo==='Espécie';
+      if(kpi==='Protegidas') return d.tipo==='Espécie' && d.risco==='Alto';
+      if(kpi==='Habitat') return d.tipo==='Habitat';
+      if(kpi==='Denúncia') return d.tipo==='Denúncia';
+      if(kpi==='Urgente') return d.estado==='Urgente';
+      return true;
+  });
+  carregarDashboard(filtrados);
+}
+
+// ---------- TABELAS ----------
+function carregarTabelas(lista){
+  let tbodyE=document.getElementById('tabelaEspecies'); tbodyE.innerHTML='';
+  lista.filter(d=>d.tipo==='Espécie').forEach(d=>{tbodyE.innerHTML+=`<tr><td>${d.desc}</td><td>${d.risco}</td><td>${d.habitat}</td><td>${d.local}</td></tr>`;});
+
+  let tbodyH=document.getElementById('tabelaHabitats'); tbodyH.innerHTML='';
+  lista.filter(d=>d.tipo==='Habitat').forEach(d=>{tbodyH.innerHTML+=`<tr><td>${d.desc}</td><td>${d.tipoHabitat}</td><td>${d.local}</td><td>${d.estado}</td></tr>`;});
+
+  let tbodyD=document.getElementById('tabelaDenuncias'); tbodyD.innerHTML='';
+  lista.filter(d=>d.tipo==='Denúncia').forEach((d,i)=>{
+    let badgeClass={'Urgente':'badge-urgente','Pendente':'badge-pendente','Em análise':'badge-analise','Verificado':'badge-verificado'}[d.estado];
+    tbodyD.innerHTML+=`<tr><td>${d.data}</td><td>${d.tipo}</td><td>${d.desc}</td><td>${d.local}</td><td><span class="badge ${badgeClass}">${d.estado}</span></td><td><button onclick="alterarEstado(${i},'Em análise')" class="btn btn-sm btn-warning">Análise</button><button onclick="alterarEstado(${i},'Verificado')" class="btn btn-sm btn-success">Resolver</button></td></tr>`;
+  });
+}
+function alterarEstado(index, novoEstado){ dados[index].estado=novoEstado; carregarDashboard(dados); }
+
+// ---------- RELATÓRIOS ----------
+function gerarRelatorio(modulo){ alert(`Relatório do módulo ${modulo} gerado com sucesso!`); }
+function gerarRelatorioCompleto(){ alert("Relatório completo gerado com sucesso!"); }
+
+// ---------- GRÁFICOS ----------
+function carregarGraficos(lista){
+  // destruir gráficos antigos
+  Object.values(chartRefs).forEach(c=>c.destroy());
+  chartRefs = {};
+
+  // Espécies risco
+  let labelsR=['Alto','Médio','Baixo'];
+  let dataR=labelsR.map(l=>lista.filter(d=>d.tipo==='Espécie' && d.risco===l).length);
+  chartRefs['chartRisco'] = new Chart(document.getElementById('chartRisco'), {type:'doughnut', data:{labels:labelsR,datasets:[{data:dataR,backgroundColor:['#c62828','#ffb74d','#2e7d32']}]}, options:{responsive:true, plugins:{legend:{position:'bottom'}}}});
+
+  // Distribuição habitats das espécies
+  let habLabels=[...new Set(lista.filter(d=>d.tipo==='Espécie').map(d=>d.habitat))];
+  let habData=habLabels.map(l=>lista.filter(d=>d.tipo==='Espécie' && d.habitat===l).length);
+  chartRefs['chartHabitatDist'] = new Chart(document.getElementById('chartHabitatDist'), {type:'doughnut', data:{labels:habLabels,datasets:[{data:habData, backgroundColor:['#2e7d32','#4fc3f7','#ffb74d','#c62828']}]}, options:{responsive:true, plugins:{legend:{position:'bottom'}}}});
+
+  // Habitats tipos
+  let habTipoLabels=[...new Set(lista.filter(d=>d.tipo==='Habitat').map(d=>d.tipoHabitat))];
+  let habTipoData=habTipoLabels.map(l=>lista.filter(d=>d.tipo==='Habitat' && d.tipoHabitat===l).length);
+  chartRefs['chartHabitats'] = new Chart(document.getElementById('chartHabitats'), {type:'doughnut', data:{labels:habTipoLabels,datasets:[{data:habTipoData,backgroundColor:['#2e7d32','#4fc3f7','#ffb74d','#c62828']}]}, options:{responsive:true, plugins:{legend:{position:'bottom'}}}});
+
+  // Habitats proteção
+  let protLabels = ['Protegido', 'Não Protegido'];
+  let protData = protLabels.map(l =>
+    lista.filter(d => d.tipo === 'Habitat' && (d.estado === l || (l === 'Não Protegido' && d.estado !== 'Protegido'))).length
+  );
+  chartRefs['chartProtecao'] = new Chart(document.getElementById('chartProtecao'), {
+    type: 'bar',
+    data: {
+      labels: protLabels,
+      datasets: [{ label: 'Habitats', data: protData, backgroundColor: ['#2e7d32', '#c62828'] }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  // Denúncias por estado
+  let estados = ['Pendente','Em análise','Urgente','Verificado'];
+  let estadosData = estados.map(e => lista.filter(d => d.tipo === 'Denúncia' && d.estado === e).length);
+  chartRefs['chartEstados'] = new Chart(document.getElementById('chartEstados'), {
+    type: 'bar',
+    data: { labels: estados, datasets: [{ label: 'Ocorrências', data: estadosData, backgroundColor: '#2e7d32' }] },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  // Tendência semanal de denúncias (simulado)
+  chartRefs['chartTendencia'] = new Chart(document.getElementById('chartTendencia'), {
+    type: 'line',
+    data: { labels: ['Semana 1','Semana 2','Semana 3','Semana 4'], datasets: [{ label: 'Denúncias', data: [2,4,3,5], borderColor: '#c62828', backgroundColor: '#c62828', fill: false }] },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  // Denúncias por região
+  let regioes = ['Bissau','Cacheu','Bafatá','Gabú'];
+  let regData = regioes.map(r => lista.filter(d => d.tipo === 'Denúncia' && d.local === r).length);
+  chartRefs['chartRegiaoDenuncias'] = new Chart(document.getElementById('chartRegiaoDenuncias'), {
+    type: 'bar',
+    data: { labels: regioes, datasets: [{ label: 'Denúncias', data: regData, backgroundColor: '#1565c0' }] },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+}
+
+// ---------- MAPA ----------
+var map = L.map('map').setView([11.87,-15.6], 7);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+
+function atualizarMapa(lista){
+  // remover marcadores antigos
+  map.eachLayer(layer => { if(layer instanceof L.Marker) map.removeLayer(layer); });
+
+  lista.forEach(d => {
+    let iconUrl = d.tipo === 'Espécie' ? 'https://cdn-icons-png.flaticon.com/512/427/427735.png' :
+                  d.tipo === 'Habitat' ? 'https://cdn-icons-png.flaticon.com/512/684/684908.png' :
+                  'https://cdn-icons-png.flaticon.com/512/564/564619.png';
+
+    let icon = L.icon({ iconUrl: iconUrl, iconSize: [28,28] });
+    L.marker([d.lat,d.lng], { icon: icon }).addTo(map)
+     .bindPopup(`<strong>${d.tipo}</strong><br>${d.desc}<br>📍 ${d.local}<br>Estado: ${d.estado}`);
+  });
+}
+
+// ---------- CHAMADA INICIAL ----------
+carregarDashboard(dados);
+</script>
+
+</body>
+</html>

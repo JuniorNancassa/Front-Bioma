@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bioma-Guiné – Dashboard 5.0 Avançado</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css"/>
+
+<style>
+body { background:#f4f6f5; }
+.sidebar { height:100vh; background:#1b5e20; color:white; position:fixed; width:230px; padding:20px; }
+.sidebar h4 { margin-bottom:30px; }
+.sidebar a { display:block; color:white; text-decoration:none; margin-bottom:15px; }
+.sidebar a:hover { opacity:0.8; }
+.main { margin-left:250px; padding:20px; }
+.card-kpi { border-left:5px solid #2e7d32; cursor:pointer; transition:0.2s; }
+.card-kpi:hover { opacity:0.9; transform:scale(1.02); }
+.badge-urgente { background:#c62828; }
+.badge-pendente { background:#f9a825; color:#000; }
+.badge-analise { background:#1565c0; }
+.badge-verificado { background:#2e7d32; }
+#map { height:300px; border-radius:8px; margin-bottom:20px; }
+canvas { background:white; padding:5px; border-radius:8px; min-height:180px; }
+.alerta { padding:10px; margin-bottom:15px; border-radius:6px; color:white; }
+.alerta-urgente { background:#c62828; }
+.alerta-protegido { background:#2e7d32; }
+</style>
+</head>
+
+<body>
+<div class="sidebar">
+    <h4>🌿 Bioma-Guiné 5.0</h4>
+    <a href="#" onclick="mostrarAba('conteudoDashboard')">📊 Dashboard</a>
+    <a href="#" onclick="mostrarAba('conteudoEspecies')">🌱 Espécies</a>
+    <a href="#" onclick="mostrarAba('conteudoHabitats')">🏞 Habitats</a>
+    <a href="#" onclick="mostrarAba('conteudoDenuncias')">🚨 Denúncias</a>
+    <a href="#" onclick="gerarRelatorioCompleto()">📄 Relatórios</a>
+    <a href="#">⚙ Configurações</a>
+</div>
+
+<div class="main">
+<h3 class="mb-3">Dashboard Avançado – Plano 5.0</h3>
+
+<!-- Abas Dinâmicas -->
+<div class="tab-content" id="tabContent">
+  <!-- As abas serão carregadas pelo JS -->
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+<script>
+// ---------- DADOS SIMULADOS ----------
+let dados = [
+  {data:'2025-08-12', tipo:'Espécie', desc:'Macaco-verde', local:'Cacheu', estado:'Verificado', lat:12.06, lng:-16.03, risco:'Médio', habitat:'Floresta'},
+  {data:'2025-08-13', tipo:'Espécie', desc:'Papagaio-cinzento', local:'Bissau', estado:'Verificado', lat:11.87, lng:-15.60, risco:'Alto', habitat:'Mangais'},
+  {data:'2025-08-08', tipo:'Habitat', desc:'Mangais de Cacheu', local:'Cacheu', estado:'Protegido', lat:12.06, lng:-16.03, tipoHabitat:'Mangais'},
+  {data:'2025-08-10', tipo:'Denúncia', desc:'Corte ilegal', local:'Bafatá', estado:'Pendente', lat:11.85, lng:-15.59},
+  {data:'2025-08-08', tipo:'Denúncia', desc:'Queimada', local:'Bissau', estado:'Urgente', lat:11.87, lng:-15.59}
+];
+
+let chartRefs = {};
+let map = L.map('map').setView([11.87,-15.6], 7);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+let markers = L.markerClusterGroup().addTo(map);
+
+// ---------- FUNÇÕES ----------
+
+// Cria abas dinamicamente
+function criarAbas(){
+  let content = document.getElementById('tabContent');
+
+  let abas = [
+    {id:'conteudoDashboard', titulo:'Dashboard'},
+    {id:'conteudoEspecies', titulo:'Espécies'},
+    {id:'conteudoHabitats', titulo:'Habitats'},
+    {id:'conteudoDenuncias', titulo:'Denúncias'}
+  ];
+
+  abas.forEach((aba,i)=>{
+    let div = document.createElement('div');
+    div.id = aba.id;
+    div.className = 'tab-pane fade' + (i===0?' show active':'');
+    div.innerHTML = gerarHTMLAba(aba.id);
+    content.appendChild(div);
+  });
+}
+
+// Gera o HTML de cada aba
+function gerarHTMLAba(id){
+  if(id==='conteudoDashboard'){
+    return `
+      <div id="alertas"></div>
+      <div class="row g-2 mb-3">
+        <div class="col-md-2"><div class="card card-kpi p-2 shadow-sm" onclick="filtrarKPI('Espécie')"><h6>🌱 Espécies</h6><h4 id="kpiEspecies">0</h4></div></div>
+        <div class="col-md-2"><div class="card card-kpi p-2 shadow-sm" onclick="filtrarKPI('Protegidas')"><h6>🛡 Protegidas</h6><h4 id="kpiProtegidas">0</h4></div></div>
+        <div class="col-md-2"><div class="card card-kpi p-2 shadow-sm" onclick="filtrarKPI('Habitat')"><h6>🏞 Habitats</h6><h4 id="kpiHabitats">0</h4></div></div>
+        <div class="col-md-2"><div class="card card-kpi p-2 shadow-sm" onclick="filtrarKPI('Denúncia')"><h6>🚨 Denúncias</h6><h4 id="kpiDenuncias">0</h4></div></div>
+        <div class="col-md-2"><div class="card card-kpi p-2 shadow-sm" onclick="filtrarKPI('Urgente')"><h6>🔴 Urgentes</h6><h4 id="kpiUrgentes">0</h4></div></div>
+        <div class="col-md-2"><div class="card card-kpi p-2 shadow-sm"><h6>✅ Taxa Resolução</h6><h4 id="kpiResolucao">0%</h4></div></div>
+      </div>
+      <div class="mb-2"><canvas id="chartRisco"></canvas></div>
+      <div class="mb-2"><canvas id="chartHabitatDist"></canvas></div>
+    `;
+  } else if(id==='conteudoEspecies'){
+    return `
+      <div class="mb-2"><button class="btn btn-outline-success" onclick="gerarRelatorio('Espécies')">📄 Gerar Relatório</button></div>
+      <div class="card p-2 shadow-sm mb-2">
+        <h6>📋 Espécies Registradas</h6>
+        <div class="table-responsive"><table class="table table-striped"><thead class="table-success"><tr><th>Nome</th><th>Risco</th><th>Habitat</th><th>Região</th></tr></thead><tbody id="tabelaEspecies"></tbody></table></div>
+      </div>
+    `;
+  } else if(id==='conteudoHabitats'){
+    return `
+      <div class="row g-2 mb-2">
+        <div class="col-md-6"><canvas id="chartHabitats"></canvas></div>
+        <div class="col-md-6"><canvas id="chartProtecao"></canvas></div>
+      </div>
+      <div class="mb-2"><button class="btn btn-outline-success" onclick="gerarRelatorio('Habitats')">📄 Gerar Relatório</button></div>
+      <div class="card p-2 shadow-sm mb-2">
+        <h6>📋 Habitats Registrados</h6>
+        <div class="table-responsive"><table class="table table-striped"><thead class="table-success"><tr><th>Nome</th><th>Tipo</th><th>Região</th><th>Estado</th></tr></thead><tbody id="tabelaHabitats"></tbody></table></div>
+      </div>
+    `;
+  } else if(id==='conteudoDenuncias'){
+    return `
+      <div class="row g-2 mb-2">
+        <div class="col-md-4"><canvas id="chartEstados"></canvas></div>
+        <div class="col-md-4"><canvas id="chartTendencia"></canvas></div>
+        <div class="col-md-4"><canvas id="chartRegiaoDenuncias"></canvas></div>
+      </div>
+      <div class="mb-2"><button class="btn btn-outline-success" onclick="gerarRelatorio('Denúncias')">📄 Gerar Relatório</button></div>
+      <div class="card p-2 shadow-sm mb-2">
+        <h6>📋 Gestão de Denúncias</h6>
+        <div class="table-responsive"><table class="table table-striped"><thead class="table-success"><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Local</th><th>Estado</th><th>Ações</th></tr></thead><tbody id="tabelaDenuncias"></tbody></table></div>
+      </div>
+      <div class="card p-2 shadow-sm mb-2"><h6>🗺 Mapa de Ocorrências</h6><div id="map"></div></div>
+    `;
+  }
+  return '';
+}
+
+// ---------- Inicialização ----------
+criarAbas();
+carregarDashboard(dados);
+
+// Função para exibir aba clicada
+function mostrarAba(id){
+  document.querySelectorAll('.tab-pane').forEach(t => t.classList.remove('show','active'));
+  let aba = document.getElementById(id);
+  if(aba) aba.classList.add('show','active');
+}
+
+// ---------- Aqui entra o resto do código para KPIs, tabelas, gráficos e mapa ----------
+// (Mesmas funções de carregarDashboard, carregarTabelas, carregarGraficos, atualizarMapa, aplicarFiltros, filtrarKPI, alterarEstado, gerarRelatorio, gerarRelatorioCompleto)
+</script>
+</body>
+</html>

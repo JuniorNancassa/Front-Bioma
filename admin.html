@@ -3,176 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
+  <title>Bio-Guiné Admin</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="assets/css/adim.css">
 </head>
 <body>
-<div class="layout">
-  <!-- Menu lateral -->
-  <div id="sider" class="sider">
-    <h2><i class="fas fa-bars" onclick="toggleMenu()"></i> <span>Menu</span></h2>
-    <div class="menu-container">
-      <ul class="menu">
-        <li onclick="loadContent('Home', this)">
-          <div class="menu-item"><i class="fas fa-chart-pie"></i> <span>Home</span></div>
-        </li>
-        <li class="has-submenu">
-          <div class="menu-item" onclick="toggleSubmenu(this)">
-            <i class="fas fa-file-alt"></i> <span>Páginas</span>
-            <i class="fas fa-chevron-right arrow"></i>
-          </div>
-          <ul class="submenu">
-            <li onclick="loadContent('Usuários', this)"><i class="fas fa-user"></i> <span>Usuários</span></li>
-            <li onclick="loadContent('Seres', this)"><i class="fas fa-dragon"></i> <span>Seres</span></li>
-            <li onclick="loadContent('Denúncias', this)"><i class="fas fa-disease"></i> <span>Denúncias</span></li>
-          </ul>
-        </li>
-        <li class="has-submenu">
-          <div class="menu-item" onclick="toggleSubmenu(this)">
-            <i class="fas fa-database"></i> <span>Cadastros</span>
-            <i class="fas fa-chevron-right arrow"></i>
-          </div>
-          <ul class="submenu">
-            <li onclick="loadContent('Espécies', this)"><i class="fas fa-paw"></i> <span>Espécies</span></li>
-            <li onclick="loadContent('Categorias', this)"><i class="fas fa-list"></i> <span>Categorias</span></li>
-            <li onclick="loadContent('Tipos', this)"><i class="fas fa-tags"></i> <span>Tipos</span></li>
-            <li onclick="loadContent('Quiz', this)"><i class="fas fa-question-circle"></i> <span>Quiz</span></li>
-            <li onclick="loadContent('Perguntas', this)"><i class="fas fa-question-circle"></i> <span>Perguntas</span></li>
-            <li onclick="loadContent('Comentarios', this)"><i class="fas fa-check-circle"></i> <span>Comentarios</span></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <!-- Botão Sair fixo -->
-   <div class="logout" onclick="openLogoutModal()">
-      <i class="fas fa-sign-out-alt"></i> <span>Sair</span>
-      <script>function openLogoutModal() {
-  // Se já existir modal, não cria de novo
-  if (document.getElementById("logoutModal")) {
-    document.getElementById("logoutModal").style.display = "flex";
-    return;
-  }
+  <div class="layout">
+    <aside id="sider" class="sider">
+      <a href="index.html" class="logo">
+        <img src="assets/img/logo/logo-bioma.jpeg" alt="Logo">
+        <span class="logo-text">Bioma-Guiné</span>
+      </a>
 
-  // Criando modal via JS
-  const modal = document.createElement("div");
-  modal.id = "logoutModal";
-  modal.className = "modal";
-  modal.innerHTML = `
-    <div class="modal-content">
-      <h3>Tem certeza que deseja sair?</h3>
-      <div class="modal-actions">
-        <button id="confirmLogout">Sim</button>
-        <button id="cancelLogout">Não</button>
+      <nav class="menu-container">
+        <ul class="menu">
+          <li onclick="loadContent('Inicio', this)" class="active">
+            <div class="menu-item"><i class="fas fa-chart-pie"></i> <span class="menu-text">Inicio</span></div>
+          </li>
+          <li onclick="loadContent('Usuários', this)">
+            <div class="menu-item"><i class="fas fa-user"></i> <span class="menu-text">Usuários</span></div>
+          </li>
+          <li onclick="loadContent('Seres', this)">
+            <div class="menu-item"><i class="fas fa-dragon"></i> <span class="menu-text">Seres</span></div>
+          </li>
+          <li onclick="loadContent('Denúncias', this)">
+            <div class="menu-item"><i class="fas fa-exclamation-triangle"></i> <span class="menu-text">Denúncias</span></div>
+          </li>
+          <li onclick="loadContent('Quiz', this)">
+            <div class="menu-item"><i class="fas fa-question-circle"></i> <span class="menu-text">Quiz</span></div>
+          </li>
+          <li onclick="loadContent('Estatistica', this)">
+            <div class="menu-item"><i class="fas fa-chart-line"></i> <span class="menu-text">Estatística</span></div>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="logout-btn" onclick="openLogoutModal()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Sair</span>
       </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
+    </aside>
 
-  // CSS direto pelo JS
-  const style = document.createElement("style");
-  style.innerHTML = `
-    .modal {
-      display: flex; 
-      position: fixed;
-      z-index: 1000;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      justify-content: center; align-items: center;
-    }
-    .modal-content {
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-      width: 300px;
-      animation: fadeIn 0.3s ease-in-out;
-    }
-    .modal-actions {
-      margin-top: 15px;
-      display: flex; 
-      justify-content: space-around;
-    }
-    .modal-actions button {
-      padding: 8px 16px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    #confirmLogout { background: #d9534f; color: white; }
-    #cancelLogout { background: #5bc0de; color: white; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
-    }
-  `;
-  document.head.appendChild(style);
+    <main class="main">
+      <header class="header">
+        <button class="toggle-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+        <div class="header-right" onclick="loadContent('Perfil')">
+          <i class="fas fa-user-circle fa-lg"></i>
+          <span id="user-display-name" style="margin-left: 10px; font-weight: 500;">Admin</span>
+        </div>
+      </header>
 
-  // Eventos
-  document.getElementById("confirmLogout").addEventListener("click", function() {
-    window.location.href = "index.html"; // Redireciona
-  });
+      <section class="content">
+        <div id="breadcrumb" class="breadcrumb">Dashboard / Inicio</div>
+        <div id="main-content">
+           </div>
+      </section>
 
-  document.getElementById("cancelLogout").addEventListener("click", function() {
-    modal.remove(); // Remove modal
-  });
-
-  // Fechar clicando fora
-  modal.addEventListener("click", function(event) {
-    if (event.target === modal) modal.remove();
-  });
-}
-</script>
-    </div>
-
+      <footer class="footer">
+        Bioma-Guiné © <span id="year"></span>
+      </footer>
+    </main>
   </div>
 
-  <!-- Área principal -->
-  <div class="main">
-    <div class="header">
-      <button class="toggle-btn" onclick="toggleMenu()">☰</button>
-      <div class="header-right" onclick="loadContent('Perfil')">
-        <i class="fas fa-user-circle fa-lg"></i>
-      </div>
+  <template id="perfil-template">
+    <div class="card-perfil">
+      <h2>Perfil do Usuário</h2>
+      <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+      <p><strong>Login:</strong> <span class="user-login"></span></p>
+      <p><strong>E-mail:</strong> <span class="user-email"></span></p>
     </div>
+  </template>
 
-    <div class="content">
-      <div id="breadcrumb" class="breadcrumb">Home</div>
-      <div id="main-content">Conteúdo inicial do dashboard</div>
-    </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="assets/page/adim.js"></script>
+  
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <div class="footer">
-      Bio-Guiné © <span id="year"></span>
-    </div>
-  </div>
-</div>
-
-<!-- Template oculto de perfil -->
-<div id="perfil-template" style="display:none;">
-  <h2>Perfil do Usuário</h2>
-  <div class="user-info">
-    <p class="user-login"></p>
-    <p class="user-email"></p>
-  </div>
-</div>
-
-<!-- Apenas o ano -->
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
-
-<!-- Scripts de páginas (cada um expõe sua função no window) -->
-
-<script src="assets/page/home.js"></script>
-<script src="assets/page/seres.js"></script>
-<script src="assets/page/denunciaadmin.js"></script>
-<script src="assets/page/categoriasadmin.js"></script>
-<script src="assets/page/especie.js"></script>
-<script src="assets/page/tipo.js"></script>
-<script src="assets/page/useradmin.js"></script>
-<!-- Script orquestrador -->
-<script src="assets/page/adim.js"></script>
 </body>
 </html>

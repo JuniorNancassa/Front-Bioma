@@ -2,184 +2,202 @@
    Variáveis de cores
 ========================= */
 :root {
-    --cor-verde-escuro: #2e7d32;
-    --cor-verde-musgo: #4caf50;
-    --cor-branco: #ffffff;
-    --cor-cinza-claro: #f4f4f4;
+  --cor-verde-escuro: #2e7d32;
+  --cor-verde-musgo: #4caf50;
+  --cor-branco: #ffffff;
+  --cor-cinza-claro: #f4f4f4;
+  --cor-fundo: #f0f9f5;
+  --cor-texto: #21312a;
+}
+
+/* =========================
+   Reset e fonte
+========================= */
+body {
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  margin: 0; padding: 0;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
 }
 
 /* =========================
    Navbar
 ========================= */
 .main-nav {
-    background-color: var(--cor-branco);
-    padding: 0.8rem 1.5rem;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    border-radius: 12px;
-    margin: 15px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 0.9rem 1.5rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-radius: 14px;
+  margin: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+  transition: all 0.3s ease;
 }
 
 .flex-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
 }
 
-/* Ordem padrão no desktop */
-.hamburger { order: 1; }
-.logo { order: 2; margin: 0 auto; }
-.main-nav-links { order: 3; }
-.nav-buttons, #user-menu { order: 4; margin-left: auto; }nav-buttons, #user-menu { order: 4; margin-left: auto; }
-
+/* Logo */
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 700;
-    font-size: 1.3rem;
-    text-decoration: none;
-    color: var(--cor-verde-escuro);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.4rem;
+  text-decoration: none;
+  color: var(--cor-verde-escuro);
 }
 
 .logo img {
-    height: 40px;
-    width: auto;
-    border-radius: 5px;
+  height: 70px;
+  width: auto;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover img {
+  transform: scale(1.15);
+}
+
+/* Links */
+.main-nav-links {
+  display: flex;
+  gap: 1.8rem;
+  align-items: center;
 }
 
 .main-nav-links a {
-    color: var(--cor-verde-escuro);
-    text-decoration: none;
-    margin-left: 1.5rem;
-    font-weight: 600;
-    transition: color 0.3s ease;
+  text-decoration: none;
+  color: var(--cor-verde-escuro);
+  font-weight: 600;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
-.main-nav-links a:hover {
-    color: var(--cor-verde-musgo);
+.main-nav-links a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--cor-verde-musgo);
+  transition: width 0.3s ease;
 }
 
-.nav-buttons .btn {
-    background-color: var(--cor-verde-musgo);
-    color: var(--cor-branco);
-    padding: 0.4rem 1rem;
-    border-radius: 5px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background-color 0.3s;
+.main-nav-links a:hover::after {
+  width: 100%;
 }
 
-.nav-buttons .btn:hover {
-    background-color: #386b3a;
+/* User menu */
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--cor-verde-escuro);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-/* =========================
-   Hamburger
-========================= */
+.user-menu:hover {
+  background-color: var(--cor-cinza-claro);
+  transform: scale(1.05);
+}
+
+/* Hamburger */
 .hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: center; /* centraliza as barrinhas */
-    align-items: center;
-    gap: 4px;
-    width: 35px;   /* largura fixa */
-    height: 30px;  /* altura fixa */
-    padding: 5px;  /* reduz área clicável */
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 1100;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 30px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  z-index: 1300;
 }
 
-.hamburger span {
-    width: 24px;   /* largura das barrinhas */
-    height: 2.5px; /* espessura menor */
-    background-color: var(--cor-verde-escuro);
-    border-radius: 2px;
-    transition: all 0.3s ease;
+.hamburger i {
+  font-size: 1.5rem;
+  color: var(--cor-verde-escuro);
 }
 
 /* =========================
-   Responsividade Navbar
+   Responsividade
 ========================= */
-@media (max-width: 768px) {
-    .flex-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-    }
+@media (max-width: 992px) {
+  .hamburger {
+    display: flex;
+  }
 
-    .hamburger { 
-        display: flex; 
-        order: 1; /* fica à esquerda */
-    }
+  .logo {
+    justify-content: center;
+    flex: 0 0 auto;
+  }
 
-    .logo { 
-        order: 2; /* fica no centro */
-        flex: 1;  /* ocupa espaço para centralizar */
-        display: flex;
-        justify-content: center;
-    }
+  .main-nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 65%;
+    max-width: 280px;
+    height: 100vh;
+    background: var(--cor-branco);
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 6rem 1.5rem;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 3px 0 20px rgba(0,0,0,0.15);
+    border-radius: 0 12px 12px 0;
+    z-index: 999;
+  }
 
-    .nav-buttons, 
-    #user-menu {
-        order: 3; /* fica à direita */
-        position: static; /* remove absolute */
-        margin-left: auto;
-    }
+  .main-nav-links.active {
+    transform: translateX(0);
+  }
 
-    .main-nav-links {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 70%; /* ocupa parte da tela (drawer lateral) */
-        max-width: 320px;
-        padding: 80px 20px;
-        flex-direction: column;
-        background-color: var(--cor-branco);
-        box-shadow: 3px 0 15px rgba(0,0,0,0.2);
-        transition: transform 0.3s ease;
-        transform: translateX(-100%); /* escondido */
-        z-index: 999;
-    }
+  .main-nav-links a {
+    padding: 12px 0;
+    font-size: 1.1rem;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
 
-    .main-nav-links.active { 
-        transform: translateX(0); /* aparece suavemente */
-    }
+  .user-menu {
+    width: 100%;
+    justify-content: center;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 15px;
+  }
+}
 
-    /* Links em colunas com divisória */
-    .main-nav-links a {
-        display: block;
-        padding: 15px 0;
-        text-align: center;
-        border-bottom: 1px solid #ddd;
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: var(--cor-verde-escuro);
-        text-decoration: none;
-        transition: background-color 0.3s ease;
-    }
+/* Desktop fixes */
+@media (min-width: 992px) {
+  .main-nav-links {
+    display: flex !important;
+    position: static;
+    flex-direction: row;
+    background: none;
+    box-shadow: none;
+    width: auto;
+    padding: 0;
+  }
 
-    .main-nav-links a:last-child {
-        border-bottom: none;
-    }
-
-    .main-nav-links a:hover {
-        background-color: var(--cor-cinza-claro);
-        color: var(--cor-verde-musgo);
-    }
-
-    .mission-cards { 
-        flex-direction: column; 
-        align-items: center; 
-    }
+  .main-nav-links a { border: none; padding: 0 15px; }
 }
 
 /* =========================
@@ -246,28 +264,59 @@
     100% { transform: translateY(0px); }
 }
 
+
 /* =========================
    🌱 Seção Missão
 ========================= */
 #missao {
-  padding: 4rem 1rem;
-  background-color: #a0d7a431;
+  position: relative;
+  padding: 5rem 1rem;
+  background-image: url('../img/Poupinha-Prionops-plumatus-scaled.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   text-align: center;
+  overflow: hidden;
 }
 
-#missao h1 {
-  font-size: 2.5rem;
+/* Overlay escuro */
+#missao::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+/* Conteúdo acima do overlay */
+#missao .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================
+   Título e texto da seção
+========================= */
+#missao .container > h1 {
+  font-size: 2.4rem;
   margin-bottom: 1rem;
-  color: #000;
+  color: #ffffff;
+  font-weight: 800;
 }
 
-#missao p {
+#missao > .container > p {
   font-size: 1.1rem;
   margin-bottom: 3rem;
-  color: #000;
+  color: #f1f1f1;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* --- Cards Missão --- */
+/* =========================
+   Cards Missão
+========================= */
 .mission-cards {
   display: flex;
   flex-wrap: wrap;
@@ -279,111 +328,256 @@
 .mission-card {
   max-width: 280px;
   padding: 2rem 1.5rem;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
   text-align: center;
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  backdrop-filter: blur(4px);
 }
 
-.mission-card img {
-  width: 90px;
-  height: 90px;
+/* Ícones */
+.mission-card .icon svg {
+  width: 64px;
+  height: 64px;
   margin-bottom: 1rem;
-  border: 3px solid #4CAF50;
-  border-radius: 50%;
-  object-fit: cover;
 }
 
+/* Texto do card */
 .mission-card h3 {
   font-size: 1.4rem;
   margin-bottom: 0.8rem;
-  color: #333;
-  transition: color 0.3s;
+  color: #000;
+  transition: color 0.3s ease;
 }
 
-.mission-card p {
+#missao .mission-card p {
   font-size: 0.95rem;
-  color: #555;
+  color: #000; /* PRETO antes do hover */
   line-height: 1.5;
-  transition: color 0.3s;
+  transition: color 0.3s ease;
 }
 
-/* --- Efeitos Hover --- */
-.mission-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-}
-
+/* =========================
+   Hover Card
+========================= */
 .mission-card::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: linear-gradient(120deg, #4caf4fe4, #3b833f65);
-  transition: all 0.4s ease-in-out;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
   z-index: 0;
 }
 
-.mission-card:hover::before { left: 0; }
-.mission-card * { position: relative; z-index: 1; }
-.mission-card:hover h3,
-.mission-card:hover p { color: #fff; }
+.mission-card:hover::before {
+  opacity: 1;
+}
 
-/* Card do meio maior */
-.middle-carde { max-width: 300px; margin-top: 30px; }
+.mission-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 18px 35px rgba(0,0,0,0.25);
+}
+
+.mission-card * {
+  position: relative;
+  z-index: 1;
+}
+
+.mission-card:hover h3,
+#missao.mission-card:hover p {
+  color: #ffffff;
+}
+
+/* Card do meio (destaque) */
+.middle-carde {
+  max-width: 300px;
+  margin-top: 30px;
+}
+
+/* =========================
+   Responsividade
+========================= */
+@media (max-width: 768px) {
+  #missao {
+    background-attachment: scroll;
+    padding: 4rem 1rem;
+  }
+
+  #missao h1 {
+    font-size: 1.9rem;
+  }
+
+  .mission-cards {
+    gap: 1.5rem;
+  }
+
+  .middle-carde {
+    margin-top: 0;
+  }
+}
 
 /* =========================
    🎠 Carrossel de Seres
+========================= */
+
+/* =========================
+   🟢 Seção do Carrossel
+========================= */
+/* =========================
+   Carrossel de Seres
+========================= */
+#carrossel-seres {
+  padding: 4rem 1rem;
+  background: #f4faf6;
+  text-align: center;
+}
+
+.carrossel-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Título */
+#carrossel-seres h1 {
+  font-size: 2.2rem;
+  color: #1f3d2b;
+  margin-bottom: 0.5rem;
+}
+
+.carrossel-subtitle {
+  font-size: 1rem;
+  color: #4f6f5c;
+  margin-bottom: 2.5rem;
+}
+
+/* =========================
+   Estrutura do carrossel
 ========================= */
 .carousel-wrapper {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  overflow: hidden;
 }
 
 .carousel-track {
   display: flex;
-  gap: 1rem;
-  padding-bottom: 10px;
-  overflow-x: auto;
+  gap: 1.5rem;
+  overflow-x: hidden;
   scroll-behavior: smooth;
-
-  -ms-overflow-style: none; /* IE 10+ */
-  scrollbar-width: none;    /* Firefox */
+  padding: 0.5rem;
 }
 
-.carousel-track::-webkit-scrollbar { display: none; }
+/* =========================
+   Card do carrossel
+========================= */
+.carousel-card {
+  min-width: 260px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
 
+.carousel-card:hover {
+  transform: translateY(-8px);
+}
+
+/* Imagem */
+.carousel-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Conteúdo */
+.carousel-card-content {
+  padding: 1rem;
+  text-align: left;
+}
+
+.carousel-card-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+  color: #1f3d2b;
+}
+
+.carousel-card-content p {
+  font-size: 0.9rem;
+  color: #4f6f5c;
+  line-height: 1.4;
+}
+
+/* =========================
+   Botões
+========================= */
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  padding: 0.5rem 1rem;
+  background: #ffffff;
   border: none;
-  border-radius: 8px;
-  font-size: 2rem;
-  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
   cursor: pointer;
-  background-color: rgba(56,107,58,0.8);
+  font-size: 1.5rem;
+  color: #1f3d2b;
+  transition: all 0.3s ease;
   z-index: 2;
-  transition: background-color 0.3s;
 }
 
-.carousel-btn:hover { background-color: rgba(56,107,58,1); }
-.carousel-btn.prev { left: 0; }
-.carousel-btn.next { right: 0; }
+.carousel-btn:hover {
+  background: #4caf50;
+  color: #fff;
+}
 
-/* --- Cards Estilo Pinterest --- */
+.carousel-btn.prev {
+  left: -15px;
+}
+
+.carousel-btn.next {
+  right: -15px;
+}
+
+/* =========================
+   Mobile
+========================= */
+@media (max-width: 768px) {
+  #carrossel-seres {
+    padding: 3rem 1rem;
+  }
+
+  .carousel-track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .carousel-card {
+    scroll-snap-align: start;
+    min-width: 220px;
+  }
+
+  .carousel-btn {
+    display: none;
+  }
+}
+
+
+/* =========================
+   🎴 Cards Estilo Pinterest
+========================= */
+
+/* --- Card individual --- */
 .pinterest-card {
-  flex: 0 0 400px;
+  flex: 0 0 350px;         /* largura fixa dos cards */
   border-radius: 16px;
   overflow: hidden;
   background: #fff;
@@ -393,17 +587,20 @@
   box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }
 
+/* --- Hover do card --- */
 .pinterest-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
+/* --- Imagem do card --- */
 .pinterest-card img {
   width: 100%;
-  height: 200px;
+  height: 180px;           /* altura da imagem */
   object-fit: cover;
 }
 
+/* --- Corpo do card --- */
 .pinterest-card .card-body {
   flex-grow: 1;
   padding: 10px 15px;
@@ -411,12 +608,14 @@
   flex-direction: column;
 }
 
+/* --- Título do card --- */
 .pinterest-card .card-title {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 6px;
 }
 
+/* --- Texto do card --- */
 .pinterest-card p {
   font-size: 0.9rem;
   margin-bottom: 4px;
@@ -439,6 +638,7 @@
 .pinterest-card .btn-ver-mais:hover {
   background-color: #2e5330;
 }
+
 /* =========================
    Variáveis Globais
 ========================= */
@@ -635,33 +835,6 @@ button[type="submit"]:hover {
     .social-icons { justify-content: center; }
 }
 
-/* =========================
-   User Dropdown
-========================= */
-.user-dropdown {
-    position: absolute;
-    top: 32px; right: 0;
-    background: #fff;
-    color: var(--cor-texto);
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    display: none;
-    padding: 8px;
-    min-width: 180px;
-    z-index: 1600;
-}
-.user-dropdown button {
-    display: block;
-    width: 100%;
-    margin: 4px 0;
-    padding: 6px;
-    border: none;
-    background: #2d6a4f;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.user-dropdown button:hover { background:#40916c; }
 
 /* =========================
    Sidebar e Overlay
@@ -762,7 +935,6 @@ font-size: 2.5rem;
   color: #000;
 }
 
-
 /* =========================
    Sobre Nós
 ========================= */
@@ -771,7 +943,12 @@ font-size: 2.5rem;
     justify-content: space-between;
     align-items: center;
     gap: 40px;
+
+    max-width: 1200px;   /* limita a largura */
+    margin: 2rem auto;   /* centraliza + cria espaço em cima/baixo */
+    padding: 0 1rem;     /* espaço lateral interno */
 }
+
 .sobre-nos-texto {
     flex: 1;
     max-width: 50%;
@@ -812,6 +989,7 @@ font-size: 2.5rem;
     .sobre-nos-wrapper { flex-direction: column; align-items: center; }
     .sobre-nos-imagem { max-width: 80%; margin-top: 20px; }
 }
+
 @media (max-width: 768px) {
   .fale:hover,
   .fale:active {
@@ -820,13 +998,13 @@ font-size: 2.5rem;
     transform: translateY(-5px);
   }
 }
-/* Container do usuário */
+/* Container do usuário 
 #user-menu {
     display: flex;
     position: relative;
     cursor: pointer;
 }
-
+*/
 /* Desktop: botão no final da navbar */
 @media(min-width: 769px) {
     #user-menu {
@@ -963,4 +1141,303 @@ font-size: 2.5rem;
         margin: 10px 0;
         text-align: center;
     }
+}
+
+
+/* =========================
+   📌 Seção de Ações
+========================= */
+#acoes {
+  max-width: 1200px;
+  margin: 3rem auto;         /* centraliza e dá espaçamento vertical */
+  padding: 0 1rem;           /* espaçamento lateral */
+  text-align: center;
+}
+
+.acoes-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;                 /* espaço entre os cards */
+  flex-wrap: wrap;           /* quebra em telas menores */
+}
+
+/* =========================
+   🎴 Cards de Ação
+========================= */
+.acao-card {
+  flex: 1;
+  min-width: 280px;          /* garante que não fique pequeno demais */
+  max-width: 400px;
+  padding: 2rem;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.acao-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+.acao-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #386b3a; /* verde principal */
+}
+
+.acao-card p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: #444;
+}
+
+/* =========================
+   🎯 Botões de Ação
+========================= */
+.btn-acao {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Botão Denúncia (vermelho) */
+.btn-acao.denuncia {
+  background-color: #b33a3a;
+}
+
+.btn-acao.denuncia:hover {
+  background-color: #922d2d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Botão Cadastro (verde) */
+.btn-acao.cadastro {
+  background-color: #386b3a;
+}
+
+.btn-acao.cadastro:hover {
+  background-color: #2e5330;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Clique */
+.btn-acao:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* =========================
+   📱 Responsividade
+========================= */
+@media (max-width: 768px) {
+  .acoes-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .acao-card {
+    max-width: 90%;
+    margin-bottom: 1.5rem;
+  }
+}
+/* =========================
+   Botão de usuário - Desktop
+========================= */
+#user-menu {
+    order: 4;               /* garante que fique por último no flex */
+    margin-left: auto;      /* empurra para o canto direito */
+    display: flex;
+    align-items: center;
+}
+
+/* =========================
+   Mobile: botão centralizado no menu
+========================= */
+@media (max-width: 768px) {
+    #user-menu {
+        order: 3;           /* depois do hamburger e logo */
+        margin-left: 0;     /* remove o auto para centralizar */
+        justify-content: center;
+        width: 100%;
+        margin-top: 20px;
+    }
+}
+
+
+
+/* =========================
+   Histórias / Denúncias
+========================= */
+#historias {
+  padding: 3rem 1rem; /* reduzido */
+  background: linear-gradient(
+    135deg,
+    #e8f5ec 0%,
+    #dff1e6 100%
+  );
+  color: #1f3d2b;
+}
+
+.historias-wrapper {
+  max-width: 1100px;
+  margin: auto;
+  position: relative;
+  min-height: 360px; /* garante estabilidade do carrossel */
+}
+
+/* =========================
+   Barra de progresso
+========================= */
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: #4caf50;
+  transition: width linear;
+}
+
+/* =========================
+   Story
+========================= */
+.historia {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  opacity: 0;
+  transform: translateX(30px);
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.historia.active {
+  opacity: 1;
+  transform: translateX(0);
+  position: relative;
+}
+
+/* =========================
+   Imagem
+========================= */
+.historia-img img {
+  width: 100%;
+  height: 320px; /* reduzido */
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* =========================
+   Texto
+========================= */
+.historia-texto h2 {
+  font-size: 1.7rem;
+  margin: 0.6rem 0;
+}
+
+.historia-texto p {
+  font-size: 1rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* =========================
+   Tags
+========================= */
+.tag {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.tag.denuncia {
+  background: #e53935;
+}
+
+.tag.descoberta {
+  background: #4caf50;
+}
+
+/* =========================
+   Botões
+========================= */
+.btn-historia {
+  display: inline-block;
+  margin-top: 1.2rem;
+  padding: 10px 26px;
+  border-radius: 30px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  color: #fff;
+}
+
+/* Denúncia */
+.btn-historia.denuncia {
+  background: #e53935;
+}
+
+.btn-historia.denuncia:hover {
+  background: #c62828;
+  transform: translateY(-2px);
+}
+
+/* Cadastro */
+.btn-historia.cadastro {
+  background: #4caf50;
+  color: #0f2a1d;
+}
+
+.btn-historia.cadastro:hover {
+  background: #43a047;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   Mobile
+========================= */
+@media (max-width: 768px) {
+  #historias {
+    padding: 2.5rem 1rem;
+  }
+
+  .historia {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .historia-img img {
+    height: 220px;
+  }
+
+  .historia-texto h2 {
+    font-size: 1.4rem;
+  }
+
+  .historia-texto p {
+    font-size: 0.95rem;
+  }
 }

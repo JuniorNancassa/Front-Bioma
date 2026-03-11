@@ -50,7 +50,9 @@ async function carregarDetalhes() {
     }
 }
 
-const loginUsuario = localStorage.getItem("login"); // login do usuário logado
+
+
+const token = localStorage.getItem("token"); // token JWT do usuário logado
 
 function tempoRelativo(dataComentario) {
     const agora = new Date();
@@ -76,7 +78,11 @@ async function carregarComentarios() {
     lista.innerHTML = "Carregando comentários...";
 
     try {
-        const res = await fetch(`http://localhost:8080/api/comentarios/especie/${especieId}`);
+        const res = await fetch(`http://localhost:8080/api/comentarios/especie/${especieId}`, {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
         const comentarios = await res.json();
 
         if (!comentarios.length) {
@@ -86,12 +92,12 @@ async function carregarComentarios() {
 
         lista.innerHTML = "";
 
-        // percorre normalmente, mas insere cada comentário no topo (mais novo primeiro)
         comentarios.forEach(c => {
             const div = document.createElement("div");
-            div.className = "mb-2 p-2"; // sem borda
+            div.className = "mb-2 p-2";
 
-            const autor = c.autor?.login || loginUsuario || "(Usuário desconhecido)";
+            // Agora usamos somente o autorLogin do DTO
+            const autor = c.autorLogin || "(Usuário desconhecido)";
             const tempo = tempoRelativo(c.dataComentario);
 
             div.innerHTML = `
@@ -100,7 +106,7 @@ async function carregarComentarios() {
                 <p>${c.texto}</p>
             `;
 
-            lista.prepend(div); // insere no início da lista
+            lista.prepend(div);
         });
     } catch (err) {
         console.error(err);
@@ -108,37 +114,37 @@ async function carregarComentarios() {
     }
 }
 
-
 document.getElementById("btnEnviarComentario").addEventListener("click", async () => {
-    if (!loginUsuario) return alert("Você precisa estar logado para enviar comentários.");
-
     const texto = document.getElementById("novoComentario").value.trim();
     if (!texto) return alert("Digite um comentário.");
 
     try {
-        const res = await fetch(
-            `http://localhost:8080/api/comentarios/criar?usuarioLogin=${encodeURIComponent(loginUsuario)}`,
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    texto,
-                    especie: { id: especieId }
-                })
-            }
-        );
+        const res = await fetch(`http://localhost:8080/api/comentarios/criar`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify({
+                texto,
+                especie: { id: especieId }
+            })
+        });
 
-        if (!res.ok) throw new Error("Erro ao enviar comentário");
+        if (!res.ok) {
+            const msg = await res.text();
+            throw new Error(msg || "Erro ao enviar comentário");
+        }
 
         document.getElementById("novoComentario").value = "";
-        carregarComentarios(); // recarrega os comentários incluindo o novo
+        carregarComentarios();
     } catch (err) {
         console.error(err);
-        alert("Erro ao enviar comentário.");
+        alert("Erro ao enviar comentário: " + err.message);
     }
 });
 
-// Botão para ocultar/exibir comentários
+// Toggle comentários
 document.getElementById("toggleComentarios").addEventListener("click", () => {
     const lista = document.getElementById("listaComentarios");
     const icon = document.getElementById("iconToggle");
@@ -154,9 +160,7 @@ document.getElementById("toggleComentarios").addEventListener("click", () => {
     }
 });
 
-// Carregar tudo ao abrir a página
 window.addEventListener("DOMContentLoaded", () => {
     carregarDetalhes();
     carregarComentarios();
 });
-

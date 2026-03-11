@@ -1,13 +1,37 @@
-
 // ---------------------------- Variáveis Globais ----------------------------
 window.denunciasCache = [];
 window.locationCache = {};
 window.especiesCache = [];
 
+// ---------------------------- Funções de Autenticação ----------------------------
+function getToken() {
+    const token = localStorage.getItem("token");
+    if (!token) alert("Usuário não autenticado!");
+    return token;
+}
+
+function isAdmin() {
+    const token = getToken();
+    if (!token) return false;
+
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.roles && payload.roles.includes("ADMIN");
+    } catch (err) {
+        console.error("Token inválido:", err);
+        return false;
+    }
+}
+
 // ---------------------------- Fetch Denúncias ----------------------------
 async function fetchDenuncias() {
     try {
-        const resp = await fetch("http://localhost:8080/api/denuncias");
+        const token = getToken();
+        if (!token) return;
+
+        const resp = await fetch("http://localhost:8080/api/denuncias", {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
         if (!resp.ok) throw new Error("Erro ao buscar denúncias");
         const denuncias = await resp.json();
         window.denunciasCache = denuncias;
@@ -15,11 +39,11 @@ async function fetchDenuncias() {
         mostrarDenuncias(denuncias);
     } catch (err) {
         console.error(err);
-        alert("Erro ao buscar denúncias.");
+        alert("Erro ao buscar denúncias. Verifique se você está autenticado.");
     }
 }
 
-// ---------------------------- Renderização ----------------------------
+// ---------------------------- Renderização da Página ----------------------------
 function renderizarDenunciasPage() {
     const html = `
         <h2>Denúncias</h2>
@@ -36,25 +60,24 @@ function renderizarDenunciasPage() {
 function filtrarDenuncias() {
     const termo = document.getElementById("search-input").value.toLowerCase();
     const filtradas = window.denunciasCache.filter(d =>
-        d.titulo.toLowerCase().includes(termo) || d.descricao.toLowerCase().includes(termo)
+        (d.titulo?.toLowerCase().includes(termo) || d.descricao?.toLowerCase().includes(termo))
     );
     mostrarDenuncias(filtradas);
 }
 
+// ---------------------------- Renderização dos Cards ----------------------------
 async function mostrarDenuncias(denuncias) {
     const container = document.getElementById("denuncias-container");
     container.innerHTML = "";
     container.style.display = "grid";
-    container.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))";
+    container.style.gridTemplateColumns = "repeat(auto-fill, minmax(250px, 1fr))";
     container.style.gap = "20px";
     container.style.padding = "10px";
 
-    const cardsPromises = denuncias.map(async (d) => {
+    for (const d of denuncias) {
         // Localização
-        let locationName = "Localização não encontrada";
-        if (window.locationCache[d.id]) {
-            locationName = window.locationCache[d.id];
-        } else if (d.latitude != null && d.longitude != null) {
+        let locationName = window.locationCache[d.id] || "Localização não encontrada";
+        if (!window.locationCache[d.id] && d.latitude != null && d.longitude != null) {
             try {
                 const resp = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${d.latitude}&lon=${d.longitude}&format=json`);
                 if (resp.ok) {
@@ -66,12 +89,9 @@ async function mostrarDenuncias(denuncias) {
         }
 
         // Imagem
-        let imagemSrc = "assets/images/default.png";
-        if (d.imagem) {
-            imagemSrc = `data:image/jpeg;base64,${d.imagem}`;
-        }
+        const imagemSrc = d.imagem ? `data:image/jpeg;base64,${d.imagem}` : "assets/images/default.png";
 
-        // Card container
+        // Card
         const card = document.createElement("div");
         Object.assign(card.style, {
             background: "#fff",
@@ -87,7 +107,6 @@ async function mostrarDenuncias(denuncias) {
         Object.assign(img.style, { width: "100%", height: "180px", objectFit: "cover" });
         card.appendChild(img);
 
-        // Corpo do card
         const body = document.createElement("div");
         Object.assign(body.style, { padding: "12px", display: "flex", flexDirection: "column", gap: "6px" });
 
@@ -117,7 +136,7 @@ async function mostrarDenuncias(denuncias) {
         body.appendChild(descricao);
         body.appendChild(info);
 
-        // Botões de ação
+        // Botões
         const actions = document.createElement("div");
         Object.assign(actions.style, { display: "flex", justifyContent: "space-between", marginTop: "10px" });
 
@@ -130,241 +149,196 @@ async function mostrarDenuncias(denuncias) {
             return btn;
         };
 
-            actions.appendChild(criarBotao('<i class="fas fa-eye"></i>', "#6c757d", () => abrirDetalhesDenuncia(d.id), "Ver detalhes"));
-            actions.appendChild(criarBotao('<i class="fas fa-edit"></i>', "#2196F3", () => abrirModalAtualizarDenuncia(d), "Editar denúncia"));
-            actions.appendChild(criarBotao('<i class="fas fa-trash-alt"></i>', "#f44336", () => deletarDenuncia(d.id), "Deletar denúncia"));
-    actions.appendChild(criarBotao('<i class="fas fa-check"></i>', "#28a745", () => aprovarDenuncia(d.id), "Aprovar denúncia"));
-
+        actions.appendChild(criarBotao('<i class="fas fa-eye"></i>', "#6c757d", () => abrirDetalhesDenuncia(d), "Ver detalhes"));
+        actions.appendChild(criarBotao('<i class="fas fa-edit"></i>', "#2196F3", () => abrirModalAtualizarDenuncia(d), "Editar denúncia"));
+        actions.appendChild(criarBotao('<i class="fas fa-trash-alt"></i>', "#f44336", () => deletarDenuncia(d.id), "Deletar denúncia"));
+        actions.appendChild(criarBotao('<i class="fas fa-check"></i>', "#28a745", () => aprovarDenuncia(d.id), "Aprovar denúncia"));
 
         body.appendChild(actions);
         card.appendChild(body);
         container.appendChild(card);
-    });
-
-    await Promise.all(cardsPromises);
-}
-
-// ---------------------------- Funções de Ação ----------------------------
-async function aprovarDenuncia(id) {
-    try {
-        const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:8080/api/denuncias/${id}/aprovar`, {
-            method: "PATCH",
-            headers: { 
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        });
-
-        if (!res.ok) {
-            const text = await res.text();
-            throw new Error(`Erro ao aprovar denúncia: ${text}`);
-        }
-
-        alert(`Denúncia #${id} aprovada com sucesso!`);
-        fetchDenuncias();
-    } catch (err) {
-        console.error(err);
-        alert(err.message);
     }
 }
 
-async function deletarDenuncia(id) {
-    if (!confirm(`Deseja realmente deletar a denúncia #${id}?`)) return;
-
-    try {
-        const token = localStorage.getItem("token");
-        const res = await fetch(`http://localhost:8080/api/denuncias/${id}`, {
-            method: "DELETE",
-            headers: { 
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            }
-        });
-
-        if (!res.ok) {
-            const text = await res.text();
-            throw new Error(`Erro ao deletar denúncia: ${text}`);
-        }
-
-        alert(`Denúncia #${id} deletada com sucesso!`);
-        fetchDenuncias();
-    } catch (err) {
-        console.error(err);
-        alert(err.message);
-    }
-}
-
-function abrirDetalhesDenuncia(id) {
-    const denuncia = window.denunciasCache.find(d => d.id === id);
-    if (!denuncia) return alert("Denúncia não encontrada.");
-
-    const info = [
-        ["Título", denuncia.titulo],
-        ["Descrição", denuncia.descricao],
-        ["Status Aprovação", denuncia.statusAprovacao],
-        ["Data Denúncia", denuncia.dataDenuncia ? new Date(denuncia.dataDenuncia).toLocaleString() : "—"],
-        ["Espécie", denuncia.especie?.nome ?? "Desconhecida"],
-        ["Denunciado por", denuncia.denunciadoPor?.login ?? "—"]
-    ];
-
-    abrirDetalhesGenerico(`Detalhes Denúncia #${denuncia.id}`, info, denuncia.imagem);
-}
-
-// ---------------------------- Modal de Atualização ----------------------------
-async function abrirModalAtualizarDenuncia(denuncia) {
+// ---------------------------- Ver detalhes ----------------------------
+function abrirDetalhesDenuncia(denuncia) {
     const modalContainer = document.getElementById("modal-container");
     if (!modalContainer) return;
     modalContainer.innerHTML = "";
 
-    // Overlay
     const overlay = document.createElement("div");
-    Object.assign(overlay.style, {
-        position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
-        background: "rgba(0,0,0,0.5)", zIndex: 999
-    });
+    Object.assign(overlay.style, { position: "fixed", top:0, left:0, width:"100%", height:"100%", background:"rgba(0,0,0,0.5)", zIndex:999 });
     overlay.onclick = () => modalContainer.innerHTML = "";
 
-    // Modal
     const modal = document.createElement("div");
-    Object.assign(modal.style, {
-        position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-        background: "#fefefe", padding: "25px", borderRadius: "12px",
-        boxShadow: "0 10px 25px rgba(0,0,0,0.3)", zIndex: 1000,
-        width: "500px", maxHeight: "90%", overflowY: "auto"
-    });
+    Object.assign(modal.style, { position:"fixed", top:"50%", left:"50%", transform:"translate(-50%,-50%)", background:"#fefefe", padding:"25px", borderRadius:"12px", boxShadow:"0 10px 25px rgba(0,0,0,0.3)", zIndex:1000, width:"500px", maxHeight:"90%", overflowY:"auto" });
 
-    // Título
+    const h3 = document.createElement("h3");
+    h3.textContent = `Denúncia #${denuncia.id}`;
+    modal.appendChild(h3);
+
+    const info = document.createElement("p");
+    info.innerHTML = `
+        <strong>Título:</strong> ${denuncia.titulo} <br>
+        <strong>Descrição:</strong> ${denuncia.descricao} <br>
+        <strong>Espécie:</strong> ${denuncia.especie?.nome ?? "Desconhecida"} <br>
+        <strong>Status:</strong> ${denuncia.statusAprovacao ?? "—"} <br>
+        <strong>Data:</strong> ${denuncia.dataDenuncia ? new Date(denuncia.dataDenuncia).toLocaleDateString() : "—"} <br>
+        <strong>Denunciado por:</strong> ${denuncia.denunciadoPor?.login ?? "—"}
+    `;
+    modal.appendChild(info);
+
+    modalContainer.appendChild(overlay);
+    modalContainer.appendChild(modal);
+}
+
+// ---------------------------- Funções de Ação ----------------------------
+async function aprovarDenuncia(id) {
+    if (!isAdmin()) return alert("Apenas administradores podem aprovar denúncias.");
+    const token = getToken();
+    if (!token) return alert("Token não encontrado.");
+
+    try {
+        const res = await fetch(`http://localhost:8080/api/denuncias/${id}/aprovar`, {
+            method: "PATCH",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+        if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
+        alert(`Denúncia #${id} aprovada com sucesso!`);
+        fetchDenuncias();
+    } catch (err) {
+        console.error(err);
+        alert("Erro ao aprovar denúncia: " + err.message);
+    }
+}
+
+async function deletarDenuncia(id) {
+    if (!isAdmin()) return alert("Apenas administradores podem deletar denúncias.");
+    if (!confirm(`Deseja realmente deletar a denúncia #${id}?`)) return;
+    const token = getToken();
+    if (!token) return;
+
+    try {
+        const res = await fetch(`http://localhost:8080/api/denuncias/${id}`, {
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error(await res.text());
+        alert(`Denúncia #${id} deletada com sucesso!`);
+        fetchDenuncias();
+    } catch (err) {
+        console.error(err);
+        alert("Erro ao deletar denúncia: " + err.message);
+    }
+}
+
+// ---------------------------- Modal Atualização ----------------------------
+// ---------------------------- Modal Atualização ----------------------------
+async function abrirModalAtualizarDenuncia(denuncia) {
+    if (!isAdmin()) return alert("Apenas administradores podem atualizar denúncias.");
+    const modalContainer = document.getElementById("modal-container");
+    if (!modalContainer) return;
+    modalContainer.innerHTML = "";
+
+    const overlay = document.createElement("div");
+    Object.assign(overlay.style, { position: "fixed", top:0, left:0, width:"100%", height:"100%", background:"rgba(0,0,0,0.5)", zIndex:999 });
+    overlay.onclick = () => modalContainer.innerHTML = "";
+
+    const modal = document.createElement("div");
+    Object.assign(modal.style, { position:"fixed", top:"50%", left:"50%", transform:"translate(-50%,-50%)", background:"#fefefe", padding:"25px", borderRadius:"12px", boxShadow:"0 10px 25px rgba(0,0,0,0.3)", zIndex:1000, width:"500px", maxHeight:"90%", overflowY:"auto" });
+
     const h3 = document.createElement("h3");
     h3.textContent = `Atualizar Denúncia #${denuncia.id}`;
     modal.appendChild(h3);
 
-    // Formulário
     const form = document.createElement("form");
-    form.style.display = "flex";
-    form.style.flexDirection = "column";
-    form.style.gap = "10px";
+    Object.assign(form.style, { display:"flex", flexDirection:"column", gap:"10px" });
 
-    // Campos editáveis
-    const campos = [
-        { label: "Título", name: "titulo", value: denuncia.titulo },
-        { label: "Descrição", name: "descricao", value: denuncia.descricao }
-    ];
-
-    campos.forEach(c => {
+    ["titulo","descricao","latitude","longitude"].forEach(name => {
         const label = document.createElement("label");
-        label.style.display = "flex";
-        label.style.flexDirection = "column";
-        label.style.gap = "4px";
-
+        Object.assign(label.style,{ display:"flex", flexDirection:"column", gap:"4px" });
         const span = document.createElement("span");
-        span.textContent = c.label;
+        span.textContent = name.charAt(0).toUpperCase() + name.slice(1);
         label.appendChild(span);
-
         const input = document.createElement("input");
-        input.type = "text";
-        input.value = c.value ?? "";
-        input.name = c.name;
-        input.style.width = "100%";
-        input.style.padding = "5px";
+        input.type = (name === "latitude" || name === "longitude") ? "number" : "text";
+        input.name = name;
+        input.step = "any";
+        input.value = denuncia[name] ?? "";
+        Object.assign(input.style,{ width:"100%", padding:"5px" });
         label.appendChild(input);
-
         form.appendChild(label);
     });
 
-    // Select para Espécie
+    // Select espécies
     const labelEspecie = document.createElement("label");
-    labelEspecie.style.display = "flex";
-    labelEspecie.style.flexDirection = "column";
-    labelEspecie.style.gap = "4px";
-
+    Object.assign(labelEspecie.style,{ display:"flex", flexDirection:"column", gap:"4px" });
     const spanEspecie = document.createElement("span");
     spanEspecie.textContent = "Espécie";
     labelEspecie.appendChild(spanEspecie);
 
     const selectEspecie = document.createElement("select");
-    selectEspecie.name = "especieId";
-    selectEspecie.style.width = "100%";
-    selectEspecie.style.padding = "5px";
+    selectEspecie.name="especieId";
+    Object.assign(selectEspecie.style,{ width:"100%", padding:"5px" });
 
-    if (!window.especiesCache || window.especiesCache.length === 0) {
+    if (!window.especiesCache.length) {
         try {
-            const resp = await fetch("http://localhost:8080/api/especies");
-            if (!resp.ok) throw new Error("Erro ao buscar espécies");
-            window.especiesCache = await resp.json();
-        } catch (err) {
-            console.error(err);
-            window.especiesCache = [];
-        }
+            const resp = await fetch("http://localhost:8080/api/especies", {
+                headers: { "Authorization": `Bearer ${getToken()}` }
+            });
+            if (resp.ok) window.especiesCache = await resp.json();
+        } catch (err) { console.error(err); window.especiesCache=[]; }
     }
 
     window.especiesCache.forEach(e => {
         const opt = document.createElement("option");
         opt.value = e.id;
         opt.textContent = e.nome;
-        if (denuncia.especie?.id === e.id) opt.selected = true;
+        if (denuncia.especie?.id===e.id) opt.selected=true;
         selectEspecie.appendChild(opt);
     });
 
     labelEspecie.appendChild(selectEspecie);
     form.appendChild(labelEspecie);
 
-    // Botão de salvar
     const salvarBtn = document.createElement("button");
-    salvarBtn.type = "submit";
-    salvarBtn.textContent = "Salvar";
-    Object.assign(salvarBtn.style, {
-        padding: "8px 15px", background: "#2196F3", color: "#fff",
-        border: "none", borderRadius: "6px", cursor: "pointer"
-    });
+    salvarBtn.type="submit";
+    salvarBtn.textContent="Salvar";
+    Object.assign(salvarBtn.style,{ padding:"8px 15px", background:"#2196F3", color:"#fff", border:"none", borderRadius:"6px", cursor:"pointer" });
     form.appendChild(salvarBtn);
 
-    // Envio do formulário
-    form.onsubmit = async (e) => {
+    form.onsubmit = async e => {
         e.preventDefault();
-
-        const u = {
-            login: localStorage.getItem("login"),
-            email: localStorage.getItem("email"),
-            token: localStorage.getItem("token")
-        };
-
-        const isAdmin = u.login === "admin" || u.email === "admin@sistema.com";
-        if (!isAdmin) {
-            alert("Apenas administradores podem atualizar denúncias.");
-            return;
-        }
-
-        const especieSelecionada = window.especiesCache.find(
-            e => e.id == form.especieId.value
-        );
+        const token = getToken();
+        if (!token) return;
 
         const payload = {
             titulo: form.titulo.value,
             descricao: form.descricao.value,
-            especie: { id: especieSelecionada.id, nome: especieSelecionada.nome },
-            usuarioLogin: u.login,
-            usuarioEmail: u.email
+            especieId: parseInt(form.especieId.value),
+            latitude: parseFloat(form.latitude.value),
+            longitude: parseFloat(form.longitude.value)
         };
 
         try {
             const resp = await fetch(`http://localhost:8080/api/denuncias/${denuncia.id}/atualizar-por-nome`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${u.token}`
+                method:"PUT",
+                headers:{ 
+                    "Content-Type":"application/json", 
+                    "Authorization": `Bearer ${token}` 
                 },
                 body: JSON.stringify(payload)
             });
-
-            if (!resp.ok) throw new Error("Erro ao atualizar denúncia");
-
+            if (!resp.ok) throw new Error(`Erro HTTP ${resp.status}`);
             alert("Denúncia atualizada com sucesso!");
-            modalContainer.innerHTML = "";
+            modalContainer.innerHTML="";
             fetchDenuncias();
-        } catch (err) {
+        } catch(err) {
             console.error(err);
-            alert("Erro ao atualizar denúncia");
+            alert("Erro ao atualizar denúncia: "+err.message);
         }
     };
 
@@ -375,8 +349,6 @@ async function abrirModalAtualizarDenuncia(denuncia) {
 
 // ---------------------------- Inicialização ----------------------------
 async function init() {
-    await fetchEspecies();
-    fetchSeres();
     fetchDenuncias();
 }
 

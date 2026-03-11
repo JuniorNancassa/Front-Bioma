@@ -1,221 +1,362 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plataforma de Denúncias - Modelo</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Denúncias - Modelo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+<!-- Optional: Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body>
-<!-- Navbar -->
 
-<!-- Header -->
+ <!-- Navbar / Header -->
 <header class="main-nav">
   <div class="container flex-container">
     <!-- Logo -->
     <a href="index.html" class="logo">
-      <img src="assets/img/logo/Logo-Bio.jpg1-removebg-preview.png" alt="Logo Bio">
-      <span>Bio-Guiné</span>
+      <img src="assets/img/logo/logo-bioma-removebg-preview.png" alt="Logo Bio">
     </a>
 
-    <!-- Navegação principal -->
+    <!-- Menu de links -->
     <nav class="main-nav-links" id="nav-links">
       <a href="index.html">Home</a>
       <a href="cadastro.html">Espécies</a>
       <a href="denuncia.html">Denúncias</a>
       <a href="sobre.html">Sobre</a>
       <a href="contacto.html">Contato</a>
-      <a href="#">Blog</a>
+      <a href="blogtexte.html">Notícias</a>
+      <a href="quiz.html">Quiz</a>
+
+      <!-- Botão de login -->
+      <div id="user-menu" class="user-menu">
+        <i class="fas fa-user"></i>
+        <span>Entrar</span>
+      </div>
     </nav>
 
-    <!-- Botão do usuário (fora do menu lateral) -->
-    <div id="user-menu"></div>
-
-    <!-- Hamburger -->
-    <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
+    <!-- Hamburger Mobile -->
+    <button class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </button>
   </div>
 </header>
 
-<main>
 
-
-
-
-
-    <!-- Conteúdo Principal -->
     <main>
-        <!-- Seção Hero (Banner) -->
+        <!-- Seção Hero -->
         <section class="hero-denuncia">
             <div class="hero-denuncia-content">
-                <h1>Bio-Guiné</h1>
-                <p>Ajude a conservar a biodiversidade enviando denúncias detalhadas.</p>
+                <h1>Bioma-Guiné</h1>
+                <p>Ajude a conservar a biodiversidade: Cada registro conta, Cada denúncia protege.</p>
                 <a class="fale" id="cor" href="contacto.html">Fale conosco</a>
             </div>
         </section>
         <br><br>
 
-
+        <!-- Seção Sobre Nós -->
         <section id="sobre-nos" class="content-section">
-  <h1>Bem-vindo ao nosso site</h1>
-  <div class="sobre-nos-wrapper">
-    <div class="sobre-nos-texto">
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi porta imperdiet arcu, at suscipit augue egestas sollicitudin. Aliquam et elit erat. Quisque aliquet placerat nisl, a semper sapien gravida in.
-      </p>
-      <p>
-        Nunc non felis aliquet, luctus lacus nec, gravida ipsum. Mauris interdum pulvinar diam, sit amet ultricies ligula condimentum pharetra.
-      </p>
-   <a class="fale" id="mais"  href="sobre.html">Saiba Mais</a>
-    </div>
-    <div class="sobre-nos-imagem">
-      <img src="assets/img/free-trabalho-em-equipe-illustration-svg-png-download-1785594.webp" alt="Sobre nós">
-    </div>
-  </div>
-</section>
+            <h1>Bem-vindo ao nosso site</h1>
+            <div class="sobre-nos-wrapper">
+                <div class="sobre-nos-texto">
+                    <p>Bem-vindo ao nosso site! Aqui você pode explorar a biodiversidade ao seu redor, registrar espécies,
+                    e contribuir para a preservação da natureza de forma simples e prática.</p>
+                    <p>Somos uma plataforma dedicada à conservação da biodiversidade. Nosso objetivo é conectar pessoas à natureza, incentivando o registro de espécies, a denúncia de irregularidades ambientais e a participação ativa na proteção do meio ambiente.
+                    Acreditamos que pequenas ações individuais podem gerar grandes impactos para a preservação da vida no planeta.</p>
+                    <a class="fale" id="mais" href="sobre.html">Saiba Mais</a>
+                </div>
+                <div class="sobre-nos-imagem">
+                    <img src="assets/img/free-trabalho-em-equipe-illustration-svg-png-download-1785594.webp" alt="Sobre nós">
+                </div>
+            </div>
+        </section>
 
-
-        <!-- Seção de Missão -->
+        <!-- Seção Missão -->
         <section id="missao" class="content-section">
             <div class="container">
                 <h1>Ajude na preservação do meio ambiente com simples cliques</h1>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit explicabo voluptatem, laudantium,</p>
+                <p>Participe ativamente da proteção da natureza. Cada registro que você faz ajuda cientistas e comunidades a conhecer melhor o meio ambiente e a preservar espécies e habitats.</p>
+                
                 <div class="mission-cards">
                     <div class="mission-card">
-                        <img src="assets/img/Tartaruga-verde.jpeg" alt="">
+                        <!-- Ícone de câmera moderno -->
+                        <div class="icon" style="text-align:center; margin-bottom:10px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#4CAF50" viewBox="0 0 24 24">
+                                <path d="M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm9-11h-3.17l-1.84-2H9.01l-1.84 2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z"/>
+                            </svg>
+                        </div>
                         <h3>Tire uma foto</h3>
                         <p>Documente o que você viu. Uma imagem detalhada pode ajudar a identificar a espécie e a situação.</p>
                     </div>
+
                     <div class="mission-card middle-carde">
-                        <img src="assets/img/Tartaruga-verde.jpeg" alt="">
+                        <!-- Ícone de informação moderno -->
+                        <div class="icon" style="text-align:center; margin-bottom:10px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#2196F3" viewBox="0 0 24 24">
+                                <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                            </svg>
+                        </div>
                         <h3>Adicione informações</h3>
-                        <p>Forneça o máximo de detalhes possível, como a data, a hora e uma descrição do que aconteceu.</p>
+                        <p>Forneça o máximo de detalhes possível, como a data, a hora, a localização e uma descrição do que aconteceu.</p>
                     </div>
+
                     <div class="mission-card middle-carder">
-                        <img src="assets/img/Tartaruga-verde.jpeg" alt="">
-                        <h3>Envie a denúncia</h3>
-                        <p>Após documentar e informar todos os detalhes, envie sua denúncia para que seja analisada.</p>
+                        <!-- Ícone de envio moderno -->
+                        <div class="icon" style="text-align:center; margin-bottom:10px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#FF5722" viewBox="0 0 24 24">
+                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                            </svg>
+                        </div>
+                        <h3>Envie as informações</h3>
+                        <p>Após documentar e adicionar todos os detalhes, envie as informações para que sejam registradas ou analisadas.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-            <!-- Seção de Carrocel -->
-      <!-- CARROSSEL DE SERES -->
-<section id="carrossel-seres" class="content-section">
-  <h1>Seres Ameaçados e Vulneráveis</h1>
-  <br><br>
-  <div class="carousel-wrapper">
-    <button class="carousel-btn prev">&lt;</button>
-    <div class="carousel-track" id="carouselEspecies">
-      <!-- Cards serão adicionados via JS -->
+<section id="historias">
+  <div class="historias-wrapper">
+
+    <div class="progress-bar">
+      <span></span>
     </div>
-    <button class="carousel-btn next">&gt;</button>
+
+    <!-- História 1 -->
+    <div class="historia active">
+      <div class="historia-img">
+        <img src="assets/img/1-arvores-cortadas-na-amazonia-2.jpg" alt="Denúncia ambiental">
+      </div>
+      <div class="historia-texto">
+        <span class="tag denuncia">Denúncia</span>
+        <h2>Desmatamento ilegal em área protegida</h2>
+        <p>
+          Moradores denunciaram o corte ilegal de árvores em uma área
+          de preservação permanente.
+        </p>
+
+        <a href="#" class="btn-historia denuncia"
+           onclick="verificarLogin('denuncia.html')">
+           Fazer Denúncia
+        </a>
+      </div>
+    </div>
+
+    <!-- História 2 -->
+    <div class="historia">
+      <div class="historia-img">
+        <img src="assets/img/consular-bissau-hippo-orango.jpg" alt="Cadastro de espécie">
+      </div>
+      <div class="historia-texto">
+        <span class="tag descoberta">Cadastro</span>
+        <h2>Espécie rara registrada pela comunidade</h2>
+        <p>
+          Um novo registro feito por voluntários ajudou pesquisadores
+          a atualizar dados ambientais da região.
+        </p>
+
+        <a href="#" class="btn-historia cadastro"
+           onclick="verificarLogin('cadastro.html')">
+           Cadastrar Ser
+        </a>
+      </div>
+    </div>
+
   </div>
 </section>
 
 
 
 
-
-<!-- Formulário de Feedback -->
-<section class="destaque-especie">
-    <div class="info-especie">
-        <h2>Deixe seu Feedback</h2>
-        <h4><em>Queremos ouvir você!</em></h4>
-
-        <!-- Formulário Web3Forms -->
-        <form action="https://api.web3forms.com/submit" method="POST">
-            <!-- Chave de acesso Web3Forms -->
-            <input type="hidden" name="access_key" value="b8a05d47-8f3d-4c1d-8ac3-6b8f9a377919">
-
-            <!-- Inputs do formulário -->
-            <div class="form-row">
-                <input type="text" name="name" placeholder="Nome" required>
-                 <input type="email" name="email" placeholder="Email"  required>
-                <input type="tel" name="telefone" placeholder="Número de Telemóvel" required>
+        <!-- Modal de mensagem -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <h3>Acesso Restrito</h3>
+                <p>Somente usuários logados podem realizar esta ação.</p>
+                <div class="modal-buttons">
+                    <button onclick="fecharModal()">Fechar</button>
+                    <button onclick="irParaLogin()">Fazer Login</button>
+                </div>
             </div>
-            <textarea name="message" placeholder="Mensagem" rows="6" required></textarea>
+        </div>
 
-            <!-- Honeypot para evitar spam -->
-            <input type="checkbox" name="botcheck" style="display:none;">
+        <style>
+            .modal {
+                display: none; 
+                position: fixed; 
+                z-index: 1000; 
+                left: 0; top: 0;
+                width: 100%; height: 100%;
+                background: rgba(0,0,0,0.6);
+                justify-content: center; align-items: center;
+            }
+            .modal-content {
+                background: #fff;
+                padding: 20px;
+                border-radius: 12px;
+                width: 320px;
+                text-align: center;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            }
+            .modal-content h3 {
+                margin-top: 0;
+                color: #d9534f;
+            }
+            .modal-buttons {
+                margin-top: 15px;
+                display: flex;
+                justify-content: space-between;
+            }
+            .modal-buttons button {
+                padding: 8px 12px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+            }
+            .modal-buttons button:first-child {
+                background: #aaa;
+                color: #fff;
+            }
+            .modal-buttons button:last-child {
+                background: #28a745;
+                color: #fff;
+            }
+        </style>
 
-            <!-- Página de redirecionamento após envio (opcional) -->
-            <input type="hidden" name="_next" value="https://seudominio.co/thanks.html">
+        <script>
+            function verificarLogin(paginaDestino) {
+                const token = localStorage.getItem("token");
+                if (token) {
+                    window.location.href = paginaDestino;
+                } else {
+                    localStorage.setItem("destinoPosLogin", paginaDestino);
+                    abrirModal();
+                }
+            }
 
-            <!-- Botão de envio -->
-            <button type="submit">Enviar Feedback</button>
-        </form>
+            function abrirModal() {
+                document.getElementById("loginModal").style.display = "flex";
+            }
 
-        <p id="formStatus" style="margin-top:10px;"></p>
+            function fecharModal() {
+                document.getElementById("loginModal").style.display = "none";
+            }
+
+            function irParaLogin() {
+                window.location.href = "login.html";
+            }
+        </script>
+
+     <!-- Seção de Carrossel -->
+<section id="carrossel-seres" class="content-section">
+  <div class="carrossel-container">
+
+    <h1>Seres Ameaçados e Vulneráveis</h1>
+    <p class="carrossel-subtitle">
+      Espécies registradas pela comunidade e órgãos ambientais
+    </p>
+
+    <div class="carousel-wrapper">
+      <button class="carousel-btn prev" aria-label="Anterior">
+        &#10094;
+      </button>
+
+      <div class="carousel-track" id="carouselEspecies">
+        <!-- Cards inseridos via JS -->
+      </div>
+
+      <button class="carousel-btn next" aria-label="Próximo">
+        &#10095;
+      </button>
     </div>
+
+  </div>
 </section>
 
 
+           <!-- Formulário de Feedback -->
+        <section class="destaque-especie">
+            <div class="info-especie">
+                <h2>Deixe seu Feedback</h2>
+                <h4><em>Queremos ouvir você!</em></h4>
+                <form action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="b8a05d47-8f3d-4c1d-8ac3-6b8f9a377919">
+                    <div class="form-row">
+                        <input type="text" name="name" placeholder="Nome" required>
+                        <input type="email" name="email" placeholder="Email"  required>
+                        <input type="tel" name="telefone" placeholder="Número de Telemóvel" required>
+                    </div>
+                    <textarea name="message" placeholder="Mensagem" rows="6" required></textarea>
+                    <input type="checkbox" name="botcheck" style="display:none;">
+                    <input type="hidden" name="_next" value="https://seudominio.co/thanks.html">
+                    <button type="submit">Enviar Feedback</button>
+                </form>
+                <p id="formStatus" style="margin-top:10px;"></p>
+            </div>
+        </section>
 
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <ul>
+                        <li><a href="mailto:exemplo@email.com">bioguine@email.com</a></li>
+                        <li><a href="tel:+123456789">+245 95 633 48 24</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Links Úteis</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="cadastro.html">Seres</a></li>
+                        <li><a href="denuncia.html">Denuncias</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Siga-nos</h3>
+                    <ul class="social-icons">
+                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="https://wa.me/956334824" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Bioma-Guiné. Todos os direitos reservados.</p>
+            </div>
+        </footer>
 
-<footer class="footer">
-  <div class="footer-content">
-    <div class="footer-section">
-      <h3>Contato</h3>
-      <ul>
-        <li><a href="mailto:exemplo@email.com">bioguine@email.com</a></li>
-        <li><a href="tel:+123456789">+245 95 633 48 24</a></li>
-      </ul>
-    </div>
-    <div class="footer-section">
-      <h3>Links Úteis</h3>
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="cadastro.html">Seres</a></li>
-        <li><a href="denuncia.html">Denuncias</a></li>
-      </ul>
-    </div>
-    
-    <div class="footer-section">
-      <h3>Siga-nos</h3>
-     <ul class="social-icons">
-  <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-  <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-  <li><a href="https://wa.me/956334824" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
-</ul>
+        <!-- Scripts -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const hamburger = document.getElementById('hamburger');
+                const navLinks = document.getElementById('nav-links');
 
+                if (!hamburger || !navLinks) return;
 
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>&copy; 2025 Bio-Guiné. Todos os direitos reservados.</p>
-  </div>
-</footer>
+                hamburger.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                });
 
+                navLinks.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('active');
+                    });
+                });
+            });
+        </script>
 
-<script>
- document.addEventListener('DOMContentLoaded', () => {
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
+        <script src="assets/page/usuariospage.js"></script>
+        <script src="assets/page/index.js"></script>
+            <script src="assets/page/stores.js"></script>
 
-    if (!hamburger || !navLinks) return;
-
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-    });
-
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-        });
-    });
-});
-
-
-</script>
-
-      <script src="assets/page/usuariospage.js"></script>
-
-
-<script src="assets/page/index.js"></script>
+    </main>
 
 </body>
 </html>

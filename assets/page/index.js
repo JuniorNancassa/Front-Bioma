@@ -29,7 +29,6 @@ function inicializarMenuHamburger() {
 }
 
 
-
 // Carregar carrossel de seres
 async function carregarCarrosselSeres() {
   const carouselContainer = document.getElementById("carouselEspecies");
@@ -39,11 +38,13 @@ async function carregarCarrosselSeres() {
     const res = await fetch("http://localhost:8080/api/seres");
     const data = await res.json();
 
-    // Filtrar apenas 4 seres aprovados e ameaçados/vulneráveis
-    const seresCarrossel = data.filter(ser =>
-      ser.statusAprovacao === "APROVADO" &&
-      ["AMEACADO", "VULNERAVEL", "EM_PERIGO", "CRITICAMENTE_EM_PERIGO"].includes(ser.statusConservacao)
-    ).slice(0, 5);
+    const seresCarrossel = data
+      .filter(ser =>
+        ser.statusAprovacao === "APROVADO" &&
+        ["AMEACADO", "VULNERAVEL", "EM_PERIGO", "CRITICAMENTE_EM_PERIGO"]
+          .includes(ser.statusConservacao)
+      )
+      .slice(0, 5);
 
     if (seresCarrossel.length === 0) {
       carouselContainer.innerHTML = `<p>Nenhum ser ameaçado encontrado.</p>`;
@@ -52,42 +53,46 @@ async function carregarCarrosselSeres() {
 
     for (const ser of seresCarrossel) {
       let imagemSrc = "assets/images/default.png";
+
       try {
-        const imgRes = await fetch(`http://localhost:8080/api/seres/${ser.id}/imagem`);
+        const imgRes = await fetch(
+          `http://localhost:8080/api/seres/${ser.id}/imagem`
+        );
         if (imgRes.ok) {
           const base64 = await imgRes.text();
-          if (base64) imagemSrc = `data:image/jpeg;base64,${base64}`;
+          if (base64) {
+            imagemSrc = `data:image/jpeg;base64,${base64}`;
+          }
         }
-      } catch {}
+      } catch (e) {
+        console.warn("Imagem não encontrada:", e);
+      }
 
       const card = document.createElement("div");
-      card.className = "pinterest-card";
+      card.className = "carousel-card";
 
       card.innerHTML = `
-  <img src="${imagemSrc}" alt="${ser.nomeComum}">
-  <div class="card-body">
-    <h5>
-      ${ser.nomeComum} <small class="text-muted">(${ser.nomeCientifico})</small>
-    </h5>
-    <p>
-      <i class="bi bi-bookmark-fill text-primary me-1"></i>
-      ${ser.especie ? ser.especie.nome : "—"}
-    </p>
-    <p>
-      <i class="bi bi-exclamation-triangle-fill text-warning me-1"></i>
-      ${ser.statusConservacao || "—"}
-    </p>
-    <a href="seresDetalhes.html?id=${ser.id}" class="btn-ver-mais">Ver Mais</a>
-  </div>
-`;
+        <img src="${imagemSrc}" alt="${ser.nomeComum}">
+        <div class="carousel-card-content">
+          <h3>${ser.nomeComum}</h3>
+          <p><em>${ser.nomeCientifico}</em></p>
+          <p><strong>Espécie:</strong> ${ser.especie?.nome || "—"}</p>
+          <p><strong>Status:</strong> ${ser.statusConservacao || "—"}</p>
+          <a href="seresDetalhes.html?id=${ser.id}" class="btn-ver-mais">
+            Ver mais
+          </a>
+        </div>
+      `;
 
       carouselContainer.appendChild(card);
     }
   } catch (err) {
     console.error(err);
-    carouselContainer.innerHTML = "<p class='text-danger'>Erro ao carregar seres.</p>";
+    carouselContainer.innerHTML =
+      "<p class='text-danger'>Erro ao carregar seres.</p>";
   }
 }
+
 
 // --- Botões de navegação ---
 document.addEventListener('DOMContentLoaded', () => {

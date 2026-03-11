@@ -1,178 +1,233 @@
-// Função para carregar a Home
-function loadHome() {
-    const content = document.getElementById("main-content");
-    const breadcrumb = document.getElementById("breadcrumb");
-
-    // Atualiza breadcrumb
-    breadcrumb.textContent = "Home";
-
-    // Conteúdo da Home
-    content.innerHTML = `
-    <div class="home-dashboard">
-        <div class="stats-cards">
-            <div class="card">
-                <i class="fas fa-users"></i>
-                <h3>Usuários</h3>
-                <p id="total-usuarios">0</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-paw"></i>
-                <h3>Espécies</h3>
-                <p id="total-especies">0</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-list"></i>
-                <h3>Categorias</h3>
-                <p id="total-categorias">0</p>
-            </div>
-            <div class="card">
-                <i class="fas fa-question-circle"></i>
-                <h3>Perguntas</h3>
-                <p id="total-perguntas">0</p>
-            </div>
-        </div>
-
-        <div class="charts">
-            <div class="chart">
-                <h4>Usuários por Região</h4>
-                <canvas id="usuariosChart"></canvas>
-            </div>
-            <div class="chart">
-                <h4>Atividades Recentes</h4>
-                <ul id="atividadesRecentes"></ul>
-            </div>
-        </div>
-    </div>
-    `;
-
-    // Injeta CSS da Home (cards, grids, etc)
-    const style = document.createElement("style");
-    style.innerHTML = `
-    .home-dashboard {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .stats-cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-    }
-
-    .card {
-        background: #fff;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        text-align: center;
-    }
-
-    .card i {
-        font-size: 2rem;
-        color: #4CAF50;
-    }
-
-    .card h3 {
-        margin: 10px 0;
-        font-size: 1.2rem;
-    }
-
-    .card p {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
-    .charts {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-    }
-
-    .chart {
-        background: #fff;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-
-    .chart h4 {
-        margin-bottom: 15px;
-    }
-
-    #atividadesRecentes {
-        list-style: none;
-        padding-left: 0;
-    }
-
-    #atividadesRecentes li {
-        padding: 8px 0;
-        border-bottom: 1px solid #eee;
-    }
-    `;
-    document.head.appendChild(style);
-
-    // Carregar dados (exemplo XHR/Fetch)
-    fetchHomeData();
-}
-
-// Simula requisições para popular a Home
-function fetchHomeData() {
-    // Exemplo de totals
-    document.getElementById("total-usuarios").textContent = 1250;
-    document.getElementById("total-especies").textContent = 320;
-    document.getElementById("total-categorias").textContent = 50;
-    document.getElementById("total-perguntas").textContent = 1200;
-
-    // Atividades recentes
-    const atividades = [
-        "Usuário João comentou em 'Seres em extinção'",
-        "Nova espécie 'Dragão Azul' cadastrada",
-        "Categoria 'Ameaçados' atualizada",
-        "Pergunta 'Qual é o habitat do Dragão Azul?' cadastrada"
-    ];
-
-    const ul = document.getElementById("atividadesRecentes");
-    atividades.forEach(a => {
-        const li = document.createElement("li");
-        li.textContent = a;
-        ul.appendChild(li);
-    });
-
-    // Gráfico de usuários por região usando Chart.js
-    const canvas = document.getElementById("usuariosChart");
-    if (canvas) {
-        // Carrega Chart.js via CDN dinamicamente
-        if (!window.Chart) {
-            const script = document.createElement("script");
-            script.src = "https://cdn.jsdelivr.net/npm/chart.js";
-            script.onload = () => drawChart(canvas);
-            document.body.appendChild(script);
-        } else {
-            drawChart(canvas);
+// =======================
+// Função para buscar estatísticas via XHR
+// =======================
+function fetchInicio() {
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', 'http://localhost:8080/api/estatisticas/resumo', true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        try {
+          const data = JSON.parse(xhr.responseText);
+          renderEstatisticas(data);
+        } catch (e) {
+          console.error('Erro ao parsear JSON:', e);
+          document.getElementById('main-content').innerHTML =
+            '<p>Erro ao processar dados de estatísticas.</p>';
         }
+      } else {
+        console.error('Erro ao buscar estatísticas:', xhr.status, xhr.statusText);
+        document.getElementById('main-content').innerHTML =
+          '<p>Erro ao carregar estatísticas.</p>';
+      }
     }
+  };
+  xhr.send();
 }
 
-function drawChart(canvas) {
-    new Chart(canvas, {
-        type: 'bar',
-        data: {
-            labels: ["Norte", "Sul", "Leste", "Oeste"],
-            datasets: [{
-                label: 'Usuários',
-                data: [300, 250, 400, 300],
-                backgroundColor: '#4CAF50'
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { display: false }
-            }
-        }
+// =======================
+// Função para criar card estilo Pinterest
+// =======================
+function criarCard(titulo, valor, cor = '#4caf50') {
+  const card = document.createElement('div');
+  card.className = "dashboard-card";
+  card.style.background = '#fff';
+  card.style.padding = '25px';
+  card.style.width = '160px';
+  card.style.height = '200px';
+  card.style.borderRadius = '18px';
+  card.style.boxShadow = '0 8px 20px rgba(0,0,0,0.12)';
+  card.style.display = 'flex';
+  card.style.flexDirection = 'column';
+  card.style.justifyContent = 'center';
+  card.style.alignItems = 'center';
+  card.style.transition = 'transform 0.3s, box-shadow 0.3s';
+  card.onmouseover = () => {
+    card.style.transform = 'translateY(-8px) scale(1.05)';
+    card.style.boxShadow = '0 15px 30px rgba(0,0,0,0.2)';
+  };
+  card.onmouseleave = () => {
+    card.style.transform = 'translateY(0) scale(1)';
+    card.style.boxShadow = '0 8px 20px rgba(0,0,0,0.12)';
+  };
+
+  const h3 = document.createElement('h3');
+  h3.textContent = titulo;
+  h3.style.marginBottom = '12px';
+  h3.style.fontSize = '18px';
+  h3.style.fontWeight = '500';
+  h3.style.color = '#555';
+  h3.style.textAlign = 'center';
+
+  const p = document.createElement('p');
+  p.textContent = valor;
+  p.style.fontSize = '26px';
+  p.style.fontWeight = 'bold';
+  p.style.color = cor;
+  p.style.textAlign = 'center';
+
+  card.appendChild(h3);
+  card.appendChild(p);
+  return card;
+}
+
+// =======================
+// Função para criar caixa de gráfico
+// =======================
+function criarCaixaGrafico(titulo) {
+  const caixa = document.createElement('div');
+  caixa.className = "dashboard-box";
+  caixa.style.background = '#fff';
+  caixa.style.padding = '18px';
+  caixa.style.borderRadius = '15px';
+  caixa.style.boxShadow = '0 6px 18px rgba(0,0,0,0.1)';
+  caixa.style.display = 'flex';
+  caixa.style.flexDirection = 'column';
+  caixa.style.alignItems = 'center';
+
+  const h2 = document.createElement('h2');
+  h2.textContent = titulo;
+  h2.style.marginBottom = '12px';
+  h2.style.fontSize = '16px';
+  h2.style.color = '#333';
+  h2.style.textAlign = 'center';
+  caixa.appendChild(h2);
+
+  return caixa;
+}
+
+// =======================
+// Função para renderizar dashboard
+// =======================
+function renderEstatisticas(data) {
+  const container = document.getElementById('main-content');
+  container.innerHTML = '';
+
+  const dashboard = document.createElement('div');
+  dashboard.id = "dashboard-wrapper";
+  dashboard.style.display = 'flex';
+  dashboard.style.gap = '25px';
+  dashboard.style.fontFamily = 'Arial, sans-serif';
+
+  // Coluna central
+  const centralContainer = document.createElement('div');
+  centralContainer.style.flex = '3';
+  centralContainer.style.display = 'flex';
+  centralContainer.style.flexDirection = 'column';
+  centralContainer.style.gap = '25px';
+
+  // Cards
+  const cardsContainer = document.createElement('div');
+  cardsContainer.style.display = 'flex';
+  cardsContainer.style.gap = '35px';
+  cardsContainer.style.flexWrap = 'nowrap';
+  cardsContainer.style.overflowX = 'auto';
+  cardsContainer.style.paddingBottom = '10px';
+
+  cardsContainer.appendChild(criarCard('Usuários', data.totalUsuarios, '#4caf50'));
+  cardsContainer.appendChild(criarCard('Denúncias', data.totalDenuncias, '#f44336'));
+  cardsContainer.appendChild(criarCard('Seres', data.totalSeres, '#ff9800'));
+  cardsContainer.appendChild(criarCard('Espécies', data.totalEspecies, '#2196f3'));
+
+  centralContainer.appendChild(cardsContainer);
+
+  // Gráfico grande inferior
+  const caixaGraficoInferior = criarCaixaGrafico('Visão Geral');
+  caixaGraficoInferior.style.width = '100%';
+  caixaGraficoInferior.style.height = '300px';
+  const canvasInferior = document.createElement('canvas');
+  canvasInferior.width = 900;
+  canvasInferior.height = 300;
+  caixaGraficoInferior.appendChild(canvasInferior);
+  centralContainer.appendChild(caixaGraficoInferior);
+
+  if (data.evolucaoMensal) {
+    new Chart(canvasInferior.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: data.evolucaoMensal.meses,
+        datasets: [
+          {
+            label: 'Denúncias',
+            data: data.evolucaoMensal.denuncias,
+            borderColor: '#f44336',
+            backgroundColor: 'rgba(244,67,54,0.2)',
+            fill: true,
+            tension: 0.3
+          },
+          {
+            label: 'Seres',
+            data: data.evolucaoMensal.seres,
+            borderColor: '#ff9800',
+            backgroundColor: 'rgba(255,152,0,0.2)',
+            fill: true,
+            tension: 0.3
+          }
+        ]
+      },
+      options: {
+        responsive: false,
+        plugins: { legend: { position: 'top' } },
+        scales: { y: { beginAtZero: true }, x: { grid: { display: false } } }
+      }
     });
+  }
+
+  dashboard.appendChild(centralContainer);
+
+  // Aside direito
+  const asideContainer = document.createElement('div');
+  asideContainer.style.flex = '1';
+  asideContainer.style.display = 'flex';
+  asideContainer.style.flexDirection = 'column';
+  asideContainer.style.gap = '25px';
+
+  // Gráfico de denúncias por status
+  const caixaDenuncias = criarCaixaGrafico('Denúncias por Status');
+  const canvasDenuncias = document.createElement('canvas');
+  canvasDenuncias.width = 220;
+  canvasDenuncias.height = 220;
+  caixaDenuncias.appendChild(canvasDenuncias);
+  asideContainer.appendChild(caixaDenuncias);
+
+  new Chart(canvasDenuncias.getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(data.denunciasPorStatus),
+      datasets: [{
+        data: Object.values(data.denunciasPorStatus),
+        backgroundColor: ['#4caf50', '#f44336', '#ff9800', '#2196f3']
+      }]
+    },
+    options: { responsive: false, plugins: { legend: { position: 'bottom' } } }
+  });
+
+  // Gráfico de espécies por estado de conservação
+  const caixaConservacao = criarCaixaGrafico('Espécies por Estado de Conservação');
+  const canvasConservacao = document.createElement('canvas');
+  canvasConservacao.width = 220;
+  canvasConservacao.height = 220;
+  caixaConservacao.appendChild(canvasConservacao);
+  asideContainer.appendChild(caixaConservacao);
+
+  new Chart(canvasConservacao.getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(data.seresPorStatus),
+      datasets: [{
+        data: Object.values(data.seresPorStatus),
+        backgroundColor: ['#4caf50', '#ff9800', '#f44336', '#2196f3', '#9c27b0']
+      }]
+    },
+    options: { responsive: false, plugins: { legend: { position: 'bottom' } } }
+  });
+
+  dashboard.appendChild(asideContainer);
+
+  container.appendChild(dashboard);
 }
 
-// Expor a função para ser chamada via menu
-window.loadHome = loadHome;
+// =======================
+// Inicializa a página quando o DOM estiver pronto
+// =======================
+document.addEventListener('DOMContentLoaded', fetchInicio);
