@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: #718096;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-item i {
+    width: 20px;
+    margin-right: 12px;
+}
+
+.nav-item:hover {
+    background: #EDF2F7;
+    color: #2D3748;
+}
+
+.nav-item.active {
+    background: #EBF8FF;
+    color: #3182CE;
+}
+
+.stat-card {
+    background: white;
+    padding: 24px;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #F1F5F9;
+}
+
+/* Customização de Tabelas para as outras páginas */
+.admin-table {
+    width: 100%;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.admin-table th {
+    background: #F8F9FD;
+    padding: 16px;
+    text-align: left;
+    font-size: 0.85rem;
+    color: #718096;
+    text-transform: uppercase;
+}
+
+.admin-table td {
+    padding: 16px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+
+#content {
+    width: 100%;
+}

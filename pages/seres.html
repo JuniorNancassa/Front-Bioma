@@ -1,0 +1,121 @@
+<div class="w-full p-6">
+    <h1 class="text-3xl font-bold mb-8 text-center">Seres</h1>
+
+    <!-- FILTROS AUTOMÁTICOS -->
+    <div class="flex flex-wrap gap-4 mb-6 justify-center">
+
+        <input id="filtro-nome"
+            type="text"
+            placeholder="Pesquisar por nome..."
+            class="border px-4 py-2 rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-green-400">
+
+        <select id="filtro-status"
+            class="border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400">
+            <option value="">Todos os status</option>
+            <option value="CRITICAMENTE_EM_PERIGO">Crítico</option>
+            <option value="EM_PERIGO">Em perigo</option>
+            <option value="VULNERAVEL">Vulnerável</option>
+        </select>
+
+    </div>
+
+    <!-- CARDS -->
+    <div id="seres-container"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    </div>
+</div>
+
+
+<div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 transition-opacity"></div>
+
+<div id="drawer-editar" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto">
+    <div class="p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">Editar Ser</h2>
+            <button onclick="fecharDrawer()" class="text-gray-500 hover:text-black text-2xl">&times;</button>
+        </div>
+
+        <form id="form-editar" class="space-y-4">
+            <input type="hidden" id="edit-id">
+            
+            <div>
+                <label class="block text-sm font-medium">Nome Comum</label>
+                <input type="text" id="edit-nomeComum" class="w-full border p-2 rounded focus:ring-2 focus:ring-green-400 outline-none" required>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Nome Científico</label>
+                <input type="text" id="edit-nomeCientifico" class="w-full border p-2 rounded focus:ring-2 focus:ring-green-400 outline-none" required>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-sm font-medium">Tipo</label>
+                    <input type="text" id="edit-tipo" placeholder="Ex: Fauna" class="w-full border p-2 rounded outline-none" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Espécie</label>
+                    <input type="text" id="edit-especie" placeholder="Ex: Mamífero" class="w-full border p-2 rounded outline-none" required>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Status de Conservação</label>
+                <select id="edit-status" class="w-full border p-2 rounded outline-none">
+                    <option value="EXTINTO">Extinto</option>
+                    <option value="CRITICAMENTE_EM_PERIGO">Criticamente em Perigo</option>
+                    <option value="EM_PERIGO">Em Perigo</option>
+                    <option value="VULNERAVEL">Vulnerável</option>
+                    <option value="QUASE_AMEACADO">Quase Ameaçado</option>
+                    <option value="POUCO_PREOCUPANTE">Pouco Preocupante</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Descrição</label>
+                <textarea id="edit-descricao" rows="3" class="w-full border p-2 rounded outline-none"></textarea>
+            </div>
+
+           <div class="space-y-2">
+    <label class="block text-sm font-medium">Localização do Ser</label>
+    
+    <button type="button" onclick="pegarLocalizacaoAtual()" 
+        class="mb-2 text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full border border-blue-200 hover:bg-blue-100">
+        <i class="fas fa-location-arrow"></i> Usar minha localização atual
+    </button>
+
+    <div id="mapa-editar"></div>
+
+    <div class="grid grid-cols-2 gap-2">
+        <input type="text" id="edit-lat" name="latitude" readonly class="bg-gray-50 border p-2 rounded text-xs outline-none" placeholder="Lat">
+        <input type="text" id="edit-long" name="longitude" readonly class="bg-gray-50 border p-2 rounded text-xs outline-none" placeholder="Long">
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+            <div>
+                <label class="block text-sm font-medium">Nova Imagem (opcional)</label>
+                <input type="file" id="edit-imagem" accept="image/*" class="w-full text-sm">
+            </div>
+
+            <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition mt-4">
+                Salvar Alterações
+            </button>
+        </form>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+<style>
+    #mapa-editar {
+        height: 250px;
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        z-index: 10;
+    }
+</style>

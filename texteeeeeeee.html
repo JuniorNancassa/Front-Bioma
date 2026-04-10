@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro de Quiz - Bioma Guiné</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Poppins', sans-serif; background:#f5f5f5; padding:20px; }
+h1, h2 { color:#009e49; }
+form { background:white; padding:20px; border-radius:10px; margin-bottom:30px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+input, select, textarea, button { display:block; margin:10px 0; padding:10px; width:100%; border-radius:5px; border:1px solid #ccc; }
+button { background:#009e49; color:white; cursor:pointer; border:none; }
+button:hover { background:#007537; }
+.section { margin-bottom:50px; }
+</style>
+</head>
+<body>
+
+<h1>Cadastro de Quiz</h1>
+
+<!-- 1️⃣ Categoria -->
+<div class="section">
+<h2>Criar Categoria</h2>
+<form id="category-form">
+  <input type="text" id="category-name" placeholder="Nome da Categoria" required>
+  <input type="text" id="category-image" placeholder="URL da imagem" required>
+  <button type="submit">Cadastrar Categoria</button>
+</form>
+</div>
+
+<!-- 2️⃣ Nível -->
+<div class="section">
+<h2>Criar Nível</h2>
+<form id="level-form">
+  <select id="level-category" required>
+    <option value="">Selecione Categoria</option>
+  </select>
+  <input type="text" id="level-name" placeholder="Nome do Nível" required>
+  <input type="number" id="level-stars" placeholder="Estrelas necessárias" min="1" max="3" required>
+  <button type="submit">Cadastrar Nível</button>
+</form>
+</div>
+
+<!-- 3️⃣ Pergunta -->
+<div class="section">
+<h2>Adicionar Pergunta</h2>
+<form id="question-form">
+  <select id="question-level" required>
+    <option value="">Selecione Nível</option>
+  </select>
+  <textarea id="question-text" placeholder="Texto da pergunta" required></textarea>
+  <input type="text" id="answer-0" placeholder="Resposta 1" required>
+  <input type="text" id="answer-1" placeholder="Resposta 2" required>
+  <input type="text" id="answer-2" placeholder="Resposta 3" required>
+  <input type="text" id="answer-3" placeholder="Resposta 4" required>
+  <input type="number" id="correct-index" placeholder="Índice da resposta correta (0-3)" min="0" max="3" required>
+  <textarea id="explanation" placeholder="Explicação (opcional)"></textarea>
+  <button type="submit">Cadastrar Pergunta</button>
+</form>
+</div>
+
+<script>
+const API = "http://localhost:8080/api/quiz";
+
+// ---------- Helpers para atualizar selects ----------
+async function fetchCategories() {
+  const res = await fetch(`${API}/categories`);
+  const categories = await res.json();
+  const catSelect = document.getElementById("level-category");
+  catSelect.innerHTML = '<option value="">Selecione Categoria</option>';
+  categories.forEach(cat => {
+    const opt = document.createElement("option");
+    opt.value = cat.id;
+    opt.textContent = cat.name;
+    catSelect.appendChild(opt);
+  });
+}
+async function fetchLevels() {
+  const catId = document.getElementById("level-category").value;
+  if(!catId) return;
+  const res = await fetch(`${API}/levels/${catId}`);
+  const levels = await res.json();
+  const levelSelect = document.getElementById("question-level");
+  levelSelect.innerHTML = '<option value="">Selecione Nível</option>';
+  levels.forEach(level => {
+    const opt = document.createElement("option");
+    opt.value = level.id;
+    opt.textContent = level.name;
+    levelSelect.appendChild(opt);
+  });
+}
+
+// ---------- Form Category ----------
+document.getElementById("category-form").onsubmit = async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("category-name").value;
+  const imageUrl = document.getElementById("category-image").value;
+  const res = await fetch(`${API}/categories`, {
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({name, imageUrl})
+  });
+  if(res.ok){ alert("Categoria cadastrada!"); fetchCategories(); e.target.reset(); }
+}
+
+// ---------- Form Level ----------
+document.getElementById("level-form").onsubmit = async (e) => {
+  e.preventDefault();
+  const categoryId = document.getElementById("level-category").value;
+  const name = document.getElementById("level-name").value;
+  const requiredStars = parseInt(document.getElementById("level-stars").value);
+  const res = await fetch(`${API}/levels`, {
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({name, requiredStars, categoryquiz:{id: categoryId}})
+  });
+  if(res.ok){ alert("Nível cadastrado!"); fetchLevels(); e.target.reset(); }
+}
+
+// ---------- Form Question ----------
+document.getElementById("question-form").onsubmit = async (e) => {
+  e.preventDefault();
+  const levelId = document.getElementById("question-level").value;
+  const text = document.getElementById("question-text").value;
+  const answers = [
+    document.getElementById("answer-0").value,
+    document.getElementById("answer-1").value,
+    document.getElementById("answer-2").value,
+    document.getElementById("answer-3").value,
+  ];
+  const correctIndex = parseInt(document.getElementById("correct-index").value);
+  const explanation = document.getElementById("explanation").value;
+
+  const res = await fetch(`${API}/questions`, {
+    method:"POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({
+      text, answers, correctIndex, level:{id:levelId}, explanation
+    })
+  });
+  if(res.ok){ alert("Pergunta cadastrada!"); e.target.reset(); }
+}
+
+// Inicializa selects
+fetchCategories();
+document.getElementById("level-category").onchange = fetchLevels;
+
+</script>
+</body>
+</html>

@@ -1,84 +1,59 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bio-Guiné Admin</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="assets/css/adim.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Painel de Controle</title>
+
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <script src="https://cdn.tailwindcss.com"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-  <div class="layout">
-    <aside id="sider" class="sider">
-      <a href="index.html" class="logo">
-        <img src="assets/img/logo/logo-bioma.jpeg" alt="Logo">
-        <span class="logo-text">Bioma-Guiné</span>
-      </a>
 
-      <nav class="menu-container">
-        <ul class="menu">
-          <li onclick="loadContent('Inicio', this)" class="active">
-            <div class="menu-item"><i class="fas fa-chart-pie"></i> <span class="menu-text">Inicio</span></div>
-          </li>
-          <li onclick="loadContent('Usuários', this)">
-            <div class="menu-item"><i class="fas fa-user"></i> <span class="menu-text">Usuários</span></div>
-          </li>
-          <li onclick="loadContent('Seres', this)">
-            <div class="menu-item"><i class="fas fa-dragon"></i> <span class="menu-text">Seres</span></div>
-          </li>
-          <li onclick="loadContent('Denúncias', this)">
-            <div class="menu-item"><i class="fas fa-exclamation-triangle"></i> <span class="menu-text">Denúncias</span></div>
-          </li>
-          <li onclick="loadContent('Quiz', this)">
-            <div class="menu-item"><i class="fas fa-question-circle"></i> <span class="menu-text">Quiz</span></div>
-          </li>
-          <li onclick="loadContent('Estatistica', this)">
-            <div class="menu-item"><i class="fas fa-chart-line"></i> <span class="menu-text">Estatística</span></div>
-          </li>
-        </ul>
-      </nav>
+<body class="bg-[#F8F9FD] text-[#2D3748]">
 
-      <div class="logout-btn" onclick="openLogoutModal()">
-        <i class="fas fa-sign-out-alt"></i>
-        <span>Sair</span>
-      </div>
+<div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-white border-r border-gray-200 flex flex-col fixed h-full">
+        
+        <div class="p-6 text-xl font-bold text-green-600 flex items-center">
+            <i class="fas fa-leaf mr-2"></i> BioAdmin
+        </div>
+
+        <nav class="flex-1 px-4 space-y-1">
+            <a href="#" class="nav-item active" data-page="dashboard.html"> <i class="fas fa-chart-pie"></i> Dashboard</a>
+            <a href="#" class="nav-item" data-page="seres.html"> <i class="fas fa-paw"></i> Seres</a>
+            <a href="#" class="nav-item" data-page="denuncias.html"> <i class="fas fa-exclamation-triangle"></i> Denúncias</a>
+            <a href="#" class="nav-item" data-page="comunidade.html"> <i class="fas fa-users"></i> Comunidade</a>
+             <a href="#" class="nav-item" data-page="especies.html"> <i class="fas fa-paw"></i> Espécies</a>
+            <a href="#" class="nav-item" data-page="noticias.html"> <i class="fas fa-newspaper"></i> Notícias</a>
+            <a href="#" class="nav-item" data-page="quiz.html"> <i class="fas fa-vial"></i> Quiz</a>
+            <a href="#" class="nav-item" data-page="usuarios.html"> <i class="fas fa-user-shield"></i> Usuários</a>
+        </nav>
+
+        <div class="p-4 border-t border-gray-100">
+            <button id="logout-btn" class="flex items-center text-red-500 hover:bg-red-50 w-full p-2 rounded-lg transition">
+                <i class="fas fa-sign-out-alt mr-2"></i> Sair
+            </button>
+        </div>
+
     </aside>
 
-    <main class="main">
-      <header class="header">
-        <button class="toggle-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
-        <div class="header-right" onclick="loadContent('Perfil')">
-          <i class="fas fa-user-circle fa-lg"></i>
-          <span id="user-display-name" style="margin-left: 10px; font-weight: 500;">Admin</span>
-        </div>
-      </header>
-
-      <section class="content">
-        <div id="breadcrumb" class="breadcrumb">Dashboard / Inicio</div>
-        <div id="main-content">
-           </div>
-      </section>
-
-      <footer class="footer">
-        Bioma-Guiné © <span id="year"></span>
-      </footer>
+    <!-- CONTEÚDO -->
+    <main class="flex-1 ml-64 p-8">
+        <div id="content" class="w-full min-h-screen"></div>
     </main>
-  </div>
 
-  <template id="perfil-template">
-    <div class="card-perfil">
-      <h2>Perfil do Usuário</h2>
-      <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
-      <p><strong>Login:</strong> <span class="user-login"></span></p>
-      <p><strong>E-mail:</strong> <span class="user-email"></span></p>
-    </div>
-  </template>
+</div>
 
+<script src="assets/page/painelAdmin.js"></script>
+  <script src="assets/page/app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="assets/page/adim.js"></script>
-  
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/page/dashboard-logic.js"></script>
+<script src="assets/page/usuarios-logic.js"></script>
+<script src="assets/page/seres-logic.js"></script>
+
 
 </body>
 </html>

@@ -181,11 +181,27 @@ async function carregarTipos(especieId) {
   if (tiposCache[especieId]) return tiposCache[especieId].forEach(tipo => select.appendChild(new Option(tipo.nome, tipo.id)));
 
   try {
-    const res = await fetch(`http://localhost:8080/api/especies/${especieId}/tipos`);
+    const res = await fetch(`http://localhost:8080/api/tipos/${especieId}/tipos`);
     const data = await res.json();
     tiposCache[especieId] = data;
     data.forEach(tipo => select.appendChild(new Option(tipo.nome, tipo.id)));
   } catch(err) { console.error(err); showToast("Erro ao carregar tipos", "error"); }
+}
+
+function popularSelectTipo(listaTipos) {
+    const select = document.getElementById("tipo");
+    select.innerHTML = '<option value="">Selecione o Tipo</option>';
+    
+    if (listaTipos.length === 0) {
+        select.innerHTML = '<option value="">Nenhum tipo encontrado</option>';
+        return;
+    }
+
+    listaTipos.forEach(tipo => {
+        // O seu DTO usa 'nome' e 'id'
+        const option = new Option(tipo.nome, tipo.id);
+        select.appendChild(option);
+    });
 }
 
 // ---------- Setup imagem ----------
@@ -316,10 +332,16 @@ async function cadastrarSer(event){
   const inputFiles = document.querySelectorAll("#inputCamera,#inputGaleria");
   for (const input of inputFiles) if(input.files.length>0){formData.append("imagemFile",input.files[0]); break;}
 
-  try {
-    const res = await fetch("http://localhost:8080/api/seres/registrar-multipart",{
-      method:"POST", headers:{"Authorization":`Bearer ${token}`}, body: formData
+    try {
+    const res = await fetch("http://localhost:8080/api/seres/registrar-multipart", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}` // NÃO coloque "Content-Type" aqui
+      },
+      body: formData
     });
+
+
     if(!res.ok) throw new Error(await res.text());
 
     showToast("Ser cadastrado com sucesso!", "success");
