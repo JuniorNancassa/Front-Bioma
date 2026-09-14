@@ -4,10 +4,16 @@
 :root {
   --cor-verde-escuro: #2e7d32;
   --cor-verde-musgo: #4caf50;
+  --cor-verde-hover: #245f28;
   --cor-branco: #ffffff;
   --cor-cinza-claro: #f4f4f4;
+  --cor-cinza-borda: #d9dedb;
+  --cor-cinza-texto: #66736c;
   --cor-fundo: #f0f9f5;
   --cor-texto: #21312a;
+  --sombra-suave: 0 6px 18px rgba(0, 0, 0, 0.08);
+  --sombra-media: 0 12px 30px rgba(0, 0, 0, 0.12);
+  --raio: 14px;
 }
 
 /* =========================
@@ -62,36 +68,40 @@ body {
 }
 
 .logo:hover img {
-  transform: scale(1.15);
+  transform: scale(1.05);
 }
 
 /* Links */
 .main-nav-links {
   display: flex;
-  gap: 1.8rem;
   align-items: center;
+  justify-content: flex-end;
+  gap: 1.15rem;
 }
 
 .main-nav-links a {
+  position: relative;
+  padding: 8px 4px;
   text-decoration: none;
   color: var(--cor-verde-escuro);
   font-weight: 600;
-  position: relative;
-  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .main-nav-links a::after {
-  content: '';
+  content: "";
   position: absolute;
-  width: 0%;
-  height: 2px;
-  bottom: -4px;
   left: 0;
-  background-color: var(--cor-verde-musgo);
-  transition: width 0.3s ease;
+  bottom: 1px;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--cor-verde-musgo);
+  transition: width 0.25s ease;
 }
 
-.main-nav-links a:hover::after {
+.main-nav-links a:hover::after,
+.main-nav-links a[aria-current="page"]::after {
   width: 100%;
 }
 
@@ -108,9 +118,11 @@ body {
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.user-menu:hover {
-  background-color: var(--cor-cinza-claro);
-  transform: scale(1.05);
+.user-menu:hover,
+.user-menu:focus-visible {
+  background: var(--cor-cinza-claro);
+  transform: translateY(-1px);
+  outline: none;
 }
 
 /* Hamburger */
@@ -119,12 +131,16 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 36px;
-  height: 30px;
-  border: none;
-  background: none;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
   cursor: pointer;
-  z-index: 1300;
+  z-index: 1301;
+  flex: 0 0 44px;
+  padding: 0;
+  border-radius: 10px;
+  color: var(--cor-verde-escuro);
 }
 
 .hamburger i {

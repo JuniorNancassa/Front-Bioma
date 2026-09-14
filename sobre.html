@@ -1,518 +1,1054 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre Nós | Bioma Guiné</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-:root {
-  --cor-verde-escuro: #2e7d32;
-  --cor-verde-musgo: #4caf50;
-  --cor-branco: #ffffff;
-  --cor-cinza-claro: #f4f4f4;
-  --cor-fundo: #f0f9f5;
-  --cor-texto: #21312a;
-}
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-/* =========================
-   Reset e fonte
-========================= */
-body {
-  font-family: 'Poppins', 'Segoe UI', sans-serif;
-  margin: 0; padding: 0;
-  background-color: var(--cor-fundo);
-  color: var(--cor-texto);
-}
+    <meta
+        name="description"
+        content="Conheça a Bio-Guiné, a nossa missão, equipa e tecnologia dedicada à biodiversidade da Guiné-Bissau."
+    >
 
-/* =========================
-   Navbar
-========================= */
-.main-nav {
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  padding: 0.9rem 1.5rem;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  border-radius: 14px;
-  margin: 15px;
-  position: sticky;
-  top: 0;
-  z-index: 1200;
-  transition: all 0.3s ease;
-}
+    <title>Sobre Nós - Bio-Guiné</title>
 
-.flex-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
+    <!-- =====================================================
+         FONTES
+         ===================================================== -->
 
-/* Logo */
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  font-size: 1.4rem;
-  text-decoration: none;
-  color: var(--cor-verde-escuro);
-}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
-.logo img {
-  height: 70px;
-  width: auto;
-  border-radius: 10px;
-  transition: transform 0.3s ease;
-}
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 
-.logo:hover img {
-  transform: scale(1.15);
-}
+    <!-- =====================================================
+         FONT AWESOME
+         ===================================================== -->
 
-/* Links */
-.main-nav-links {
-  display: flex;
-  gap: 1.8rem;
-  align-items: center;
-}
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    >
 
-.main-nav-links a {
-  text-decoration: none;
-  color: var(--cor-verde-escuro);
-  font-weight: 600;
-  position: relative;
-  transition: all 0.3s ease;
-}
+    <!-- =====================================================
+         CSS DA PÁGINA
+         ===================================================== -->
 
-.main-nav-links a::after {
-  content: '';
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  bottom: -4px;
-  left: 0;
-  background-color: var(--cor-verde-musgo);
-  transition: width 0.3s ease;
-}
-
-.main-nav-links a:hover::after {
-  width: 100%;
-}
-
-/* User menu */
-.user-menu {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  color: var(--cor-verde-escuro);
-  cursor: pointer;
-  padding: 8px 12px;
-  border-radius: 8px;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.user-menu:hover {
-  background-color: var(--cor-cinza-claro);
-  transform: scale(1.05);
-}
-
-/* Hamburger */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 36px;
-  height: 30px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  z-index: 1300;
-}
-
-.hamburger i {
-  font-size: 1.5rem;
-  color: var(--cor-verde-escuro);
-}
-
-/* =========================
-   Responsividade
-========================= */
-@media (max-width: 992px) {
-  .hamburger {
-    display: flex;
-  }
-
-  .logo {
-    justify-content: center;
-    flex: 0 0 auto;
-  }
-
-  .main-nav-links {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 65%;
-    max-width: 280px;
-    height: 100vh;
-    background: var(--cor-branco);
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 6rem 1.5rem;
-    transform: translateX(-100%);
-    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    box-shadow: 3px 0 20px rgba(0,0,0,0.15);
-    border-radius: 0 12px 12px 0;
-    z-index: 999;
-  }
-
-  .main-nav-links.active {
-    transform: translateX(0);
-  }
-
-  .main-nav-links a {
-    padding: 12px 0;
-    font-size: 1.1rem;
-    width: 100%;
-    text-align: center;
-    border-bottom: 1px solid #eee;
-  }
-
-  .user-menu {
-    width: 100%;
-    justify-content: center;
-    margin-top: 20px;
-    border-top: 1px solid #ddd;
-    padding-top: 15px;
-  }
-}
-
-/* Desktop fixes */
-@media (min-width: 992px) {
-  .main-nav-links {
-    display: flex !important;
-    position: static;
-    flex-direction: row;
-    background: none;
-    box-shadow: none;
-    width: auto;
-    padding: 0;
-  }
-
-  .main-nav-links a { border: none; padding: 0 15px; }
-}
-/* =========================
-   Hero
-========================= */
-.hero {
-    height: 50vh;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                url('assets/img/img2/WhatsApp Image 2026-03-09 at 15.43.20.jpeg') center/cover;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center; color: var(--cor-branco);
-}
-.hero h1 { font-size: clamp(1.8rem, 5vw, 2.8rem); max-width: 800px; padding: 0 20px; }
-
-/* =========================
-   Conteúdo e Grid
-========================= */
-.section-container { max-width: 1200px; margin: 0 auto; padding: 60px 5%; }
-
-.sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-.sobre-texto h2 { font-size: 2.2rem; color: var(--cor-verde-escuro); }
-.sobre-imagem-wrapper img { width: 100%; border-radius: 20px; box-shadow: 20px 20px 60px rgba(0,0,0,0.05); }
-
-/* =========================
-   Seção Missão (Usa Verde Escuro do Root)
-========================= */
-.missao-section { 
-    background: var(--cor-verde-escuro); 
-    color: var(--cor-branco); 
-    padding: 80px 5%; 
-    border-radius: 50px 50px 0 0;
-}
-.missao-grid { 
-    max-width: 1200px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; 
-}
-.card-mvv { 
-    background: rgba(255, 255, 255, 0.08); 
-    padding: 35px; border-radius: 20px; 
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-.card-mvv h3 { color: var(--cor-verde-musgo); margin-top: 0; }
-
-/* =========================
-   Tecnologia (Cards)
-========================= */
-.grid-recursos {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px; margin-top: 40px;
-}
-.card-recurso {
-    background: var(--cor-branco); padding: 30px; border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: 0.3s;
-}
-.card-recurso i { font-size: 2.5rem; color: var(--cor-verde-musgo); margin-bottom: 15px; }
-
-/* =========================
-   Footer
-========================= */
-.footer {
-    background-color: #386b3a;
-    color: var(--cor-branco);
-    padding: 40px 20px;
-    font-family: Arial, sans-serif;
-}
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-.footer-section {
-    flex: 1;
-    margin: 10px;
-}
-.footer-section h3 { margin-bottom: 10px; }
-.footer-section ul { list-style: none; padding: 0; }
-.footer-section ul li { margin-bottom: 8px; }
-.footer-section ul li a {
-    color: var(--cor-branco);
-    text-decoration: none;
-}
-.footer-section ul li a:hover { text-decoration: underline; }
-.footer-section form { display: flex; }
-.footer-section input {
-    padding: 10px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 5px;
-    flex: 1;
-}
-.footer-section button {
-    padding: 10px;
-    background-color: var(--cor-verde-musgo);
-    color: var(--cor-branco);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.footer-section button:hover { background-color: var(--cor-verde-escuro); }
-.social-icons {
-    display: flex;
-    gap: 10px;
-}
-.social-icons a {
-    color: var(--cor-branco);
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background-color: var(--cor-verde-musgo);
-    transition: background-color 0.3s, color 0.3s;
-}
-.social-icons a:hover { background-color: var(--cor-verde-escuro); }
-.footer-bottom {
-    text-align: center;
-    margin-top: 20px;
-}
-/* Responsividade Footer */
-@media (max-width: 768px) {
-    .footer-content { flex-direction: column; align-items: center; text-align: center; }
-    .footer-section { flex: 1 1 100%; margin: 15px 0; }
-    .footer-section form { flex-direction: column; gap: 10px; width: 100%; }
-    .footer-section input { margin: 0 0 10px 0; width: 100%; }
-    .social-icons { justify-content: center; }
-}
-
-
-/* =========================
-   Responsividade
-========================= */
-@media (max-width: 992px) {
-    .hamburger { display: flex; }
-    .main-nav-links {
-        position: fixed; top: 0; left: 0; width: 65%; height: 100vh;
-        background: var(--cor-branco); flex-direction: column;
-        padding: 6rem 1.5rem; transform: translateX(-100%);
-        transition: 0.4s ease; z-index: 999;
-    }
-    .main-nav-links.active { transform: translateX(0); }
-    .sobre-grid { grid-template-columns: 1fr; text-align: center; }
-}
-
-.reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
-.reveal.active { opacity: 1; transform: translateY(0); }
-    </style>
+    <link rel="stylesheet" href="assets/css/sobre.css">
 </head>
+
 <body>
 
-<!-- Navbar / Header -->
-<header class="main-nav">
-  <div class="container flex-container">
-    <!-- Logo -->
-    <a href="index.html" class="logo">
-      <img src="assets/img/logo/logo-bioma-removebg-preview.png" alt="Logo Bio">
-    </a>
+    <!-- =====================================================
+         NAVBAR
+         ===================================================== -->
 
-    <!-- Menu de links -->
-    <nav class="main-nav-links" id="nav-links">
-      <a href="index.html">Home</a>
-      <a href="cadastro.html">Espécies</a>
-      <a href="denuncia.html">Denúncias</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="contacto.html">Contato</a>
-      <a href="blogtexte.html">Notícias</a>
-      <a href="quiz.html">Quiz</a>
+    <header class="main-nav">
 
-      <!-- Botão de login -->
-      <div id="user-menu" class="user-menu">
-        <i class="fas fa-user"></i>
-        <span>Entrar</span>
-      </div>
-    </nav>
+        <div class="container">
 
-    <!-- Hamburger Mobile -->
-    <button class="hamburger" id="hamburger">
-      <i class="fas fa-bars"></i>
-    </button>
-  </div>
-</header>
+            <!-- LOGO -->
 
+            <a
+                href="index.html"
+                class="logo"
+                aria-label="Bio-Guiné - Página inicial"
+            >
+                <img
+                    src="assets/img/logo/logo-bioma-removebg-preview.png"
+                    alt="Logo Bio-Guiné"
+                >
+            </a>
 
-<section class="hero">
-    <h1>Protegendo a biodiversidade da Guiné-Bissau com inteligência e tecnologia.</h1>
-</section>
+            <!-- MENU -->
 
-<div class="section-container">
-    <section class="sobre-grid reveal">
-        <div class="sobre-texto">
-            <h2>Quem Somos</h2>
-            <p>O <strong>Bioma Guiné</strong> é uma plataforma tecnológica pioneira dedicada ao mapeamento e preservação do patrimônio natural da Guiné-Bissau.</p>
-            <p>Nascemos da necessidade de digitalizar o conhecimento ambiental para proteger ecossistemas críticos e promover o desenvolvimento sustentável.</p>
+            <nav
+                class="main-nav-links"
+                id="nav-links"
+                aria-label="Menu principal"
+            >
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="cadastro.html">
+                    Espécies
+                </a>
+
+                <a href="denuncia.html">
+                    Denúncias
+                </a>
+
+                <a
+                    href="sobre.html"
+                    aria-current="page"
+                >
+                    Sobre
+                </a>
+
+                <a href="contacto.html">
+                    Contato
+                </a>
+
+                <a href="blogtexte.html">
+                    Noticias
+                </a>
+
+                <a href="quiz.html">
+                    Quiz
+                </a>
+
+                <!-- UTILIZADOR -->
+
+                <div
+                    id="user-menu"
+                    class="user-menu"
+                    role="button"
+                    tabindex="0"
+                >
+                    <i
+                        class="fas fa-user"
+                        aria-hidden="true"
+                    ></i>
+
+                    <span>Entrar</span>
+                </div>
+
+            </nav>
+
+            <!-- HAMBURGER -->
+
+            <button
+                class="hamburger"
+                id="hamburger"
+                type="button"
+                aria-label="Abrir menu"
+                aria-expanded="false"
+                aria-controls="nav-links"
+            >
+                <i
+                    class="fas fa-bars"
+                    aria-hidden="true"
+                ></i>
+            </button>
+
         </div>
-        <div class="sobre-imagem-wrapper">
-            <img src="assets/img/img2/WhatsApp Image 2026-03-09 at 15.43.20 (2).jpeg" alt="Natureza Guiné">
+
+    </header>
+
+
+    <!-- =====================================================
+         OVERLAY DO MENU MOBILE
+         ===================================================== -->
+
+    <div
+        class="menu-overlay"
+        id="menu-overlay"
+        aria-hidden="true"
+    ></div>
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>
+                Sobre a Bio-Guiné
+            </h1>
+
+            <p>
+                Uma plataforma dedicada à valorização,
+                proteção e preservação da biodiversidade
+                da Guiné-Bissau.
+            </p>
+
         </div>
+
     </section>
-</div>
 
-<section class="missao-section">
-    <div class="missao-grid">
-        <div class="card-mvv reveal">
-            <h3>Missão</h3>
-            <p>Democratizar o acesso a dados ambientais e promover a conservação ativa através da inovação digital.</p>
-        </div>
-        <div class="card-mvv reveal">
-            <h3>Visão</h3>
-            <p>Ser o principal ecossistema digital de inteligência ambiental da África Ocidental até 2030.</p>
-        </div>
-        <div class="card-mvv reveal">
-            <h3>Valores</h3>
-            <p>Integridade científica, transparência radical e compromisso inabalável com a sustentabilidade.</p>
-        </div>
-    </div>
-</section>
 
-<div class="section-container">
-    <section class="reveal">
-        <h3 style="text-align:center; font-size: 2rem; color: var(--cor-verde-escuro);">Nossa Tecnologia</h3>
-        <div class="grid-recursos">
-            <div class="card-recurso">
-                <i class="fas fa-seedling"></i>
-                <h4>Monitoramento</h4>
-                <p>Base de dados viva sobre a flora e fauna local com verificação científica.</p>
-            </div>
-            <div class="card-recurso">
-                <i class="fas fa-bullhorn"></i>
-                <h4>Denúncias</h4>
-                <p>Canal direto para reporte de crimes ambientais com geolocalização.</p>
-            </div>
-            <div class="card-recurso">
-                <i class="fas fa-chart-pie"></i>
-                <h4>BI & Analytics</h4>
-                <p>Dashboards estratégicos para auxiliar políticas públicas de conservação.</p>
-            </div>
-        </div>
-    </section>
-</div>
+    <main>
 
- <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Contato</h3>
+        <!-- =================================================
+             SOBRE A BIO-GUINÉ
+             ================================================= -->
+
+        <section class="section-container">
+
+            <div class="sobre-grid reveal">
+
+                <!-- IMAGEM -->
+
+                <div class="sobre-imagem">
+
+                    <img
+                        src="assets/img/img2/WhatsApp Image 2026-03-09 at 15.43.20 (2).jpeg"
+                        alt="Biodiversidade da Guiné-Bissau"
+                        loading="lazy"
+                    >
+
+                </div>
+
+
+                <!-- CONTEÚDO -->
+
+                <div class="sobre-conteudo">
+
+                    <h2>
+                        Quem Somos
+                    </h2>
+
+                    <p>
+                        A Bio-Guiné é uma plataforma digital
+                        criada para promover o conhecimento,
+                        a valorização e a proteção da
+                        biodiversidade da Guiné-Bissau.
+                    </p>
+
+                    <p>
+                        O nosso objetivo é aproximar a
+                        sociedade do património natural do
+                        país através da tecnologia,
+                        educação e participação comunitária.
+                    </p>
+
+                    <p>
+                        A plataforma permite conhecer
+                        espécies, consultar informações,
+                        participar em iniciativas de
+                        conservação e comunicar situações
+                        que possam representar uma ameaça
+                        à biodiversidade.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             MISSÃO / VISÃO / VALORES
+             ================================================= -->
+
+        <section class="missao-section">
+
+            <div class="section-title">
+
+                <h2>
+                    Missão, Visão e Valores
+                </h2>
+
+                <p>
+                    Trabalhamos para construir uma relação
+                    mais responsável entre as pessoas e
+                    o património natural da Guiné-Bissau.
+                </p>
+
+            </div>
+
+
+            <div class="missao-grid">
+
+                <!-- MISSÃO -->
+
+                <article class="card-mvv reveal">
+
+                    <i
+                        class="fas fa-bullseye"
+                        aria-hidden="true"
+                    ></i>
+
+                    <h3>
+                        Missão
+                    </h3>
+
+                    <p>
+                        Promover a conservação da
+                        biodiversidade através da
+                        informação, educação ambiental
+                        e participação da comunidade.
+                    </p>
+
+                </article>
+
+
+                <!-- VISÃO -->
+
+                <article class="card-mvv reveal">
+
+                    <i
+                        class="fas fa-eye"
+                        aria-hidden="true"
+                    ></i>
+
+                    <h3>
+                        Visão
+                    </h3>
+
+                    <p>
+                        Tornar a tecnologia uma ferramenta
+                        acessível para conhecer, proteger
+                        e valorizar a biodiversidade
+                        da Guiné-Bissau.
+                    </p>
+
+                </article>
+
+
+                <!-- VALORES -->
+
+                <article class="card-mvv reveal">
+
+                    <i
+                        class="fas fa-heart"
+                        aria-hidden="true"
+                    ></i>
+
+                    <h3>
+                        Valores
+                    </h3>
+
+                    <p>
+                        Responsabilidade, transparência,
+                        inovação, educação ambiental,
+                        colaboração e respeito pela natureza.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             TECNOLOGIA
+             ================================================= -->
+
+        <section class="section-container tecnologia-section">
+
+            <div class="section-title">
+
+                <h2>
+                    Tecnologia e Inovação
+                </h2>
+
+                <p>
+                    Utilizamos ferramentas digitais para
+                    tornar a informação sobre a biodiversidade
+                    mais acessível e interativa.
+                </p>
+
+            </div>
+
+
+            <div class="tecnologia-grid">
+
+                <!-- RECURSO 1 -->
+
+                <article class="card-recurso reveal">
+
+                    <i
+                        class="fas fa-leaf"
+                        aria-hidden="true"
+                    ></i>
+
+                    <h3>
+                        Catálogo de Espécies
+                    </h3>
+
+                    <p>
+                        Consulte informações sobre
+                        diferentes espécies da fauna
+                        e flora da Guiné-Bissau.
+                    </p>
+
+                </article>
+
+
+                <!-- RECURSO 2 -->
+
+                <article class="card-recurso reveal">
+
+                    <i
+                        class="fas fa-mobile-screen-button"
+                        aria-hidden="true"
+                    ></i>
+
+                    <h3>
+                        Plataforma Digital
+                    </h3>
+
+                    <p>
+                        Uma experiência simples,
+                        responsiva e acessível em
+                        computadores, tablets e smartphones.
+                    </p>
+
+                </article>
+
+
+                <!-- RECURSO 3 -->
+
+                <article class="card-recurso reveal">
+
+                    <i
+                        class="fas fa-users"
+                        aria-hidden="true"
+                    ></i>
+
+                    <h3>
+                        Participação Comunitária
+                    </h3>
+
+                    <p>
+                        Incentivamos a participação
+                        dos cidadãos na proteção e
+                        preservação do património natural.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             EQUIPA
+             ================================================= -->
+
+        <section class="section-container equipa-section">
+
+            <div class="section-title">
+
+                <h2>
+                    Nossa Equipa
+                </h2>
+
+                <p>
+                    Conheça as pessoas que contribuem para
+                    o desenvolvimento e crescimento da
+                    plataforma Bio-Guiné.
+                </p>
+
+            </div>
+
+
+            <div class="equipa-grid">
+
+                <!-- =========================================
+                     MEMBRO 1
+                     ========================================= -->
+
+                <article class="card-equipa reveal">
+
+                    <div class="equipa-imagem">
+
+                        <img
+                            src="assets/img/equipe/membro-1.jpg"
+                            alt="Fotografia do membro da equipa"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                    <div class="equipa-info">
+
+                        <h3>
+                            Nome do Membro 1
+                        </h3>
+
+                        <span class="funcao">
+                            Diretor / Coordenador
+                        </span>
+
+                        <p>
+                            Responsável pela coordenação
+                            e orientação geral do projeto.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =========================================
+                     MEMBRO 2
+                     ========================================= -->
+
+                <article class="card-equipa reveal">
+
+                    <div class="equipa-imagem">
+
+                        <img
+                            src="assets/img/equipe/membro-2.jpg"
+                            alt="Fotografia do membro da equipa"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                    <div class="equipa-info">
+
+                        <h3>
+                            Nome do Membro 2
+                        </h3>
+
+                        <span class="funcao">
+                            Desenvolvedor / Tecnologia
+                        </span>
+
+                        <p>
+                            Responsável pelo desenvolvimento
+                            e evolução tecnológica da plataforma.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =========================================
+                     MEMBRO 3
+                     ========================================= -->
+
+                <article class="card-equipa reveal">
+
+                    <div class="equipa-imagem">
+
+                        <img
+                            src="assets/img/equipe/membro-3.jpg"
+                            alt="Fotografia do membro da equipa"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                    <div class="equipa-info">
+
+                        <h3>
+                            Nome do Membro 3
+                        </h3>
+
+                        <span class="funcao">
+                            Especialista Ambiental
+                        </span>
+
+                        <p>
+                            Contribui com conhecimento
+                            relacionado à biodiversidade
+                            e conservação ambiental.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =========================================
+                     MEMBRO 4
+                     ========================================= -->
+
+                <article class="card-equipa reveal">
+
+                    <div class="equipa-imagem">
+
+                        <img
+                            src="assets/img/equipe/membro-4.jpg"
+                            alt="Fotografia do membro da equipa"
+                            loading="lazy"
+                        >
+
+                    </div>
+
+                    <div class="equipa-info">
+
+                        <h3>
+                            Nome do Membro 4
+                        </h3>
+
+                        <span class="funcao">
+                            Comunicação / Design
+                        </span>
+
+                        <p>
+                            Responsável pela comunicação,
+                            identidade visual e experiência
+                            dos utilizadores.
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer>
+
+        <div class="footer-container">
+
+            <div class="footer-grid">
+
+                <!-- SOBRE -->
+
+                <div class="footer-col">
+
+                    <h3>
+                        Bio-Guiné
+                    </h3>
+
+                    <p>
+                        Plataforma dedicada à valorização,
+                        conhecimento e conservação da
+                        biodiversidade da Guiné-Bissau.
+                    </p>
+
+                </div>
+
+
+                <!-- LINKS -->
+
+                <div class="footer-col">
+
+                    <h3>
+                        Links
+                    </h3>
+
                     <ul>
-                        <li><a href="mailto:exemplo@email.com">bioguine@email.com</a></li>
-                        <li><a href="tel:+123456789">+245 95 633 48 24</a></li>
+
+                        <li>
+                            <a href="index.html">
+                                Home
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="cadastro.html">
+                                Espécies
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="denuncia.html">
+                                Denúncias
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="sobre.html">
+                                Sobre
+                            </a>
+                        </li>
+
                     </ul>
+
                 </div>
-                <div class="footer-section">
-                    <h3>Links Úteis</h3>
+
+
+                <!-- CONTACTO -->
+
+                <div class="footer-col">
+
+                    <h3>
+                        Contacto
+                    </h3>
+
                     <ul>
-                        <li><a href="index.html">Inicio</a></li>
-                        <li><a href="cadastro.html">Seres</a></li>
-                        <li><a href="denuncia.html">Denuncias</a></li>
+
+                        <li>
+                            <a href="contacto.html">
+                                Fale connosco
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="blogtexte.html">
+                                Notícias
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="quiz.html">
+                                Quiz
+                            </a>
+                        </li>
+
                     </ul>
+
                 </div>
-                <div class="footer-section">
-                    <h3>Siga-nos</h3>
-                    <ul class="social-icons">
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                        <li><a href="https://wa.me/956334824" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
-                    </ul>
-                </div>
+
             </div>
+
+
             <div class="footer-bottom">
-                <p>&copy; 2025 Bioma-Guiné. Todos os direitos reservados.</p>
+
+                <p>
+                    &copy;
+                    <span id="ano-atual"></span>
+                    Bio-Guiné. Todos os direitos reservados.
+                </p>
+
             </div>
-        </footer>
 
-<script>
-    // Reveal Animation
-    function reveal() {
-        var reveals = document.querySelectorAll(".reveal");
-        reveals.forEach(el => {
-            var windowHeight = window.innerHeight;
-            var elementTop = el.getBoundingClientRect().top;
-            if (elementTop < windowHeight - 100) { el.classList.add("active"); }
-        });
-    }
-    window.addEventListener("scroll", reveal);
-    reveal();
-</script>
+        </div>
+
+    </footer>
 
 
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
 
- <!-- Scripts -->
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const hamburger = document.getElementById('hamburger');
-                const navLinks = document.getElementById('nav-links');
+    <script>
 
-                if (!hamburger || !navLinks) return;
+        document.addEventListener("DOMContentLoaded", () => {
 
-                hamburger.addEventListener('click', () => {
-                    navLinks.classList.toggle('active');
-                });
+            /* =================================================
+               ELEMENTOS DO MENU
+               ================================================= */
 
-                navLinks.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', () => {
-                        navLinks.classList.remove('active');
-                    });
-                });
+            const hamburger =
+                document.getElementById("hamburger");
+
+            const navLinks =
+                document.getElementById("nav-links");
+
+            const userMenu =
+                document.getElementById("user-menu");
+
+            let overlay =
+                document.getElementById("menu-overlay");
+
+
+            /* =================================================
+               CRIAR OVERLAY CASO NÃO EXISTA
+               ================================================= */
+
+            if (!overlay) {
+
+                overlay =
+                    document.createElement("div");
+
+                overlay.id =
+                    "menu-overlay";
+
+                overlay.className =
+                    "menu-overlay";
+
+                document.body.appendChild(overlay);
+            }
+
+
+            /* =================================================
+               ABRIR MENU
+               ================================================= */
+
+            function abrirMenu() {
+
+                navLinks.classList.add("active");
+
+                overlay.classList.add("active");
+
+                document.body.classList.add("menu-open");
+
+                hamburger.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
+
+                hamburger.setAttribute(
+                    "aria-label",
+                    "Fechar menu"
+                );
+
+                hamburger.innerHTML =
+                    '<i class="fas fa-xmark" aria-hidden="true"></i>';
+
+                overlay.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+            }
+
+
+            /* =================================================
+               FECHAR MENU
+               ================================================= */
+
+            function fecharMenu() {
+
+                navLinks.classList.remove("active");
+
+                overlay.classList.remove("active");
+
+                document.body.classList.remove("menu-open");
+
+                hamburger.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+                hamburger.setAttribute(
+                    "aria-label",
+                    "Abrir menu"
+                );
+
+                hamburger.innerHTML =
+                    '<i class="fas fa-bars" aria-hidden="true"></i>';
+
+                overlay.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+            }
+
+
+            /* =================================================
+               ALTERNAR MENU
+               ================================================= */
+
+            function alternarMenu() {
+
+                const aberto =
+                    navLinks.classList.contains("active");
+
+                if (aberto) {
+
+                    fecharMenu();
+
+                } else {
+
+                    abrirMenu();
+
+                }
+            }
+
+
+            /* =================================================
+               CLICK NO HAMBURGER
+               ================================================= */
+
+            if (hamburger) {
+
+                hamburger.addEventListener(
+                    "click",
+                    alternarMenu
+                );
+
+            }
+
+
+            /* =================================================
+               CLICK NO OVERLAY
+               ================================================= */
+
+            if (overlay) {
+
+                overlay.addEventListener(
+                    "click",
+                    fecharMenu
+                );
+
+            }
+
+
+            /* =================================================
+               FECHAR AO CLICAR NOS LINKS
+               ================================================= */
+
+            const links =
+                navLinks.querySelectorAll("a");
+
+            links.forEach((link) => {
+
+                link.addEventListener(
+                    "click",
+                    fecharMenu
+                );
+
             });
-        </script>
 
-        <script src="assets/page/usuariospage.js"></script>
+
+            /* =================================================
+               TECLA ESC
+               ================================================= */
+
+            document.addEventListener(
+                "keydown",
+                (event) => {
+
+                    if (
+                        event.key === "Escape" &&
+                        navLinks.classList.contains("active")
+                    ) {
+
+                        fecharMenu();
+
+                    }
+
+                }
+            );
+
+
+            /* =================================================
+               FECHAR AO REDIMENSIONAR
+               ================================================= */
+
+            window.addEventListener(
+                "resize",
+                () => {
+
+                    if (
+                        window.innerWidth > 992 &&
+                        navLinks.classList.contains("active")
+                    ) {
+
+                        fecharMenu();
+
+                    }
+
+                }
+            );
+
+
+            /* =================================================
+               MENU DO UTILIZADOR
+               ================================================= */
+
+            if (userMenu) {
+
+                userMenu.addEventListener(
+                    "click",
+                    () => {
+
+                        /*
+                         * O comportamento do utilizador
+                         * pode continuar sendo tratado pelo
+                         * usuariospage.js.
+                         */
+
+                    }
+                );
+
+            }
+
+
+            /* =================================================
+               ANIMAÇÃO REVEAL
+               ================================================= */
+
+            const elementosReveal =
+                document.querySelectorAll(".reveal");
+
+
+            if (
+                "IntersectionObserver" in window
+            ) {
+
+                const observer =
+                    new IntersectionObserver(
+                        (entries, observer) => {
+
+                            entries.forEach(
+                                (entry) => {
+
+                                    if (
+                                        entry.isIntersecting
+                                    ) {
+
+                                        entry.target.classList.add(
+                                            "visible"
+                                        );
+
+                                        observer.unobserve(
+                                            entry.target
+                                        );
+
+                                    }
+
+                                }
+                            );
+
+                        },
+                        {
+                            threshold: 0.12
+                        }
+                    );
+
+
+                elementosReveal.forEach(
+                    (elemento) => {
+
+                        observer.observe(elemento);
+
+                    }
+                );
+
+            } else {
+
+                elementosReveal.forEach(
+                    (elemento) => {
+
+                        elemento.classList.add(
+                            "visible"
+                        );
+
+                    }
+                );
+
+            }
+
+
+            /* =================================================
+               ANO AUTOMÁTICO DO FOOTER
+               ================================================= */
+
+            const anoAtual =
+                document.getElementById("ano-atual");
+
+            if (anoAtual) {
+
+                anoAtual.textContent =
+                    new Date().getFullYear();
+
+            }
+
+        });
+
+    </script>
+
+
+    <!-- =====================================================
+         SCRIPT EXISTENTE DO UTILIZADOR
+         ===================================================== -->
+
+    <script src="assets/page/usuariospage.js"></script>
 
 </body>
 </html>

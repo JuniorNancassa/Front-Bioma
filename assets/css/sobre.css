@@ -1,0 +1,1387 @@
+/* =========================================================
+   BIO-GUINÉ
+   SOBRE - CSS RESPONSIVO
+   ========================================================= */
+
+/* =========================================================
+   1. VARIÁVEIS
+   ========================================================= */
+
+:root {
+    --verde-escuro: #1f5f2c;
+    --verde-principal: #2e7d32;
+    --verde-musgo: #4caf50;
+    --verde-claro: #e8f5e9;
+    --verde-suave: #f0f8f2;
+
+    --branco: #ffffff;
+    --fundo: #f4f8f5;
+
+    --cinza-claro: #eef2ef;
+    --cinza-borda: #dfe7e1;
+    --cinza-texto: #66706a;
+
+    --texto: #24342a;
+    --texto-suave: #526057;
+
+    --sombra-suave:
+        0 8px 25px rgba(31, 95, 44, 0.08);
+
+    --sombra-card:
+        0 12px 30px rgba(31, 95, 44, 0.12);
+
+    --raio: 16px;
+    --raio-pequeno: 10px;
+
+    --largura-maxima: 1200px;
+
+    --transicao:
+        0.3s ease;
+}
+
+
+/* =========================================================
+   2. RESET
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    font-family: "Inter", sans-serif;
+    color: var(--texto);
+    background: var(--fundo);
+
+    line-height: 1.6;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    font: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+
+/* =========================================================
+   3. CONTAINER
+   ========================================================= */
+
+.container,
+.section-container {
+    width: min(
+        calc(100% - 40px),
+        var(--largura-maxima)
+    );
+
+    margin-inline: auto;
+}
+
+
+/* =========================================================
+   4. NAVBAR
+   ========================================================= */
+
+.main-nav {
+    position: sticky;
+    top: 0;
+    z-index: 3000;
+
+    width: 100%;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    border-bottom: 1px solid var(--cinza-borda);
+
+    box-shadow:
+        0 4px 15px rgba(31, 95, 44, 0.06);
+
+    backdrop-filter: blur(12px);
+}
+
+.main-nav .container {
+    min-height: 76px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+}
+
+
+/* =========================================================
+   5. LOGO
+   ========================================================= */
+
+.logo {
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: auto;
+    height: 52px;
+
+    object-fit: contain;
+}
+
+
+/* =========================================================
+   6. MENU DESKTOP
+   ========================================================= */
+
+.main-nav-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 6px;
+}
+
+.main-nav-links > a {
+    position: relative;
+
+    padding: 10px 12px;
+
+    color: var(--texto);
+
+    font-size: 0.92rem;
+    font-weight: 600;
+
+    border-radius: 8px;
+
+    transition:
+        color var(--transicao),
+        background var(--transicao);
+}
+
+.main-nav-links > a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 12px;
+    right: 12px;
+    bottom: 3px;
+
+    height: 2px;
+
+    background: var(--verde-principal);
+
+    transform: scaleX(0);
+    transform-origin: center;
+
+    transition:
+        transform var(--transicao);
+}
+
+.main-nav-links > a:hover {
+    color: var(--verde-principal);
+    background: var(--verde-suave);
+}
+
+.main-nav-links > a:hover::after {
+    transform: scaleX(1);
+}
+
+
+/* =========================================================
+   7. USER MENU
+   ========================================================= */
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-left: 8px;
+    padding: 9px 13px;
+
+    color: var(--verde-escuro);
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    border: 1px solid var(--cinza-borda);
+    border-radius: 999px;
+
+    background: var(--verde-suave);
+
+    cursor: pointer;
+
+    transition:
+        background var(--transicao),
+        transform var(--transicao);
+}
+
+.user-menu:hover {
+    background: var(--verde-claro);
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   8. HAMBURGER
+   ========================================================= */
+
+.hamburger {
+    display: none;
+
+    width: 44px;
+    height: 44px;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 10px;
+
+    color: var(--verde-escuro);
+    background: var(--verde-claro);
+
+    cursor: pointer;
+
+    font-size: 1.2rem;
+
+    transition:
+        background var(--transicao),
+        transform var(--transicao);
+}
+
+.hamburger:hover {
+    background: #d8eedb;
+}
+
+.hamburger:active {
+    transform: scale(0.96);
+}
+
+
+/* =========================================================
+   9. OVERLAY DO MENU
+   ========================================================= */
+
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 3050;
+
+    background: rgba(0, 0, 0, 0.48);
+
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity var(--transicao),
+        visibility var(--transicao);
+}
+
+.menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   10. HERO
+   ========================================================= */
+
+.hero {
+    position: relative;
+
+    min-height: 500px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 80px 20px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(31, 95, 44, 0.9),
+            rgba(46, 125, 50, 0.7)
+        ),
+        url("../img/img2/WhatsApp Image 2026-03-09 at 15.43.20.jpeg")
+        center / cover no-repeat;
+}
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.08),
+            rgba(0, 0, 0, 0.25)
+        );
+
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+
+    z-index: 2;
+
+    width: min(100%, 850px);
+
+    margin-inline: auto;
+
+    text-align: center;
+
+    color: var(--branco);
+}
+
+.hero-content h1 {
+    margin-bottom: 20px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: clamp(
+        2rem,
+        5vw,
+        4rem
+    );
+
+    line-height: 1.1;
+
+    font-weight: 800;
+
+    text-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero-content p {
+    max-width: 720px;
+
+    margin-inline: auto;
+
+    font-size: clamp(
+        1rem,
+        2vw,
+        1.2rem
+    );
+
+    line-height: 1.8;
+
+    color: rgba(255, 255, 255, 0.95);
+}
+
+
+/* =========================================================
+   11. SEÇÕES
+   ========================================================= */
+
+section {
+    width: 100%;
+}
+
+.section-container {
+    padding-top: 85px;
+    padding-bottom: 85px;
+}
+
+.section-title {
+    max-width: 760px;
+
+    margin: 0 auto 45px;
+
+    text-align: center;
+}
+
+.section-title h2 {
+    margin-bottom: 12px;
+
+    color: var(--verde-escuro);
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: clamp(
+        1.7rem,
+        4vw,
+        2.4rem
+    );
+
+    line-height: 1.2;
+}
+
+.section-title p {
+    color: var(--cinza-texto);
+
+    font-size: 1rem;
+}
+
+
+/* =========================================================
+   12. SOBRE
+   ========================================================= */
+
+.sobre-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    align-items: center;
+
+    gap: clamp(35px, 6vw, 75px);
+}
+
+.sobre-imagem {
+    overflow: hidden;
+
+    border-radius: var(--raio);
+
+    box-shadow: var(--sombra-card);
+}
+
+.sobre-imagem img {
+    width: 100%;
+    min-height: 380px;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.6s ease;
+}
+
+.sobre-imagem:hover img {
+    transform: scale(1.04);
+}
+
+.sobre-conteudo h2 {
+    margin-bottom: 18px;
+
+    color: var(--verde-escuro);
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: clamp(
+        1.7rem,
+        3vw,
+        2.5rem
+    );
+
+    line-height: 1.2;
+}
+
+.sobre-conteudo p {
+    margin-bottom: 15px;
+
+    color: var(--texto-suave);
+
+    font-size: 1rem;
+}
+
+
+/* =========================================================
+   13. MISSÃO / VISÃO / VALORES
+   ========================================================= */
+
+.missao-section {
+    padding: 85px 20px;
+
+    color: var(--branco);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--verde-escuro),
+            var(--verde-principal)
+        );
+}
+
+.missao-section .section-title h2 {
+    color: var(--branco);
+}
+
+.missao-section .section-title p {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.missao-grid {
+    width: min(
+        100%,
+        var(--largura-maxima)
+    );
+
+    margin-inline: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 25px;
+}
+
+.card-mvv {
+    padding: 32px 25px;
+
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.1);
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+
+    border-radius: var(--raio);
+
+    backdrop-filter: blur(8px);
+
+    transition:
+        transform var(--transicao),
+        background var(--transicao),
+        box-shadow var(--transicao);
+}
+
+.card-mvv:hover {
+    transform: translateY(-7px);
+
+    background: rgba(255, 255, 255, 0.15);
+
+    box-shadow:
+        0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card-mvv i {
+    display: inline-flex;
+
+    width: 64px;
+    height: 64px;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    border-radius: 50%;
+
+    color: var(--verde-escuro);
+
+    background: var(--branco);
+
+    font-size: 1.5rem;
+}
+
+.card-mvv h3 {
+    margin-bottom: 12px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 1.25rem;
+}
+
+.card-mvv p {
+    color: rgba(255, 255, 255, 0.85);
+
+    font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   14. TECNOLOGIA
+   ========================================================= */
+
+.tecnologia-section {
+    background: var(--branco);
+}
+
+.tecnologia-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 25px;
+}
+
+.card-recurso {
+    padding: 30px 25px;
+
+    background: var(--branco);
+
+    border: 1px solid var(--cinza-borda);
+
+    border-radius: var(--raio);
+
+    box-shadow: var(--sombra-suave);
+
+    transition:
+        transform var(--transicao),
+        box-shadow var(--transicao),
+        border-color var(--transicao);
+}
+
+.card-recurso:hover {
+    transform: translateY(-6px);
+
+    border-color: rgba(46, 125, 50, 0.35);
+
+    box-shadow: var(--sombra-card);
+}
+
+.card-recurso i {
+    display: inline-flex;
+
+    width: 55px;
+    height: 55px;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 18px;
+
+    border-radius: 14px;
+
+    color: var(--verde-principal);
+
+    background: var(--verde-claro);
+
+    font-size: 1.35rem;
+}
+
+.card-recurso h3 {
+    margin-bottom: 10px;
+
+    color: var(--verde-escuro);
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 1.15rem;
+}
+
+.card-recurso p {
+    color: var(--cinza-texto);
+
+    font-size: 0.94rem;
+}
+
+
+/* =========================================================
+   15. EQUIPA
+   ========================================================= */
+
+.equipa-section {
+    background: var(--fundo);
+}
+
+.equipa-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 22px;
+}
+
+.card-equipa {
+    overflow: hidden;
+
+    background: var(--branco);
+
+    border: 1px solid var(--cinza-borda);
+
+    border-radius: var(--raio);
+
+    box-shadow: var(--sombra-suave);
+
+    transition:
+        transform var(--transicao),
+        box-shadow var(--transicao);
+}
+
+.card-equipa:hover {
+    transform: translateY(-7px);
+
+    box-shadow: var(--sombra-card);
+}
+
+.equipa-imagem {
+    position: relative;
+
+    height: 280px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--verde-claro),
+            var(--cinza-claro)
+        );
+}
+
+.equipa-imagem img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.6s ease;
+}
+
+.card-equipa:hover .equipa-imagem img {
+    transform: scale(1.05);
+}
+
+.equipa-info {
+    padding: 22px 20px 24px;
+
+    text-align: center;
+}
+
+.equipa-info h3 {
+    margin-bottom: 5px;
+
+    color: var(--verde-escuro);
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 1.12rem;
+}
+
+.equipa-info .funcao {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: var(--verde-principal);
+
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.equipa-info p {
+    color: var(--cinza-texto);
+
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   16. FOOTER
+   ========================================================= */
+
+footer {
+    color: var(--branco);
+
+    background: #173f21;
+}
+
+.footer-container {
+    width: min(
+        calc(100% - 40px),
+        var(--largura-maxima)
+    );
+
+    margin-inline: auto;
+
+    padding-top: 55px;
+    padding-bottom: 25px;
+}
+
+.footer-grid {
+    display: grid;
+
+    grid-template-columns:
+        1.4fr
+        1fr
+        1fr;
+
+    gap: 45px;
+
+    padding-bottom: 40px;
+}
+
+.footer-col h3 {
+    margin-bottom: 15px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 1.1rem;
+}
+
+.footer-col p {
+    max-width: 420px;
+
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 0.92rem;
+}
+
+.footer-col ul {
+    display: grid;
+
+    gap: 8px;
+}
+
+.footer-col li,
+.footer-col a {
+    color: rgba(255, 255, 255, 0.72);
+
+    font-size: 0.9rem;
+
+    transition:
+        color var(--transicao);
+}
+
+.footer-col a:hover {
+    color: var(--branco);
+}
+
+.footer-bottom {
+    padding-top: 20px;
+
+    text-align: center;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.12);
+
+    color: rgba(255, 255, 255, 0.6);
+
+    font-size: 0.82rem;
+}
+
+
+/* =========================================================
+   17. ANIMAÇÃO REVEAL
+   ========================================================= */
+
+.reveal {
+    opacity: 0;
+
+    transform: translateY(25px);
+
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   18. TABLETS GRANDES
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    .container,
+    .section-container,
+    .footer-container {
+        width: min(
+            calc(100% - 32px),
+            var(--largura-maxima)
+        );
+    }
+
+    .main-nav-links {
+        gap: 2px;
+    }
+
+    .main-nav-links > a {
+        padding-inline: 9px;
+
+        font-size: 0.86rem;
+    }
+
+    .equipa-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .tecnologia-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* =========================================================
+   19. TABLETS
+   ========================================================= */
+
+@media (max-width: 992px) {
+
+    .main-nav .container {
+        min-height: 70px;
+    }
+
+    .hamburger {
+        display: flex;
+
+        position: relative;
+
+        z-index: 3200;
+    }
+
+    .main-nav-links {
+        position: fixed;
+
+        top: 0;
+        right: 0;
+
+        z-index: 3100;
+
+        width: min(
+            340px,
+            86vw
+        );
+
+        height: 100dvh;
+
+        padding:
+            95px
+            24px
+            30px;
+
+        display: flex;
+
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+
+        gap: 8px;
+
+        overflow-y: auto;
+
+        background: var(--branco);
+
+        box-shadow:
+            -10px 0 30px rgba(0, 0, 0, 0.12);
+
+        transform:
+            translateX(105%);
+
+        visibility: hidden;
+
+        pointer-events: none;
+
+        transition:
+            transform 0.35s ease,
+            visibility 0.35s ease;
+    }
+
+    .main-nav-links.active {
+        transform: translateX(0);
+
+        visibility: visible;
+
+        pointer-events: auto;
+    }
+
+    .main-nav-links > a {
+        display: flex;
+
+        align-items: center;
+
+        min-height: 48px;
+
+        padding: 12px 15px;
+
+        border-radius: 10px;
+
+        font-size: 1rem;
+    }
+
+    .main-nav-links > a::after {
+        display: none;
+    }
+
+    .main-nav-links > a:hover {
+        background: var(--verde-claro);
+    }
+
+    .user-menu {
+        justify-content: center;
+
+        margin: 12px 0 0;
+
+        min-height: 48px;
+    }
+
+    body.menu-open {
+        overflow: hidden;
+    }
+
+    .hero {
+        min-height: 440px;
+
+        padding-block: 70px;
+    }
+
+    .sobre-grid {
+        grid-template-columns: 1fr;
+
+        gap: 40px;
+    }
+
+    .sobre-imagem {
+        max-width: 760px;
+
+        margin-inline: auto;
+    }
+
+    .sobre-imagem img {
+        min-height: 340px;
+    }
+
+    .missao-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .footer-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* =========================================================
+   20. SMARTPHONES GRANDES
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .container,
+    .section-container,
+    .footer-container {
+        width: min(
+            calc(100% - 28px),
+            var(--largura-maxima)
+        );
+    }
+
+    .logo img {
+        height: 46px;
+    }
+
+    .hero {
+        min-height: 400px;
+
+        padding:
+            65px
+            18px;
+    }
+
+    .hero-content h1 {
+        font-size:
+            clamp(
+                2rem,
+                10vw,
+                3rem
+            );
+    }
+
+    .hero-content p {
+        font-size: 0.95rem;
+
+        line-height: 1.7;
+    }
+
+    .section-container {
+        padding-top: 65px;
+        padding-bottom: 65px;
+    }
+
+    .missao-section {
+        padding-top: 65px;
+        padding-bottom: 65px;
+    }
+
+    .section-title {
+        margin-bottom: 32px;
+    }
+
+    .sobre-imagem img {
+        min-height: 280px;
+
+        max-height: 420px;
+    }
+
+    .missao-grid {
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+    }
+
+    .tecnologia-grid {
+        grid-template-columns: 1fr;
+
+        gap: 18px;
+    }
+
+    .equipa-grid {
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+    }
+
+    .equipa-imagem {
+        height: 320px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+    }
+
+    .footer-container {
+        padding-top: 45px;
+    }
+}
+
+
+/* =========================================================
+   21. SMARTPHONES
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .container,
+    .section-container,
+    .footer-container {
+        width: calc(100% - 24px);
+    }
+
+    .main-nav .container {
+        min-height: 64px;
+    }
+
+    .logo img {
+        height: 42px;
+
+        max-width: 160px;
+    }
+
+    .hamburger {
+        width: 42px;
+        height: 42px;
+    }
+
+    .main-nav-links {
+        width: 88vw;
+
+        padding:
+            82px
+            18px
+            24px;
+    }
+
+    .hero {
+        min-height: 360px;
+
+        padding:
+            55px
+            14px;
+    }
+
+    .hero-content h1 {
+        margin-bottom: 15px;
+
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 0.9rem;
+    }
+
+    .section-container {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    .missao-section {
+        padding:
+            50px
+            12px;
+    }
+
+    .section-title {
+        margin-bottom: 28px;
+    }
+
+    .section-title h2 {
+        font-size: 1.65rem;
+    }
+
+    .section-title p {
+        font-size: 0.9rem;
+    }
+
+    .sobre-grid {
+        gap: 28px;
+    }
+
+    .sobre-imagem img {
+        min-height: 240px;
+    }
+
+    .sobre-conteudo h2 {
+        font-size: 1.65rem;
+    }
+
+    .sobre-conteudo p {
+        font-size: 0.92rem;
+    }
+
+    .card-mvv,
+    .card-recurso {
+        padding: 25px 20px;
+    }
+
+    .equipa-imagem {
+        height: 290px;
+    }
+
+    .equipa-info {
+        padding:
+            20px
+            16px
+            22px;
+    }
+
+    .footer-container {
+        width: calc(100% - 24px);
+    }
+}
+
+
+/* =========================================================
+   22. SMARTPHONES MUITO PEQUENOS
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+    .logo img {
+        height: 38px;
+
+        max-width: 140px;
+    }
+
+    .hamburger {
+        width: 40px;
+        height: 40px;
+    }
+
+    .hero {
+        min-height: 330px;
+    }
+
+    .hero-content h1 {
+        font-size: 1.75rem;
+    }
+
+    .hero-content p {
+        font-size: 0.86rem;
+    }
+
+    .equipa-imagem {
+        height: 250px;
+    }
+}
+
+
+/* =========================================================
+   23. ACESSIBILIDADE / REDUÇÃO DE MOVIMENTO
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+
+/* =========================================================
+   24. FOCO DE TECLADO
+   ========================================================= */
+
+a:focus-visible,
+button:focus-visible,
+.user-menu:focus-visible {
+    outline: 3px solid rgba(76, 175, 80, 0.45);
+
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   25. TELAS ALTAS / DESKTOP
+   ========================================================= */
+
+@media (min-width: 1400px) {
+
+    .hero {
+        min-height: 560px;
+    }
+
+    .section-container {
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+
+    .missao-section {
+        padding-top: 100px;
+        padding-bottom: 100px;
+    }
+}

@@ -1,128 +1,446 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plataforma de Denúncias - Modelo</title>
 
-  <!-- Fontes e Ícones -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="assets/css/noticia.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-  
+    <title>Bioma-Guiné | Notícias</title>
 
-  <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  
+    <!-- =====================================================
+         FONTES E ÍCONES
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =====================================================
+         CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="assets/css/noticia.css"
+    >
+
+    <!-- =====================================================
+         LEAFLET
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
 
 </head>
+
+
 <body>
 
-<!-- Header -->
+
+<!-- =========================================================
+     HEADER / NAVBAR
+========================================================= -->
+
 <header class="main-nav">
-  <div class="container flex-container">
-    <a href="index.html" class="logo">
-      <img src="assets/img/logo/Logo-Bio.jpg1-removebg-preview.png" alt="Logo Bio">
-      <span>Bioma-Guiné</span>
-    </a>
 
-    <nav class="main-nav-links" id="nav-links">
-      <a href="index.html">Home</a>
-      <a href="cadastro.html">Espécies</a>
-      <a href="denuncia.html">Denúncias</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="contacto.html">Contato</a>
-      <a href="https://bioguine.blogspot.com">Blog</a>
-      <a href="https://bioguine.blogspot.com">Quiz</a>
-    </nav>
+    <div class="container flex-container">
 
-    <div id="user-menu"></div>
-    <button class="hamburger" id="hamburger"><i class="fas fa-bars"></i></button>
-  </div>
+        <!-- LOGO -->
+
+        <a
+            href="index.html"
+            class="logo"
+            aria-label="Bioma-Guiné - Página inicial"
+        >
+
+            <img
+                src="assets/img/logo/Logo-Bio.jpg1-removebg-preview.png"
+                alt="Logo Bioma-Guiné"
+            >
+
+            <span>Bioma-Guiné</span>
+
+        </a>
+
+
+        <!-- MENU -->
+
+        <nav
+            class="main-nav-links"
+            id="nav-links"
+            aria-label="Menu principal"
+        >
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="cadastro.html">
+                Espécies
+            </a>
+
+            <a href="denuncia.html">
+                Denúncias
+            </a>
+
+            <a href="sobre.html">
+                Sobre
+            </a>
+
+            <a href="contacto.html">
+                Contato
+            </a>
+
+            <a
+                href="https://bioguine.blogspot.com"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Blog
+            </a>
+
+            <a
+                href="https://bioguine.blogspot.com"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Quiz
+            </a>
+
+            <!-- Área do usuário -->
+
+            <div
+                id="user-menu"
+                class="user-menu"
+            ></div>
+
+        </nav>
+
+
+        <!-- HAMBURGER -->
+
+        <button
+            class="hamburger"
+            id="hamburger"
+            type="button"
+            aria-label="Abrir menu"
+            aria-expanded="false"
+            aria-controls="nav-links"
+        >
+
+            <i class="fas fa-bars"></i>
+
+        </button>
+
+    </div>
+
 </header>
 
-<!-- Hero -->
+
+<!-- OVERLAY DO MENU MOBILE -->
+
+<div
+    class="menu-overlay"
+    id="menu-overlay"
+    aria-hidden="true"
+></div>
+
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
 <section class="hero-denuncia">
-  <div class="hero-denuncia-content">
-    <h1>Noticias</h1>
-    <p>Mantenha-se informado, inspire-se e faça a diferença todos os dias!</p>
-  </div>
+
+    <div class="hero-denuncia-content">
+
+        <span class="hero-label">
+            BIO-GUINÉ
+        </span>
+
+        <h1>
+            Notícias
+        </h1>
+
+        <p>
+            Mantenha-se informado, inspire-se e faça a diferença todos os dias!
+        </p>
+
+    </div>
+
 </section>
 
 
-    <!-- SEARCH -->
-    <section class="search-section">
-        <input type="text" id="search" placeholder="Pesquisar posts...">
-        <select id="categoryFilter">
-            <option value="all">Todas Categorias</option>
-        </select> 
-    </section>
 
-      <main id="posts" class="posts-grid">
-          <!-- Aqui o JavaScript vai inserir dinamicamente os cards -->
-      </main>
+<!-- =========================================================
+     PESQUISA
+========================================================= -->
+
+<section class="search-section">
+
+    <div class="search-wrapper">
+
+        <div class="search-box">
+
+            <i class="fas fa-search"></i>
+
+            <input
+                type="text"
+                id="search"
+                placeholder="Pesquisar posts..."
+                aria-label="Pesquisar notícias"
+            >
+
+        </div>
 
 
-  
+        <div class="category-box">
 
-    <!-- Disqus para comentários -->
-    <div id="disqus_thread"></div>
-    <script>
-        var disqus_config = function () {
-            this.page.url = window.location.href;
-            this.page.identifier = 'meu-blog';
-        };
-        (function() {
-            var d = document, s = d.createElement('script');
-            s.src = 'https://EXEMPLO.disqus.com/embed.js'; // Substitua EXEMPLO pelo seu shortname Disqus
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
-    </script>
-  <!-- FOOTER -->
-   <!-- Footer -->
+            <i class="fas fa-filter"></i>
+
+            <select
+                id="categoryFilter"
+                aria-label="Filtrar por categoria"
+            >
+
+                <option value="all">
+                    Todas Categorias
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     LISTA DE NOTÍCIAS
+========================================================= -->
+
+<main
+    id="posts"
+    class="posts-grid"
+>
+
+    <!--
+        As notícias serão inseridas
+        dinamicamente pelo JavaScript.
+    -->
+
+</main>
+
+
+
+<!-- =========================================================
+     ÁREA DE NOTÍCIA COMPLETA
+========================================================= -->
+
+<div
+    class="noticia-container"
+    id="noticia-completa"
+>
+
+    <!-- O conteúdo poderá ser preenchido
+         pelo JavaScript quando necessário -->
+
+</div>
+
+
+
+<!-- =========================================================
+     DISQUS
+========================================================= -->
+
+<div id="disqus_thread"></div>
+
+<script>
+
+    var disqus_config = function () {
+
+        this.page.url = window.location.href;
+
+        this.page.identifier = 'meu-blog';
+
+    };
+
+    (function () {
+
+        var d = document;
+
+        var s = d.createElement('script');
+
+        s.src = 'https://EXEMPLO.disqus.com/embed.js';
+
+        s.setAttribute(
+            'data-timestamp',
+            +new Date()
+        );
+
+        (d.head || d.body).appendChild(s);
+
+    })();
+
+</script>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
 <footer class="footer">
-  <div class="footer-content">
-    <div class="footer-section">
-      <h3>Contato</h3>
-      <ul>
-        <li><a href="mailto:exemplo@email.com">biomaguine@email.com</a></li>
-        <li><a href="tel:+123456789">+245 95 633 48 24</a></li>
-      </ul>
+
+    <div class="footer-content">
+
+
+        <!-- CONTATO -->
+
+        <div class="footer-section">
+
+            <h3>
+                Contato
+            </h3>
+
+            <ul>
+
+                <li>
+                    <a href="mailto:biomaguine@email.com">
+                        biomaguine@email.com
+                    </a>
+                </li>
+
+                <li>
+                    <a href="tel:+245956334824">
+                        +245 95 633 48 24
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- LINKS -->
+
+        <div class="footer-section">
+
+            <h3>
+                Links Úteis
+            </h3>
+
+            <ul>
+
+                <li>
+                    <a href="index.html">
+                        Início
+                    </a>
+                </li>
+
+                <li>
+                    <a href="cadastro.html">
+                        Espécies
+                    </a>
+                </li>
+
+                <li>
+                    <a href="denuncia.html">
+                        Denúncias
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- REDES SOCIAIS -->
+
+        <div class="footer-section">
+
+            <h3>
+                Siga-nos
+            </h3>
+
+            <ul class="social-icons">
+
+                <li>
+                    <a
+                        href="#"
+                        aria-label="Facebook"
+                    >
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="#"
+                        aria-label="Instagram"
+                    >
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="https://wa.me/956334824"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="WhatsApp"
+                    >
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
     </div>
 
-    <div class="footer-section">
-      <h3>Links Úteis</h3>
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="cadastro.html">Seres</a></li>
-        <li><a href="denuncia.html">Denúncias</a></li>
-      </ul>
+
+    <div class="footer-bottom">
+
+        <p>
+            &copy; 2026 Bioma-Guiné. Todos os direitos reservados.
+        </p>
+
     </div>
 
-    <div class="footer-section">
-      <h3>Siga-nos</h3>
-      <ul class="social-icons">
-        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-        <li><a href="https://wa.me/956334824" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>&copy; 2025 Bioma-Guiné. Todos os direitos reservados.</p>
-  </div>
 </footer>
 
-   
-    <script src="assets/page/noticia.js"></script>
-    
-<!-- Scripts -->
+
+
+<!-- =========================================================
+     SCRIPTS
+========================================================= -->
+
+<script src="assets/page/noticia.js"></script>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="assets/page/denuncia.js"></script>
+
 <script src="assets/page/usuariospage.js"></script>
+
+
 </body>
+
 </html>
+

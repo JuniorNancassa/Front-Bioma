@@ -1,1090 +1,1847 @@
-/* =========================
-   Variáveis de cores
-========================= */
+/* =========================================================
+BIOMA-GUINÉ
+PLATAFORMA DE DENÚNCIAS
+CSS PRINCIPAL
+========================================================= */
+
+/* =========================================================
+
+1. VARIÁVEIS
+   ========================================================= */
+
 :root {
-  --cor-verde-escuro: #2e7d32;
-  --cor-verde-musgo: #4caf50;
-  --cor-branco: #ffffff;
-  --cor-cinza-claro: #f4f4f4;
-  --cor-fundo: #f0f9f5;
-  --cor-texto: #21312a;
+--cor-verde-escuro: #2e7d32;
+--cor-verde-musgo: #4caf50;
+--cor-verde-claro: #e8f5e9;
+
+--cor-branco: #ffffff;
+--cor-cinza-claro: #f4f4f4;
+--cor-cinza: #d9d9d9;
+--cor-cinza-texto: #6b7280;
+
+--cor-fundo: #f0f9f5;
+--cor-texto: #21312a;
+--cor-preto: #1f2937;
+
+--sombra-pequena:
+0 4px 12px rgba(0, 0, 0, 0.06);
+
+--sombra-media:
+0 10px 30px rgba(0, 0, 0, 0.10);
+
+--raio-pequeno: 8px;
+--raio-medio: 12px;
+--raio-grande: 16px;
+
+--transicao: 0.3s ease;
 }
 
-/* =========================
-   Reset e fonte
-========================= */
+/* =========================================================
+2. RESET
+========================================================= */
+
+*,
+*::before,
+*::after {
+box-sizing: border-box;
+}
+
+html {
+scroll-behavior: smooth;
+}
+
 body {
-  font-family: 'Poppins', 'Segoe UI', sans-serif;
-  margin: 0; padding: 0;
-  background-color: var(--cor-fundo);
-  color: var(--cor-texto);
+margin: 0;
+padding: 0;
+
+font-family:
+"Inter",
+"Segoe UI",
+Arial,
+sans-serif;
+
+background-color: var(--cor-fundo);
+color: var(--cor-texto);
+
+line-height: 1.6;
+
+overflow-x: hidden;
 }
 
-/* =========================
-   Navbar
-========================= */
+body.menu-open {
+overflow: hidden;
+}
+
+img {
+display: block;
+max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+font: inherit;
+}
+
+button {
+cursor: pointer;
+}
+
+a {
+color: inherit;
+}
+
+.container {
+width: min(1200px, calc(100% - 32px));
+margin-inline: auto;
+}
+
+/* =========================================================
+3. NAVBAR
+========================================================= */
+
 .main-nav {
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  padding: 0.9rem 1.5rem;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  border-radius: 14px;
-  margin: 15px;
-  position: sticky;
-  top: 0;
-  z-index: 1200;
-  transition: all 0.3s ease;
+position: sticky;
+top: 0;
+
+z-index: 1200;
+
+margin: 12px 15px;
+
+padding: 10px 20px;
+
+background-color:
+rgba(255, 255, 255, 0.96);
+
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+
+border-radius: 14px;
+
+box-shadow:
+0 8px 25px rgba(0, 0, 0, 0.08);
+
+transition:
+box-shadow var(--transicao),
+background-color var(--transicao);
 }
 
 .flex-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+position: relative;
+
+min-height: 70px;
+
+display: flex;
+align-items: center;
+
+justify-content: space-between;
+
+gap: 25px;
 }
 
-/* Logo */
+/* =========================================================
+4. LOGO
+========================================================= */
+
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  font-size: 1.4rem;
-  text-decoration: none;
-  color: var(--cor-verde-escuro);
+display: flex;
+align-items: center;
+
+flex-shrink: 0;
+
+text-decoration: none;
 }
 
 .logo img {
-  height: 70px;
-  width: auto;
-  border-radius: 10px;
-  transition: transform 0.3s ease;
+width: auto;
+height: 70px;
+
+object-fit: contain;
+
+border-radius: 10px;
+
+transition:
+transform var(--transicao);
 }
 
 .logo:hover img {
-  transform: scale(1.15);
+transform: scale(1.04);
 }
 
-/* Links */
+/* =========================================================
+5. MENU DESKTOP
+========================================================= */
+
 .main-nav-links {
-  display: flex;
-  gap: 1.8rem;
-  align-items: center;
+display: flex;
+
+align-items: center;
+justify-content: flex-end;
+
+gap: 1.4rem;
+
+margin-left: auto;
 }
 
 .main-nav-links a {
-  text-decoration: none;
-  color: var(--cor-verde-escuro);
-  font-weight: 600;
-  position: relative;
-  transition: all 0.3s ease;
+position: relative;
+
+display: inline-flex;
+align-items: center;
+
+color: var(--cor-verde-escuro);
+
+text-decoration: none;
+
+font-size: 0.95rem;
+font-weight: 600;
+
+white-space: nowrap;
+
+transition:
+color var(--transicao);
 }
 
 .main-nav-links a::after {
-  content: '';
-  position: absolute;
-  width: 0%;
-  height: 2px;
-  bottom: -4px;
-  left: 0;
-  background-color: var(--cor-verde-musgo);
-  transition: width 0.3s ease;
+content: "";
+
+position: absolute;
+
+left: 0;
+bottom: -7px;
+
+width: 0;
+height: 2px;
+
+background-color: var(--cor-verde-musgo);
+
+transition: width var(--transicao);
 }
 
-.main-nav-links a:hover::after {
-  width: 100%;
+.main-nav-links a:hover,
+.main-nav-links a.active {
+color: var(--cor-verde-musgo);
 }
 
-/* User menu */
+.main-nav-links a:hover::after,
+.main-nav-links a.active::after {
+width: 100%;
+}
+
+/* =========================================================
+6. MENU DO UTILIZADOR
+========================================================= */
+
 .user-menu {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  color: var(--cor-verde-escuro);
-  cursor: pointer;
-  padding: 8px 12px;
-  border-radius: 8px;
-  transition: background 0.3s ease, transform 0.2s ease;
+display: flex;
+
+align-items: center;
+justify-content: center;
+
+gap: 8px;
+
+padding: 8px 12px;
+
+color: var(--cor-verde-escuro);
+
+font-weight: 600;
+
+border-radius: 8px;
+
+cursor: pointer;
+
+transition:
+background-color var(--transicao),
+color var(--transicao),
+transform var(--transicao);
 }
 
-.user-menu:hover {
-  background-color: var(--cor-cinza-claro);
-  transform: scale(1.05);
+.user-menu i {
+font-size: 16px;
 }
 
-/* Hamburger */
+.user-menu:hover,
+.user-menu:focus {
+background-color: var(--cor-verde-claro);
+
+color: var(--cor-verde-escuro);
+
+transform: translateY(-1px);
+
+outline: none;
+}
+
+/* =========================================================
+7. HAMBURGER
+Compatível com: <i class="fas fa-bars"></i>
+========================================================= */
+
 .hamburger {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 36px;
-  height: 30px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  z-index: 1300;
+display: none;
+
+position: relative;
+
+align-items: center;
+justify-content: center;
+
+width: 44px;
+height: 44px;
+
+padding: 0;
+
+margin-left: auto;
+
+border: none;
+border-radius: 10px;
+
+background-color: transparent;
+
+color: var(--cor-verde-escuro);
+
+z-index: 1400;
+
+transition:
+background-color var(--transicao),
+color var(--transicao);
 }
 
 .hamburger i {
-  font-size: 1.5rem;
-  color: var(--cor-verde-escuro);
+display: block;
+
+font-size: 24px;
+
+line-height: 1;
+
+transition:
+transform 0.25s ease;
 }
 
-/* =========================
-   Responsividade
-========================= */
-@media (max-width: 992px) {
-  .hamburger {
-    display: flex;
-  }
+.hamburger:hover,
+.hamburger:focus {
+background-color: var(--cor-verde-claro);
 
-  .logo {
-    justify-content: center;
-    flex: 0 0 auto;
-  }
-
-  .main-nav-links {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 65%;
-    max-width: 280px;
-    height: 100vh;
-    background: var(--cor-branco);
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 6rem 1.5rem;
-    transform: translateX(-100%);
-    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    box-shadow: 3px 0 20px rgba(0,0,0,0.15);
-    border-radius: 0 12px 12px 0;
-    z-index: 999;
-  }
-
-  .main-nav-links.active {
-    transform: translateX(0);
-  }
-
-  .main-nav-links a {
-    padding: 12px 0;
-    font-size: 1.1rem;
-    width: 100%;
-    text-align: center;
-    border-bottom: 1px solid #eee;
-  }
-
-  .user-menu {
-    width: 100%;
-    justify-content: center;
-    margin-top: 20px;
-    border-top: 1px solid #ddd;
-    padding-top: 15px;
-  }
+outline: none;
 }
 
-/* Desktop fixes */
-@media (min-width: 992px) {
-  .main-nav-links {
-    display: flex !important;
-    position: static;
-    flex-direction: row;
-    background: none;
-    box-shadow: none;
-    width: auto;
-    padding: 0;
-  }
+/* Hamburger vira X */
 
-  .main-nav-links a { border: none; padding: 0 15px; }
+.hamburger.active i {
+transform: rotate(90deg);
 }
 
+/* =========================================================
+8. HERO
+========================================================= */
 
-/* =====================================================
-   3️⃣ HAMBURGER MODERNO ANIMADO
-===================================================== */
-
-.hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 28px;
-    height: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 1300;
-}
-
-.hamburger span {
-    height: 3px;
-    width: 100%;
-    background-color: var(--cor-verde-escuro);
-    border-radius: 3px;
-    transition: all 0.3s ease;
-}
-
-/* Animação para virar X */
-.hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-}
-
-
-/* =====================================================
-   4️⃣ RESPONSIVIDADE NAVBAR
-===================================================== */
-
-@media (max-width: 992px) {
-
-    .hamburger {
-        display: flex;
-        order: 1;
-    }
-
-    .logo {
-        justify-content: center;
-        flex: 0 0 auto;
-    }
-
-    .main-nav .logo img {
-        height: 90px;
-    }
-
-    .main-nav {
-        padding: 1rem;
-    }
-
-    /* Menu lateral mobile */
-    .main-nav-links {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 65%;
-        max-width: 280px;
-        height: 100vh;
-        background: var(--cor-branco);
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        padding: 6rem 1.5rem;
-        transform: translateX(-100%);
-        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        box-shadow: 3px 0 20px rgba(0,0,0,0.15);
-        z-index: 999;
-        border-radius: 0 12px 12px 0;
-    }
-
-    .main-nav-links.active {
-        transform: translateX(0);
-    }
-
-    .main-nav-links a {
-        padding: 12px 0;
-        font-size: 1.1rem;
-        width: 100%;
-        text-align: center;
-        border-bottom: 1px solid #eee;
-    }
-}
-
-
-
-/* =========================
-   Hamburger
-========================= */
-.hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 4px;
-    width: 35px;
-    height: 30px;
-    padding: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 1100;
-}
-
-.hamburger span {
-    width: 24px;
-    height: 2.5px;
-    background-color: var(--cor-verde-escuro);
-    border-radius: 2px;
-    transition: all 0.3s ease;
-}
-
-/* =========================
-   Responsividade Navbar
-========================= */
-@media (max-width: 768px) {
-    .flex-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-    }
-
-    .hamburger { 
-        display: flex; 
-        order: 1;
-    }
-
-    .logo { 
-        order: 2;
-        flex: 1;
-        display: flex;
-        justify-content: center;
-    }
-
-    .nav-buttons, 
-    #user-menu {
-        order: 3;
-        position: static;
-        margin-left: auto;
-    }
-
-    .main-nav-links {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 70%;
-        max-width: 320px;
-        padding: 80px 20px;
-        flex-direction: column;
-        background-color: var(--cor-branco);
-        box-shadow: 3px 0 15px rgba(0,0,0,0.2);
-        transition: transform 0.3s ease;
-        transform: translateX(-100%);
-        z-index: 999;
-    }
-
-    .main-nav-links.active { 
-        transform: translateX(0);
-    }
-
-    .main-nav-links a {
-        display: block;
-        padding: 15px 0;
-        text-align: center;
-        border-bottom: 1px solid #ddd;
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: var(--cor-verde-escuro);
-        text-decoration: none;
-        transition: background-color 0.3s ease;
-    }
-
-    .main-nav-links a:last-child {
-        border-bottom: none;
-    }
-
-    .main-nav-links a:hover {
-        background-color: var(--cor-cinza-claro);
-        color: var(--cor-verde-musgo);
-    }
-}
-
-/* =========================
-   Hero Denúncia
-========================= */
 .hero-denuncia {
-    position: relative;
-    height: 60vh;
-    color: var(--cor-branco);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background-color: var(--cor-verde-escuro);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    transition: none;
+position: relative;
+
+min-height: 55vh;
+
+display: flex;
+
+align-items: center;
+justify-content: center;
+
+padding: 80px 20px;
+
+text-align: center;
+
+color: var(--cor-branco);
+
+background:
+linear-gradient(
+135deg,
+#2e7d32 0%,
+#386b3a 55%,
+#245124 100%
+);
+
+overflow: hidden;
+}
+
+.hero-denuncia::before {
+content: "";
+
+position: absolute;
+
+width: 500px;
+height: 500px;
+
+top: -250px;
+right: -180px;
+
+border-radius: 50%;
+
+background:
+rgba(255, 255, 255, 0.06);
+}
+
+.hero-denuncia::after {
+content: "";
+
+position: absolute;
+
+width: 400px;
+height: 400px;
+
+bottom: -250px;
+left: -180px;
+
+border-radius: 50%;
+
+background:
+rgba(255, 255, 255, 0.05);
+}
+
+.hero-overlay {
+position: absolute;
+
+inset: 0;
+
+background:
+radial-gradient(
+circle at center,
+rgba(255, 255, 255, 0.08),
+transparent 60%
+);
 }
 
 .hero-denuncia-content {
-    position: relative;
-    z-index: 1;
-    padding: 2rem;
-    border-radius: 10px;
-    max-width: 800px;
-    margin: 0 auto;
+position: relative;
+
+z-index: 2;
+
+width: min(800px, 100%);
+
+padding: 20px;
+}
+
+.hero-badge {
+display: inline-flex;
+
+align-items: center;
+
+gap: 8px;
+
+padding: 7px 14px;
+
+margin-bottom: 18px;
+
+border-radius: 30px;
+
+background:
+rgba(255, 255, 255, 0.14);
+
+border:
+1px solid rgba(255, 255, 255, 0.25);
+
+font-size: 0.85rem;
+
+font-weight: 600;
 }
 
 .hero-denuncia h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin-bottom: 1rem;
+margin: 0 0 15px;
+
+font-size:
+clamp(2.3rem, 6vw, 4.2rem);
+
+line-height: 1.1;
+
+font-weight: 700;
 }
 
 .hero-denuncia p {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    max-width: 600px;
-    margin: 0 auto 2rem;
+max-width: 650px;
+
+margin: 0 auto;
+
+font-size:
+clamp(1rem, 2vw, 1.25rem);
+
+line-height: 1.7;
+
+color:
+rgba(255, 255, 255, 0.94);
 }
 
-/* =========================
-   Formulário de Denúncia
-========================= */
-h2 {
-    color: var(--cor-verde-escuro);
-    text-align: center;
-    margin-bottom: 30px;
+/* =========================================================
+9. FILTROS
+========================================================= */
+
+.filtros-section {
+padding: 35px 20px 10px;
 }
+
+.filtro-denuncias {
+width: min(900px, 100%);
+
+margin: 0 auto;
+
+display: grid;
+
+grid-template-columns:
+minmax(0, 1fr)
+minmax(180px, 250px);
+
+gap: 18px;
+
+padding: 20px;
+
+background-color: var(--cor-branco);
+
+border-radius: var(--raio-medio);
+
+box-shadow: var(--sombra-pequena);
+}
+
+.filtro-campo {
+display: flex;
+
+flex-direction: column;
+
+gap: 7px;
+}
+
+.filtro-campo label {
+display: flex;
+
+align-items: center;
+
+gap: 7px;
+
+color: var(--cor-verde-escuro);
+
+font-size: 0.85rem;
+
+font-weight: 600;
+}
+
+.filtro-campo label i {
+color: var(--cor-verde-musgo);
+}
+
+#buscaTitulo,
+#statusFiltro {
+width: 100%;
+
+height: 44px;
+
+padding: 9px 12px;
+
+border:
+1px solid var(--cor-cinza);
+
+border-radius: var(--raio-pequeno);
+
+background-color: #fafafa;
+
+color: var(--cor-texto);
+
+outline: none;
+
+transition:
+border-color var(--transicao),
+box-shadow var(--transicao),
+background-color var(--transicao);
+}
+
+#buscaTitulo:focus,
+#statusFiltro:focus {
+border-color: var(--cor-verde-musgo);
+
+background-color: var(--cor-branco);
+
+box-shadow:
+0 0 0 3px rgba(76, 175, 80, 0.12);
+}
+
+/* =========================================================
+10. NOVA DENÚNCIA
+========================================================= */
+
+.nova-denuncia-section {
+width: min(1100px, calc(100% - 32px));
+
+margin: 25px auto 10px;
+}
+
+.nova-denuncia-content {
+display: flex;
+
+align-items: center;
+justify-content: space-between;
+
+gap: 25px;
+
+padding: 25px 30px;
+
+background:
+linear-gradient(
+135deg,
+#ffffff,
+#f3faf5
+);
+
+border:
+1px solid rgba(46, 125, 50, 0.12);
+
+border-radius: var(--raio-grande);
+
+box-shadow: var(--sombra-pequena);
+}
+
+.nova-denuncia-content h2 {
+margin: 0 0 4px;
+
+color: var(--cor-verde-escuro);
+
+font-size: 1.35rem;
+}
+
+.nova-denuncia-content p {
+margin: 0;
+
+color: var(--cor-cinza-texto);
+
+font-size: 0.92rem;
+}
+
+/* =========================================================
+11. BOTÃO FAZER DENÚNCIA
+========================================================= */
+
+.btn-link {
+display: inline-flex;
+
+align-items: center;
+justify-content: center;
+
+gap: 9px;
+
+min-height: 44px;
+
+padding: 11px 22px;
+
+border: none;
+
+border-radius: 10px;
+
+background:
+linear-gradient(
+135deg,
+var(--cor-verde-musgo),
+var(--cor-verde-escuro)
+);
+
+color: var(--cor-branco);
+
+text-decoration: none;
+
+font-size: 0.95rem;
+
+font-weight: 700;
+
+white-space: nowrap;
+
+box-shadow:
+0 5px 12px rgba(46, 125, 50, 0.20);
+
+transition:
+transform var(--transicao),
+box-shadow var(--transicao),
+background var(--transicao);
+}
+
+.btn-link:hover {
+transform: translateY(-2px);
+
+box-shadow:
+0 8px 18px rgba(46, 125, 50, 0.25);
+
+background:
+linear-gradient(
+135deg,
+var(--cor-verde-escuro),
+#245124
+);
+
+color: var(--cor-branco);
+}
+
+/* =========================================================
+12. CONTAINER DE DENÚNCIAS
+========================================================= */
+
+.denuncias-section {
+padding: 20px 0 50px;
+}
+
+#denuncias-container {
+width: min(1200px, calc(100% - 32px));
+
+margin: 0 auto;
+
+display: grid;
+
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(
+min(100%, 280px),
+1fr
+)
+);
+
+gap: 25px;
+}
+
+/* =========================================================
+13. CARD DE DENÚNCIA
+========================================================= */
+
+.denuncia-card {
+min-width: 0;
+
+display: flex;
+
+flex-direction: column;
+
+overflow: hidden;
+
+background-color:
+var(--cor-branco);
+
+border:
+1px solid rgba(0, 0, 0, 0.04);
+
+border-radius:
+var(--raio-grande);
+
+box-shadow:
+0 6px 18px rgba(0, 0, 0, 0.07);
+
+transition:
+transform var(--transicao),
+box-shadow var(--transicao);
+}
+
+.denuncia-card:hover {
+transform: translateY(-7px);
+
+box-shadow:
+0 16px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================================
+14. IMAGEM DO CARD
+========================================================= */
+
+.img-wrapper {
+position: relative;
+
+width: 100%;
+
+overflow: hidden;
+
+background-color:
+var(--cor-cinza-claro);
+}
+
+.img-wrapper img {
+width: 100%;
+
+height: 210px;
+
+object-fit: cover;
+
+transition:
+transform 0.4s ease;
+}
+
+.denuncia-card:hover .img-wrapper img {
+transform: scale(1.04);
+}
+
+/* =========================================================
+15. BADGE
+========================================================= */
+
+.contador-badge {
+position: absolute;
+
+right: 12px;
+bottom: 12px;
+
+min-width: 30px;
+min-height: 30px;
+
+display: flex;
+
+align-items: center;
+justify-content: center;
+
+padding: 5px 8px;
+
+border:
+2px solid var(--cor-branco);
+
+border-radius: 50%;
+
+background-color:
+var(--cor-verde-musgo);
+
+color:
+var(--cor-branco);
+
+font-size: 0.72rem;
+
+font-weight: 700;
+
+box-shadow:
+0 3px 8px rgba(0, 0, 0, 0.20);
+}
+
+/* =========================================================
+16. CORPO DO CARD
+========================================================= */
+
+.card-body {
+display: flex;
+
+flex-direction: column;
+
+gap: 10px;
+
+padding: 20px;
+}
+
+.titulo-wrapper {
+display: flex;
+
+align-items: flex-start;
+justify-content: space-between;
+
+gap: 12px;
+}
+
+.titulo-wrapper h4 {
+margin: 0;
+
+color: var(--cor-preto);
+
+font-size: 1.15rem;
+
+line-height: 1.35;
+
+font-weight: 700;
+
+overflow-wrap: anywhere;
+}
+
+.titulo-wrapper i {
+flex-shrink: 0;
+
+color: #e76f51;
+
+font-size: 1.15rem;
+}
+
+/* =========================================================
+17. LOCALIZAÇÃO
+========================================================= */
+
+.localizacao {
+display: flex;
+
+align-items: flex-start;
+
+gap: 7px;
+
+margin: 0;
+
+color: var(--cor-cinza-texto);
+
+font-size: 0.82rem;
+
+line-height: 1.5;
+}
+
+.localizacao i {
+flex-shrink: 0;
+
+margin-top: 3px;
+
+color: var(--cor-verde-musgo);
+}
+
+/* =========================================================
+18. DESCRIÇÃO
+========================================================= */
+
+.descricao-wrapper {
+margin-top: 4px;
+}
+
+.btn-descricao {
+padding: 0;
+
+border: none;
+
+background: transparent;
+
+color: var(--cor-verde-musgo);
+
+font-size: 0.9rem;
+
+font-weight: 700;
+
+cursor: pointer;
+
+transition:
+color var(--transicao);
+}
+
+.btn-descricao:hover {
+color: var(--cor-verde-escuro);
+}
+
+.descricao {
+max-height: 0;
+
+margin: 6px 0 0;
+
+overflow: hidden;
+
+color: #555;
+
+font-size: 0.9rem;
+
+line-height: 1.55;
+
+transition:
+max-height 0.35s ease;
+}
+
+/* =========================================================
+19. ESTADOS VAZIOS / LOADING
+Compatibilidade com JS
+========================================================= */
+
+.loading-message,
+.empty-message,
+.error-message {
+grid-column: 1 / -1;
+
+padding: 40px 20px;
+
+text-align: center;
+
+background-color: var(--cor-branco);
+
+border-radius: var(--raio-medio);
+
+color: var(--cor-cinza-texto);
+
+box-shadow: var(--sombra-pequena);
+}
+
+.error-message {
+color: #b42318;
+}
+
+/* =========================================================
+20. FORMULÁRIO - COMPATIBILIDADE
+========================================================= */
 
 #serForm {
-    background-color: var(--cor-branco);
-    padding: 20px 25px;
-    border-radius: 15px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.05);
-    max-width: 700px;
-    margin: 0 auto;
-    display: none;
-    animation: fadeIn 0.6s ease-in-out;
-    position: relative;
+width: min(700px, calc(100% - 32px));
+
+margin: 30px auto;
+
+padding: 25px;
+
+display: none;
+
+background-color: var(--cor-branco);
+
+border-radius: var(--raio-grande);
+
+box-shadow: var(--sombra-media);
+
+animation:
+fadeIn 0.5s ease;
 }
 
 .form-row {
-    display: flex;
-    gap: 40px;
-    align-items: stretch;
+display: flex;
+
+gap: 30px;
 }
 
 .form-col {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+flex: 1;
+
+min-width: 0;
+
+display: flex;
+
+flex-direction: column;
 }
 
 .form-left input,
 .form-left textarea,
 .form-left select {
-    flex: 1;
-    width: 100%;
+width: 100%;
 }
 
-#descricao { min-height: 200px; resize: vertical; }
+#descricao {
+min-height: 200px;
+
+resize: vertical;
+}
 
 .form-right #map {
-    flex: 1;
-    min-height: 400px;
-    width: 100%;
-    margin-top: 20px;
-    border-radius: 15px;
-    border: 1px solid var(--cor-cinza-claro);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+width: 100%;
+
+min-height: 400px;
+
+margin-top: 20px;
+
+border:
+1px solid var(--cor-cinza);
+
+border-radius: var(--raio-medio);
+
+overflow: hidden;
 }
 
-.form-label { color: #000; font-weight: 600; }
+.form-label {
+color: #000;
 
-.form-control, .form-select, input[type="file"] {
-    border-radius: 10px;
-    border: 1px solid var(--cor-cinza-claro);
-    background-color: var(--cor-cinza-claro);
-    padding: 10px 12px;
-    color: #000;
-    transition: all 0.3s ease;
+font-weight: 600;
+}
+
+.form-control,
+.form-select,
+input[type="file"] {
+width: 100%;
+
+padding: 10px 12px;
+
+border:
+1px solid var(--cor-cinza);
+
+border-radius: 10px;
+
+background-color:
+var(--cor-cinza-claro);
+
+color: #000;
+
+transition:
+border-color var(--transicao),
+box-shadow var(--transicao);
 }
 
 .form-control:focus,
 .form-select:focus,
 input[type="file"]:focus {
-    border-color: #000;
-    box-shadow: 0 0 0 0.2rem rgba(115, 183, 235, 0.537);
-    color: #000;
+border-color:
+var(--cor-verde-musgo);
+
+outline: none;
+
+box-shadow:
+0 0 0 3px rgba(76, 175, 80, 0.15);
 }
 
-.btn-full { width: 100%; margin-top: 20px; }
+.btn-full {
+width: 100%;
+
+margin-top: 20px;
+}
 
 .btn-primary {
-    background-color: var(--cor-verde-musgo);
-    border-color: var(--cor-verde-musgo);
-    padding: 0.7rem 1.5rem;
-    font-weight: 600;
-    border-radius: 10px;
-    color: var(--cor-branco);
-    transition: all 0.3s ease;
+padding: 11px 20px;
+
+border:
+1px solid var(--cor-verde-musgo);
+
+border-radius: 10px;
+
+background-color:
+var(--cor-verde-musgo);
+
+color: var(--cor-branco);
+
+font-weight: 600;
+
+transition:
+background-color var(--transicao),
+transform var(--transicao);
 }
-/* =========================
-   Botão Fazer Denúncia Moderno
-========================= */
-
-
-
-/* =========================
-   Ajuste Mobile
-========================= */
-
-
 
 .btn-primary:hover {
-    background-color: var(--cor-verde-escuro);
-    border-color: var(--cor-verde-escuro);
+background-color:
+var(--cor-verde-escuro);
+
+transform: translateY(-1px);
 }
 
 #serForm button[type="submit"] {
-    font-size: 1.1rem;
-    border-radius: 12px;
-    padding: 14px;
-    background: linear-gradient(135deg, var(--cor-verde-musgo), var(--cor-verde-escuro));
-    border: none;
-    color: var(--cor-branco);
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.3s ease;
+width: 100%;
+
+padding: 13px;
+
+border: none;
+
+border-radius: 12px;
+
+background:
+linear-gradient(
+135deg,
+var(--cor-verde-musgo),
+var(--cor-verde-escuro)
+);
+
+color: var(--cor-branco);
+
+font-size: 1rem;
+
+font-weight: 700;
+
+transition:
+transform var(--transicao),
+box-shadow var(--transicao);
 }
 
 #serForm button[type="submit"]:hover {
-    transform: translateY(-3px);
-    background: linear-gradient(135deg, var(--cor-verde-escuro), #2e5330);
+transform: translateY(-2px);
+
+box-shadow:
+0 7px 15px rgba(46, 125, 50, 0.20);
 }
 
 #btnMostrarForm {
-    display: block;
-    margin: 30px auto;
-    background-color: var(--cor-verde-musgo);
-    border: none;
-    color: var(--cor-branco);
-    font-size: 0.95rem;   /* 🔽 reduzido */
-    padding: 10px 20px;   /* 🔽 ajustei o padding para acompanhar */
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+display: block;
+
+margin: 30px auto;
+
+padding: 10px 20px;
+
+border: none;
+
+border-radius: 10px;
+
+background-color:
+var(--cor-verde-musgo);
+
+color: var(--cor-branco);
+
+font-weight: 600;
+
+transition:
+background-color var(--transicao),
+transform var(--transicao);
 }
 
 #btnMostrarForm:hover {
-    background-color: var(--cor-verde-escuro);
-    transform: translateY(-2px);
+background-color:
+var(--cor-verde-escuro);
+
+transform: translateY(-2px);
 }
 
 #previewImagem {
-    border-radius: 12px;
-    border: 2px dashed var(--cor-verde-musgo);
-    padding: 5px;
-    background-color: var(--cor-cinza-claro);
-    transition: all 0.3s ease;
+max-width: 100%;
+
+border:
+2px dashed var(--cor-verde-musgo);
+
+border-radius: 12px;
+
+padding: 5px;
+
+background-color:
+var(--cor-cinza-claro);
 }
 
-#previewImagem:hover { transform: scale(1.03); }
+#btnTirarFoto,
+#btnEscolherGaleria {
+flex: 1;
 
-#btnTirarFoto, #btnEscolherGaleria {
-    flex: 1;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: 8px;
-    padding: 8px 12px;
-    transition: all 0.3s ease;
+padding: 8px 12px;
+
+border-radius: 8px;
+
+font-size: 0.9rem;
+
+font-weight: 600;
 }
 
 #btnTirarFoto {
-    border: 2px solid var(--cor-verde-musgo);
-    color: var(--cor-verde-musgo);
-    background-color: transparent;
+border:
+2px solid var(--cor-verde-musgo);
+
+color: var(--cor-verde-musgo);
+
+background: transparent;
 }
 
 #btnTirarFoto:hover {
-    background-color: var(--cor-verde-musgo);
-    color: var(--cor-branco);
+background:
+var(--cor-verde-musgo);
+
+color:
+var(--cor-branco);
 }
 
 #btnEscolherGaleria {
-    border: 2px solid #888;
-    color: #555;
-    background-color: transparent;
+border:
+2px solid #888;
+
+color: #555;
+
+background: transparent;
 }
 
 #btnEscolherGaleria:hover {
-    background-color: #888;
-    color: var(--cor-branco);
+background:
+#888;
+
+color:
+var(--cor-branco);
 }
 
-.mb-3 { margin-bottom: 20px !important; }
-
-@media (max-width: 768px) {
-    .form-row { flex-direction: column; }
-    .form-right #map { min-height: 300px; }
+.mb-3 {
+margin-bottom: 20px !important;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
+/* =========================================================
+21. FOOTER
+========================================================= */
 
-/* =========================
-   Footer
-========================= */
 .footer {
-  background-color: #386b3a;
-  color: var(--cor-branco);
-  padding: 40px 20px;
-  font-family: Arial, sans-serif;
+margin-top: 20px;
+
+padding: 45px 20px 20px;
+
+background:
+linear-gradient(
+135deg,
+#386b3a,
+#2e6332
+);
+
+color:
+var(--cor-branco);
 }
 
 .footer-content {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+width: min(1100px, 100%);
+
+margin: 0 auto;
+
+display: grid;
+
+grid-template-columns:
+repeat(3, 1fr);
+
+gap: 40px;
 }
 
 .footer-section {
-  flex: 1;
-  margin: 10px;
-}
-
-.footer-section h3 { margin-bottom: 10px; }
-
-.footer-section ul {
-  list-style: none;
-  padding: 0;
-}
-
-.footer-section ul li {
-  margin-bottom: 8px;
-}
-
-.footer-section ul li a {
-  color: var(--cor-branco);
-  text-decoration: none;
-}
-
-.footer-section ul li a:hover { text-decoration: underline; }
-
-.footer-section form {
-  display: flex;
-}
-
-.footer-section input {
-  padding: 10px;
-  margin-right: 10px;
-  border: none;
-  border-radius: 5px;
-  flex: 1;
-}
-
-.footer-section button {
-  padding: 10px;
-  background-color: var(--cor-verde-musgo);
-  color: var(--cor-branco);
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.footer-section button:hover { background-color: var(--cor-verde-escuro); }
-
-.social-icons {
-  display: flex;
-  gap: 10px;
-}
-
-.social-icons a {
-  color: var(--cor-branco);
-  text-decoration: none;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--cor-verde-musgo);
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.social-icons a:hover {
-  background-color: var(--cor-verde-escuro);
-  color: var(--cor-branco);
-}
-
-.footer-bottom {
-  text-align: center;
-  margin-top: 20px;
-}
-
-@media (max-width: 768px) {
-  .footer-content { flex-direction: column; align-items: center; text-align: center; }
-  .footer-section { flex: 1 1 100%; margin: 15px 0; }
-  .footer-section form { flex-direction: column; gap: 10px; width: 100%; }
-  .footer-section input { margin: 0 0 10px 0; width: 100%; }
-  .social-icons { justify-content: center; }
-}
-
-
-/* =========================
-   Container de Denúncias
-========================= */
-#denuncias-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
-  gap: 30px;
-  padding: 20px;
-  margin: 0 auto;
-  max-width: 1100px;
-  justify-content: center; /* centraliza os cards horizontalmente */
-  box-sizing: border-box;
-}
-
-.denuncia-card {
-  background: #fff;
-  border-radius: 15px; /* menor que antes */
-  overflow: hidden;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.08); /* sombra mais leve */
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-  display: flex;
-  flex-direction: column;
-  max-height: 400px; /* altura máxima para padronizar */
-}
-
-.denuncia-card:hover {
-  transform: translateY(-12px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-}
-
-.img-wrapper {
-  position: relative;
-}
-
-.img-wrapper img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 20px 20px 0 0;
-  transition: transform 0.35s ease;
-}
-
-.denuncia-card:hover .img-wrapper img {
-  transform: scale(1.07);
-}
-
-.contador-badge {
-  position: absolute;
-  bottom: 10px;        /* distância do fundo da imagem */
-  right: 10px;         /* distância da direita da imagem */
-  background-color: var(--cor-verde-musgo);
-  color: #fff;
-  font-size: 0.7rem;   /* menor */
-  font-weight: 600;
-  padding: 6px 8px;    /* menor também */
-  border-radius: 50%;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  border: 1px solid #fff;
-  z-index: 10;
-}
-
-
-.card-body {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.titulo-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.titulo-wrapper h4 {
-  margin: 0;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #222;
-}
-
-.titulo-wrapper i {
-  color: #ff6f61;
-  font-size: 1.35rem;
-}
-
-.localizacao {
-  font-size: 0.85rem;
-  color: #777;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.localizacao i {
-  color: var(--cor-verde-musgo);
-  font-size: 0.95rem;
-}
-
-.descricao-wrapper {
-  margin: 10px 0;
-}
-
-.btn-descricao {
-  background: none;
-  border: none;
-  color: #4caf50;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 4px 0;
-  font-size: 0.95rem;
-  transition: color 0.3s;
-}
-
-.btn-descricao:hover {
-  color: #388e3c;
-}
-
-.descricao {
-  margin: 6px 0 0 0;
-  font-size: 0.95rem;
-  color: #555;
-  line-height: 1.5;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.35s ease;
-}
-
-
-/* =========================
-   Responsividade
-========================= */
-@media (max-width: 1024px) {
-  #denuncias-container {
-    gap: 15px;
-    padding: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  #denuncias-container {
-    gap: 12px;
-    padding: 15px;
-  }
-
-  .denuncia-card img {
-    height: 150px;
-  }
-}
-
-@media (max-width: 480px) {
-  #denuncias-container {
-    gap: 10px;
-    padding: 10px;
-  }
-
-  .denuncia-card img {
-    height: 130px;
-  }
-}
-/* =========================
-   Filtros e Botão
-========================= */
-.filtro-denuncias {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: center;
-  align-items: stretch; /* garante que os elementos tenham mesma altura */
-  margin: 30px auto;
-  max-width: 900px;
-  padding: 0 15px;
-}
-
-.filtro-denuncias > * {
-  flex: 1;                /* todos os elementos crescem igualmente */
-  min-width: 180px;       /* largura mínima */
-  max-width: 250px;       /* largura máxima */
-  height: 42px;           /* mesma altura para inputs e botão */
-  box-sizing: border-box; /* padding incluído na largura */
-}
-
-#buscaTitulo,
-#statusFiltro {
-  padding: 8px 12px;
-  font-size: 14px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  transition: all 0.3s ease;
-}
-
-#buscaTitulo:focus,
-#statusFiltro:focus {
-  border-color: var(--cor-verde-musgo);
-  box-shadow: 0 0 5px rgba(76, 175, 80, 0.4);
-  outline: none;
-}
-
-
-
-/* =========================
-   Responsividade
-========================= */
-@media (max-width: 600px) {
-  .filtro-denuncias {
-    flex-direction: column;
-    gap: 12px;
-    align-items: stretch;
-  }
-
-  .filtro-denuncias > * {
-    max-width: 100%;
-    width: 100%;
-  }
-}
-
-/* =========================
-   Footer
-========================= */
-.footer {
-    background-color: #386b3a;
-    color: var(--cor-branco);
-    padding: 40px 20px;
-    font-family: Arial, sans-serif;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.footer-section {
-    flex: 1;
-    margin: 10px;
+min-width: 0;
 }
 
 .footer-section h3 {
-    margin-bottom: 10px;
+margin: 0 0 15px;
+
+font-size: 1.05rem;
+
+font-weight: 700;
 }
 
 .footer-section ul {
-    list-style: none;
-    padding: 0;
+list-style: none;
+
+margin: 0;
+
+padding: 0;
 }
 
 .footer-section ul li {
-    margin-bottom: 8px;
+margin-bottom: 10px;
 }
 
 .footer-section ul li a {
-    color: var(--cor-branco);
-    text-decoration: none;
+display: inline-flex;
+
+align-items: center;
+
+gap: 8px;
+
+color: var(--cor-branco);
+
+text-decoration: none;
+
+font-size: 0.9rem;
+
+transition:
+opacity var(--transicao),
+transform var(--transicao);
 }
 
 .footer-section ul li a:hover {
-    text-decoration: underline;
+opacity: 0.8;
+
+transform: translateX(3px);
 }
 
-.footer-section form {
-    display: flex;
-}
+.footer-section ul li a i {
+width: 18px;
 
-.footer-section input {
-    padding: 10px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 5px;
-    flex: 1;
-}
-
-.footer-section button {
-    padding: 10px;
-    background-color: var(--cor-verde-musgo);
-    color: var(--cor-branco);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.footer-section button:hover {
-    background-color: var(--cor-verde-escuro);
+text-align: center;
 }
 
 .social-icons {
-    display: flex;
-    gap: 10px;
+display: flex;
+
+align-items: center;
+
+gap: 10px;
+}
+
+.social-icons li {
+margin: 0 !important;
 }
 
 .social-icons a {
-    color: var(--cor-branco);
-    text-decoration: none;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--cor-verde-musgo);
-    transition: background-color 0.3s, color 0.3s;
+width: 40px;
+height: 40px;
+
+display: flex !important;
+
+align-items: center;
+justify-content: center;
+
+border-radius: 50%;
+
+background-color:
+var(--cor-verde-musgo);
+
+color:
+var(--cor-branco);
+
+font-size: 18px !important;
+
+transition:
+background-color var(--transicao),
+transform var(--transicao);
 }
 
 .social-icons a:hover {
-    background-color: var(--cor-verde-escuro);
-    color: var(--cor-branco);
+background-color:
+var(--cor-verde-escuro);
+
+transform:
+translateY(-3px) !important;
+
+opacity: 1 !important;
 }
 
 .footer-bottom {
-    text-align: center;
-    margin-top: 20px;
-}
-/* =========================
-   Container de Denúncias Responsivo
-========================= */
-@media (max-width: 1024px) {
-    #denuncias-container {
-        gap: 15px;
-        padding: 20px;
-    }
+width: min(1100px, 100%);
+
+margin: 35px auto 0;
+
+padding-top: 18px;
+
+border-top:
+1px solid rgba(255, 255, 255, 0.18);
+
+text-align: center;
 }
 
-@media (max-width: 768px) {
-    #denuncias-container {
-        gap: 12px;
-        padding: 15px;
-    }
+.footer-bottom p {
+margin: 0;
 
-    .denuncia-card img {
-        height: 150px;
-    }
+color:
+rgba(255, 255, 255, 0.85);
+
+font-size: 0.82rem;
 }
+
+/* =========================================================
+22. ANIMAÇÃO
+========================================================= */
+
+@keyframes fadeIn {
+
+from {
+opacity: 0;
+
+
+transform:
+  translateY(20px);
+
+
+}
+
+to {
+opacity: 1;
+
+
+transform:
+  translateY(0);
+
+
+}
+
+}
+
+/* =========================================================
+23. TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+.main-nav-links {
+gap: 1rem;
+}
+
+.main-nav-links a {
+font-size: 0.9rem;
+}
+
+#denuncias-container {
+gap: 20px;
+}
+
+}
+
+/* =========================================================
+24. TABLET / MOBILE
+Hamburger aparece aqui
+========================================================= */
+
+@media (max-width: 991px) {
+
+.main-nav {
+margin: 10px;
+padding:
+  8px 12px;
+
+}
+
+.flex-container {
+min-height: 64px;
+justify-content:
+  space-between;
+
+}
+
+/* LOGO SEMPRE À ESQUERDA */
+
+.logo {
+order: 1;
+margin-right: auto;
+
+}
+
+.logo img {
+height: 58px;
+}
+
+/* HAMBURGER SEMPRE À DIREITA */
+
+.hamburger {
+display: flex;
+order: 2;
+
+margin-left: auto;
+
+
+}
+
+/* MENU LATERAL */
+.main-nav-links {
+position: fixed;
+
+top: 0;
+right: 0;
+left: auto;
+
+width: min(82vw, 330px);
+
+height: 100vh;
+
+margin: 0;
+
+padding:
+  95px 22px 30px;
+display: flex;
+flex-direction: column;
+align-items: stretch;
+justify-content: flex-start;
+gap: 0;
+background:
+  var(--cor-branco);
+box-shadow:
+  -8px 0 25px rgba(0, 0, 0, 0.15);
+border-radius:
+  16px 0 0 16px;
+overflow-y: auto;
+transform:
+  translateX(110%);
+transition:
+  transform 0.35s ease;
+z-index: 1300;
+
+}
+
+.main-nav-links.active {
+transform:
+translateX(0);
+}
+
+/* LINKS MOBILE */
+.main-nav-links a {
+width: 100%;
+
+min-height: 48px;
+
+padding:
+  13px 10px;
+
+display: flex;
+
+align-items: center;
+justify-content: center;
+
+border-bottom:1px solid #eeeeee;
+font-size: 1rem;
+text-align: center;
+}
+
+.main-nav-links a::after {
+display: none;
+}
+
+.main-nav-links a:hover,
+.main-nav-links a.active {
+background:var(--cor-verde-claro);
+color:var(--cor-verde-escuro);
+}
+
+/* USER MENU MOBILE */
+
+.main-nav-links .user-menu {
+width: 100%;
+min-height: 50px;
+margin-top: 18px;
+padding:13px;
+justify-content: center;
+border:1px solid #e0e0e0;
+background:var(--cor-fundo);
+}
+
+/* HERO */
+.hero-denuncia {
+min-height: 48vh;
+padding:70px 20px;
+}
+
+/* NOVA DENÚNCIA */
+.nova-denuncia-content {
+align-items:flex-start;
+flex-direction:column;
+
+}
+
+.btn-link {
+width: 100%;
+}
+
+/* FORM */
+
+.form-row {
+flex-direction: column;
+}
+
+.form-right #map {
+min-height: 320px;
+}
+
+/* FOOTER */
+
+.footer-content {
+grid-template-columns:
+repeat(2, 1fr);
+}
+
+}
+
+/* =========================================================
+25. MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+.container {
+width:
+calc(100% - 20px);
+}
+
+.main-nav {
+border-radius: 10px;
+}
+
+.logo img {
+height: 54px;
+}
+
+.hamburger {
+width: 42px;
+height: 42px;
+}
+
+/* HERO */
+
+.hero-denuncia {
+min-height: 43vh;
+padding:55px 15px;
+}
+
+.hero-badge {
+font-size:0.76rem;
+padding:6px 11px;
+}
+
+.hero-denuncia h1 {
+font-size:
+clamp(2rem, 10vw, 3rem);
+}
+
+.hero-denuncia p {
+font-size:0.95rem;
+}
+
+/* FILTROS */
+
+.filtros-section {
+padding:
+25px 15px 10px;
+}
+
+.filtro-denuncias {
+grid-template-columns:1fr;
+padding:18px;
+
+gap:15px;
+
+}
+
+/* NOVA DENÚNCIA */
+
+.nova-denuncia-section {
+width:
+calc(100% - 30px);
+}
+
+.nova-denuncia-content {
+padding:
+20px;
+}
+
+.nova-denuncia-content h2 {
+font-size:
+1.15rem;
+}
+
+/* CARDS */
+
+#denuncias-container {
+width:
+calc(100% - 30px);
+grid-template-columns:1fr;
+gap: 18px;
+
+}
+
+.img-wrapper img {
+height:
+190px;
+}
+
+.card-body {
+padding:
+17px;
+}
+
+.titulo-wrapper h4 {
+font-size:
+1.05rem;
+}
+
+/* FOOTER */
+
+.footer {
+padding:
+35px 18px 18px;
+}
+
+.footer-content {
+grid-template-columns:1fr;
+gap:28px;
+text-align: center;
+}
+
+.footer-section ul li a {
+justify-content:
+center;
+}
+
+.social-icons {
+justify-content:
+center;
+}
+
+.footer-bottom {
+margin-top:25px;
+}
+
+}
+
+/* =========================================================
+26. MOBILE PEQUENO
+========================================================= */
 
 @media (max-width: 480px) {
-    #denuncias-container {
-        gap: 10px;
-        padding: 10px;
-    }
 
-    .denuncia-card img {
-        height: 130px;
-    }
-
-    .denuncia-card {
-        width: 100%;
-    }
-}
-.btn-link {
-  display: inline-block;
-  padding: 12px 25px;
-  background: linear-gradient(135deg, #4caf50, #2e7d32);
-  color: #ffffff;
-  font-weight: bold;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  cursor: pointer;
+.main-nav {
+margin:
+7px;
 }
 
-.btn-link:hover {
-  background: linear-gradient(135deg, #2e7d32, #245124);
+.flex-container {
+min-height:
+58px;
+}
+
+.logo img {
+height:
+48px;
+}
+
+.hamburger {
+width:40px;
+
+height:40px;
+}
+
+.hamburger i {
+font-size:
+21px;
+}
+
+.main-nav-links {
+width:88vw;
+padding:
+  85px 16px 25px;
+}
+
+.hero-denuncia {
+min-height:40vh;
+padding:
+  45px 12px;
+}
+
+.hero-denuncia-content {
+padding:
+10px;
+}
+
+.hero-denuncia h1 {
+font-size:
+2rem;
+}
+
+.hero-denuncia p {
+font-size:
+0.9rem;
+line-height:
+  1.6;
+}
+
+.filtro-denuncias {
+padding:
+15px;
+}
+
+#denuncias-container {
+width:
+calc(100% - 20px);
+gap:
+  15px;
+}
+
+.img-wrapper img {
+height:
+165px;
+}
+
+.card-body {
+padding:
+15px;
+}
+
+.contador-badge {
+right:
+9px;
+bottom:
+  9px;
+}
+
+#serForm {
+width:
+calc(100% - 20px);
+padding:
+  18px;
+}
+
+.form-right #map {
+min-height:
+270px;
+}
+
+}
+
+/* =========================================================
+27. ACESSIBILIDADE
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+*,
+*::before,
+*::after {
+scroll-behavior: auto !important;
+
+
+transition-duration:
+  0.01ms !important;
+
+animation-duration:
+  0.01ms !important;
+
+animation-iteration-count:
+  1 !important;
+
+
+}
+
 }

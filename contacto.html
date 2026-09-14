@@ -3,152 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Bio-Guiné | Contato</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS da página -->
     <link rel="stylesheet" href="assets/css/contacto.css">
 </head>
+
 <body>
 
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
 <header class="main-nav">
-  <div class="container flex-container">
-    <a href="index.html" class="logo">
-      <img src="assets/img/logo/logo-bioma-removebg-preview.png" alt="Logo Bio">
-    </a>
-    <nav class="main-nav-links" id="nav-links">
-      <a href="index.html">Home</a>
-      <a href="cadastro.html">Espécies</a>
-      <a href="denuncia.html">Denúncias</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="contacto.html">Contato</a>
-      <a href="blogtexte.html">Notícias</a>
-      <div id="user-menu" class="user-menu">
-        <i class="fas fa-user"></i>
-        <span>Entrar</span>
-      </div>
-    </nav>
-    <button class="hamburger" id="hamburger">
-      <i class="fas fa-bars"></i>
-    </button>
-  </div>
+
+    <div class="container flex-container">
+
+        <!-- LOGO -->
+        <a href="index.html" class="logo">
+            <img
+                src="assets/img/logo/logo-bioma-removebg-preview.png"
+                alt="Logo Bio-Guiné"
+            >
+        </a>
+
+        <!-- MENU DESKTOP / MOBILE -->
+        <nav class="main-nav-links" id="nav-links">
+
+            <a href="index.html">Home</a>
+            <a href="cadastro.html">Espécies</a>
+            <a href="denuncia.html">Denúncias</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="contacto.html" class="active-link">Contato</a>
+            <a href="blogtexte.html">Notícias</a>
+
+            <div id="user-menu" class="user-menu">
+                <i class="fas fa-user"></i>
+                <span>Entrar</span>
+            </div>
+
+        </nav>
+
+        <!-- BOTÃO HAMBURGER -->
+        <button
+            class="hamburger"
+            id="hamburger"
+            type="button"
+            aria-label="Abrir menu"
+            aria-expanded="false"
+            aria-controls="nav-links"
+        >
+            <i class="fas fa-bars"></i>
+        </button>
+
+    </div>
 </header>
 
+<!-- OVERLAY DO MENU MOBILE -->
+<div class="menu-overlay" id="menu-overlay"></div>
+
+
+<!-- =========================================================
+     CONTEÚDO PRINCIPAL
+========================================================= -->
 <main class="secao-contato-premium">
+
     <div class="container">
+
         <div class="glass-card-container">
-            
-            <div class="glass-info">
+
+            <!-- =================================================
+                 INFORMAÇÕES DE CONTATO
+            ================================================== -->
+            <section class="glass-info">
+
                 <span class="subtitulo">CONTACTO</span>
-                <h2>Entre em <br><span class="destaque">Contato</span></h2>
-                <p>Tem alguma dúvida ou deseja mais informações? Estamos aqui para ajudar!</p>
-                
+
+                <h1>
+                    Entre em
+                    <br>
+                    <span class="destaque">Contato</span>
+                </h1>
+
+                <p class="descricao-contato">
+                    Tem alguma dúvida ou deseja mais informações?
+                    Estamos aqui para ajudar!
+                </p>
+
                 <div class="lista-contatos">
+
+                    <!-- TELEFONE -->
                     <div class="item-contato">
-                        <i class="fas fa-phone-alt"></i>
+
+                        <div class="icone-contato">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+
                         <div>
                             <span>Telefone</span>
                             <p>+245 956334824</p>
                         </div>
+
                     </div>
+
+                    <!-- EMAIL -->
                     <div class="item-contato">
-                        <i class="fas fa-envelope"></i>
+
+                        <div class="icone-contato">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+
                         <div>
                             <span>E-mail</span>
                             <p>biomaguine@gmail.com</p>
                         </div>
+
                     </div>
+
                 </div>
 
+                <!-- REDES SOCIAIS -->
                 <div class="redes-sociais-pills">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="https://wa.me/956334824"><i class="fab fa-whatsapp"></i></a>
+
+                    <a
+                        href="#"
+                        aria-label="Facebook"
+                    >
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="Instagram"
+                    >
+                        <i class="fab fa-instagram"></i>
+                    </a>
+
+                    <a
+                        href="https://wa.me/956334824"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="WhatsApp"
+                    >
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+
                 </div>
-            </div>
 
-            <div class="glass-form">
-                <form action="https://api.web3forms.com/submit" method="POST">
-                    <input type="hidden" name="access_key" value="b8a05d47-8f3d-4c1d-8ac3-6b8f9a377919">
-                    
+            </section>
+
+
+            <!-- =================================================
+                 FORMULÁRIO
+            ================================================== -->
+            <section class="glass-form">
+
+                <form
+                    action="https://api.web3forms.com/submit"
+                    method="POST"
+                >
+
+                    <input
+                        type="hidden"
+                        name="access_key"
+                        value="b8a05d47-8f3d-4c1d-8ac3-6b8f9a377919"
+                    >
+
+                    <!-- NOME -->
                     <div class="grupo-input">
-                        <input type="text" name="name" placeholder="Seu Nome" required>
+
+                        <label for="nome" class="visually-hidden">
+                            Seu Nome
+                        </label>
+
+                        <input
+                            id="nome"
+                            type="text"
+                            name="name"
+                            placeholder="Seu Nome"
+                            autocomplete="name"
+                            required
+                        >
+
                     </div>
 
+
+                    <!-- EMAIL -->
                     <div class="grupo-input">
-                        <input type="email" name="email" placeholder="Seu E-mail" required>
+
+                        <label for="email" class="visually-hidden">
+                            Seu E-mail
+                        </label>
+
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            placeholder="Seu E-mail"
+                            autocomplete="email"
+                            required
+                        >
+
                     </div>
 
+
+                    <!-- TELEFONE -->
                     <div class="grupo-input-combo">
+
                         <span class="indicativo">+245</span>
-                        <input type="number" name="numero" placeholder="Telefone" required>
+
+                        <label for="numero" class="visually-hidden">
+                            Telefone
+                        </label>
+
+                        <input
+                            id="numero"
+                            type="tel"
+                            name="numero"
+                            placeholder="Telefone"
+                            autocomplete="tel"
+                            inputmode="tel"
+                            required
+                        >
+
                     </div>
 
+
+                    <!-- MENSAGEM -->
                     <div class="grupo-input">
-                        <textarea name="mensagem" rows="5" placeholder="Sua mensagem..." required></textarea>
+
+                        <label for="mensagem" class="visually-hidden">
+                            Sua mensagem
+                        </label>
+
+                        <textarea
+                            id="mensagem"
+                            name="mensagem"
+                            rows="5"
+                            placeholder="Sua mensagem..."
+                            required
+                        ></textarea>
+
                     </div>
 
-                    <button type="submit" class="btn-enviar-moderno">ENVIAR AGORA</button>
+
+                    <!-- BOTÃO -->
+                    <button
+                        type="submit"
+                        class="btn-enviar-moderno"
+                    >
+                        ENVIAR AGORA
+                    </button>
+
                 </form>
-            </div>
+
+            </section>
 
         </div>
+
     </div>
+
 </main>
 
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
 <footer class="footer">
-  <div class="footer-content">
-    <div class="footer-section">
-      <h3>Contato</h3>
-      <ul>
-        <li><a href="mailto:bioguine08@gmail.com">biomaguine@gmail.com</a></li>
-        <li><a href="tel:+245956334824">+245 95 633 48 24</a></li>
-      </ul>
+
+    <div class="footer-content">
+
+        <!-- CONTATO -->
+        <div class="footer-section">
+
+            <h3>Contato</h3>
+
+            <ul>
+                <li>
+                    <a href="mailto:biomaguine@gmail.com">
+                        biomaguine@gmail.com
+                    </a>
+                </li>
+
+                <li>
+                    <a href="tel:+245956334824">
+                        +245 95 633 48 24
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+
+        <!-- LINKS -->
+        <div class="footer-section">
+
+            <h3>Links Úteis</h3>
+
+            <ul>
+                <li>
+                    <a href="index.html">Início</a>
+                </li>
+
+                <li>
+                    <a href="cadastro.html">Espécies</a>
+                </li>
+
+                <li>
+                    <a href="denuncia.html">Denúncias</a>
+                </li>
+            </ul>
+
+        </div>
+
+
+        <!-- REDES SOCIAIS -->
+        <div class="footer-section">
+
+            <h3>Siga-nos</h3>
+
+            <ul class="social-icons">
+
+                <li>
+                    <a href="#" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="https://wa.me/956334824"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="WhatsApp"
+                    >
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
     </div>
-    <div class="footer-section">
-      <h3>Links Úteis</h3>
-      <ul>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="cadastro.html">Seres</a></li>
-        <li><a href="denuncia.html">Denuncias</a></li>
-      </ul>
+
+
+    <div class="footer-bottom">
+
+        <p>
+            &copy; 2026 Bio-Guiné. Todos os direitos reservados.
+        </p>
+
     </div>
-    <div class="footer-section">
-      <h3>Siga-nos</h3>
-      <ul class="social-icons">
-        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-        <li><a href="https://wa.me/956334824" target="_blank"><i class="fab fa-whatsapp"></i></a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>&copy; 2026 Bio-Guiné. Todos os direitos reservados.</p>
-  </div>
+
 </footer>
 
- <!-- Scripts -->
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const hamburger = document.getElementById('hamburger');
-                const navLinks = document.getElementById('nav-links');
 
-                if (!hamburger || !navLinks) return;
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
 
-                hamburger.addEventListener('click', () => {
-                    navLinks.classList.toggle('active');
-                });
+<script src="assets/page/contacto.js"></script>
 
-                navLinks.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', () => {
-                        navLinks.classList.remove('active');
-                    });
-                });
-            });
-        </script>
+<script src="assets/page/usuariospage.js"></script>
 
-        <script src="assets/page/usuariospage.js"></script>
 </body>
 </html>

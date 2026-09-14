@@ -273,8 +273,108 @@
 
 <script src="assets/page/usuariospage.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function () {
 
+    /* =========================================================
+       ELEMENTOS DO MENU HAMBURGER
+    ========================================================= */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    // Cria o overlay caso ainda não exista
+    let menuOverlay = document.getElementById('menu-overlay');
+
+    if (!menuOverlay) {
+        menuOverlay = document.createElement('div');
+        menuOverlay.id = 'menu-overlay';
+        menuOverlay.className = 'menu-overlay';
+        document.body.appendChild(menuOverlay);
+    }
+
+    function abrirMenu() {
+        if (!hamburger || !navLinks) return;
+
+        navLinks.classList.add('active');
+        menuOverlay.classList.add('active');
+
+        document.body.classList.add('menu-open');
+
+        hamburger.setAttribute('aria-expanded', 'true');
+        hamburger.setAttribute('aria-label', 'Fechar menu');
+
+        const icon = hamburger.querySelector('i');
+
+        if (icon) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+        }
+    }
+
+    function fecharMenu() {
+        if (!hamburger || !navLinks) return;
+
+        navLinks.classList.remove('active');
+        menuOverlay.classList.remove('active');
+
+        document.body.classList.remove('menu-open');
+
+        hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.setAttribute('aria-label', 'Abrir menu');
+
+        const icon = hamburger.querySelector('i');
+
+        if (icon) {
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+        }
+    }
+
+    function alternarMenu(event) {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        if (navLinks.classList.contains('active')) {
+            fecharMenu();
+        } else {
+            abrirMenu();
+        }
+    }
+
+    // Clique no hamburger
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', alternarMenu);
+
+        // Fechar ao clicar em qualquer link
+        navLinks.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                fecharMenu();
+            });
+        });
+
+        // Fechar ao clicar no overlay
+        menuOverlay.addEventListener('click', fecharMenu);
+
+        // Fechar com ESC
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                fecharMenu();
+            }
+        });
+
+        // Se voltar para desktop, fecha o menu
+        window.addEventListener('resize', function () {
+            if (window.innerWidth > 992) {
+                fecharMenu();
+            }
+        });
+    }
+
+
+    /* =========================================================
+       ELEMENTOS DAS NOTÍCIAS
+    ========================================================= */
     const postsContainer = document.getElementById('posts-list');
     const searchInput = document.getElementById('search');
     const categoryFilter = document.getElementById('categoryFilter');
@@ -291,179 +391,553 @@ document.addEventListener('DOMContentLoaded', () => {
     const listaComentarios = document.getElementById('listaComentarios');
     const btnComentario = document.getElementById('btnComentario');
     const novoComentarioInput = document.getElementById('novoComentario');
-    const toggleBtn = document.getElementById("toggleComentarios");
-    const comentariosContainer = document.getElementById("comentariosContainer");
-    const contadorComentarios = document.getElementById("contadorComentarios");
+    const toggleBtn = document.getElementById('toggleComentarios');
+    const comentariosContainer = document.getElementById('comentariosContainer');
+    const contadorComentarios = document.getElementById('contadorComentarios');
 
     const heroSlidesContainer = document.getElementById('hero-slides');
 
     let noticias = [];
     let noticiaAtualId = null;
     let heroSlideIndex = 0;
+    let heroInterval = null;
 
-    const API_URL = "http://localhost:8080/api/noticias";
+    const API_URL = 'http://localhost:8080/api/noticias';
 
+
+    /* =========================================================
+       CARREGAR NOTÍCIAS
+    ========================================================= */
     async function carregarNoticias() {
+
         try {
+
             const res = await fetch(API_URL);
-            if (!res.ok) return;
+
+            if (!res.ok) {
+                throw new Error(
+                    'A API respondeu com o status ' + res.status
+                );
+            }
+
             noticias = await res.json();
 
             criarSlidesHero();
             criarCardsNoticias();
             populateCategories();
 
-        } catch (err) { console.error(err); }
+        } catch (err) {
+
+            console.error('Erro ao carregar notícias:', err);
+
+            // Evita que o erro da API quebre o restante da página
+            noticias = [];
+
+            if (postsContainer) {
+                postsContainer.innerHTML = `
+                    <div class="api-message">
+                        <i class="fas fa-circle-exclamation"></i>
+
+                        <h3>Notícias indisponíveis</h3>
+
+                        <p>
+                            Não foi possível conectar ao servidor de notícias.
+                        </p>
+
+                        <small>
+                            Verifique se o backend está funcionando
+                            em http://localhost:8080
+                        </small>
+                    </div>
+                `;
+            }
+
+            if (heroSlidesContainer) {
+                heroSlidesContainer.innerHTML = `
+                    <div class="hero-slide active hero-empty">
+                        <div>
+                            <i class="fas fa-newspaper"></i>
+                            <h1>Bioma-Guiné</h1>
+                            <p>As notícias estarão disponíveis em breve.</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
     }
 
+
+    /* =========================================================
+       CRIAR CARDS
+    ========================================================= */
     function criarCardsNoticias() {
+
+        if (!postsContainer) return;
+
         postsContainer.innerHTML = '';
-        noticias.forEach(n => {
+
+        if (noticias.length === 0) {
+            return;
+        }
+
+        noticias.forEach(function (n) {
+
             const card = document.createElement('div');
+
             card.className = 'post-card';
+
+            const imagem = n.imagemUrl
+                ? 'http://localhost:8080' + n.imagemUrl
+                : 'assets/img/default.jpg';
+
             card.innerHTML = `
-                <img src="${n.imagemUrl ? 'http://localhost:8080'+n.imagemUrl : 'assets/img/default.jpg'}">
+                <img
+                    src="${imagem}"
+                    alt="${n.titulo || 'Imagem da notícia'}"
+                    onerror="this.src='assets/img/default.jpg'"
+                >
+
                 <div class="post-content">
-                    <span class="category">${n.categoria || 'Geral'}</span>
-                    <h3>${n.titulo}</h3>
-                    <p>${n.descricaoCurta}</p>
-                    <small>${n.data || ''}</small>
-                    <a href="#" class="btn-read-more">Ler Mais →</a>
+
+                    <span class="category">
+                        ${n.categoria || 'Geral'}
+                    </span>
+
+                    <h3>
+                        ${n.titulo || 'Sem título'}
+                    </h3>
+
+                    <p>
+                        ${n.descricaoCurta || ''}
+                    </p>
+
+                    <small>
+                        ${n.data || ''}
+                    </small>
+
+                    <a href="#" class="btn-read-more">
+                        Ler Mais →
+                    </a>
+
                 </div>
             `;
-            card.querySelector('.btn-read-more').addEventListener('click', e => {
-                e.preventDefault();
+
+            const btnLerMais = card.querySelector('.btn-read-more');
+
+            btnLerMais.addEventListener('click', function (event) {
+
+                event.preventDefault();
+
                 mostrarNoticia(n);
             });
+
             postsContainer.appendChild(card);
         });
     }
 
+
+    /* =========================================================
+       MOSTRAR NOTÍCIA COMPLETA
+    ========================================================= */
     function mostrarNoticia(n) {
+
         noticiaAtualId = n.id;
-        tituloCompleto.innerText = n.titulo;
-        dataCompleto.innerText = n.data || '';
-        imagemCompleto.src = n.imagemUrl ? 'http://localhost:8080'+n.imagemUrl : '';
-        descricaoCompleto.innerText = n.descricaoCurta;
-        conteudoCompleto.innerText = n.conteudoCompleto || '';
-        if(n.linkExterno){ 
-            linkCompleto.innerText = 'Link externo';
-            linkCompleto.href = n.linkExterno;
-            linkCompleto.style.display = 'inline-block';
-        } else { linkCompleto.style.display = 'none'; }
 
-        listaComentarios.innerHTML = '';
-        if(n.id) carregarComentarios(n.id);
+        if (tituloCompleto) {
+            tituloCompleto.innerText = n.titulo || '';
+        }
 
-        mainContent.classList.add('show-noticia');
+        if (dataCompleto) {
+            dataCompleto.innerText = n.data || '';
+        }
+
+        if (imagemCompleto) {
+
+            imagemCompleto.src = n.imagemUrl
+                ? 'http://localhost:8080' + n.imagemUrl
+                : 'assets/img/default.jpg';
+
+            imagemCompleto.onerror = function () {
+                this.src = 'assets/img/default.jpg';
+            };
+        }
+
+        if (descricaoCompleto) {
+            descricaoCompleto.innerText = n.descricaoCurta || '';
+        }
+
+        if (conteudoCompleto) {
+            conteudoCompleto.innerText = n.conteudoCompleto || '';
+        }
+
+        if (linkCompleto) {
+
+            if (n.linkExterno) {
+
+                linkCompleto.innerText = 'Link externo';
+                linkCompleto.href = n.linkExterno;
+                linkCompleto.style.display = 'inline-block';
+
+            } else {
+
+                linkCompleto.style.display = 'none';
+            }
+        }
+
+        if (listaComentarios) {
+            listaComentarios.innerHTML = '';
+        }
+
+        if (contadorComentarios) {
+            contadorComentarios.innerText = '0';
+        }
+
+        if (n.id) {
+            carregarComentarios(n.id);
+        }
+
+        if (mainContent) {
+            mainContent.classList.add('show-noticia');
+        }
     }
 
-    voltarLista.addEventListener('click', e => {
-        e.preventDefault();
-        mainContent.classList.remove('show-noticia');
-    });
 
+    /* =========================================================
+       VOLTAR PARA LISTA
+    ========================================================= */
+    if (voltarLista) {
+
+        voltarLista.addEventListener('click', function (event) {
+
+            event.preventDefault();
+
+            if (mainContent) {
+                mainContent.classList.remove('show-noticia');
+            }
+        });
+    }
+
+
+    /* =========================================================
+       CARREGAR COMENTÁRIOS
+    ========================================================= */
     async function carregarComentarios(noticiaId) {
+
         try {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`http://localhost:8080/api/noticias/${noticiaId}/comentarios`, {
-                headers: { "Authorization": token ? `Bearer ${token}` : "" }
-            });
-            if(!res.ok) throw new Error("Erro ao carregar comentários");
+
+            const token = localStorage.getItem('token');
+
+            const res = await fetch(
+                `http://localhost:8080/api/noticias/${noticiaId}/comentarios`,
+                {
+                    headers: {
+                        'Authorization': token
+                            ? `Bearer ${token}`
+                            : ''
+                    }
+                }
+            );
+
+            if (!res.ok) {
+                throw new Error('Erro ao carregar comentários');
+            }
+
             const comentarios = await res.json();
 
+            if (!listaComentarios) return;
+
             listaComentarios.innerHTML = '';
-            comentarios.forEach(c => {
+
+            comentarios.forEach(function (c) {
+
                 const div = document.createElement('div');
-                const dataFormatada = new Date(c.dataComentario).toLocaleString("pt-BR");
-                div.innerHTML = `<strong>${c.autor.nomeCompleto}</strong><em>${dataFormatada}</em><p>${c.texto}</p>`;
+
+                const dataFormatada = c.dataComentario
+                    ? new Date(c.dataComentario).toLocaleString('pt-BR')
+                    : '';
+
+                div.innerHTML = `
+                    <strong>
+                        ${c.autor?.nomeCompleto || 'Usuário'}
+                    </strong>
+
+                    <em>
+                        ${dataFormatada}
+                    </em>
+
+                    <p>
+                        ${c.texto || ''}
+                    </p>
+                `;
+
                 listaComentarios.appendChild(div);
             });
 
-            // Atualiza contador
-            contadorComentarios.innerText = comentarios.length;
+            if (contadorComentarios) {
+                contadorComentarios.innerText = comentarios.length;
+            }
 
-        } catch(err){ console.error(err); }
+        } catch (err) {
+
+            console.error('Erro ao carregar comentários:', err);
+
+            if (contadorComentarios) {
+                contadorComentarios.innerText = '0';
+            }
+        }
     }
 
-    btnComentario.addEventListener('click', async () => {
-        const texto = novoComentarioInput.value.trim();
-        if(!texto || !noticiaAtualId) return;
 
-        try {
-            const token = localStorage.getItem("token");
-            const res = await fetch(`http://localhost:8080/api/noticias/${noticiaAtualId}/comentarios`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify({ texto })
-            });
-            if(!res.ok) throw new Error("Erro ao enviar");
-            novoComentarioInput.value = '';
-            carregarComentarios(noticiaAtualId);
-        } catch(err){
-            console.error(err);
-            alert("Não foi possível enviar o comentário");
-        }
-    });
+    /* =========================================================
+       ENVIAR COMENTÁRIO
+    ========================================================= */
+    if (btnComentario) {
 
-    // Toggle comentários
-    if(toggleBtn && comentariosContainer){
-        toggleBtn.addEventListener('click', () => {
-            comentariosContainer.classList.toggle("comentarios-escondidos");
-            comentariosContainer.classList.toggle("comentarios-visiveis");
+        btnComentario.addEventListener('click', async function () {
+
+            const texto = novoComentarioInput
+                ? novoComentarioInput.value.trim()
+                : '';
+
+            if (!texto || !noticiaAtualId) {
+                return;
+            }
+
+            try {
+
+                const token = localStorage.getItem('token');
+
+                const res = await fetch(
+                    `http://localhost:8080/api/noticias/${noticiaAtualId}/comentarios`,
+                    {
+                        method: 'POST',
+
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': token
+                                ? `Bearer ${token}`
+                                : ''
+                        },
+
+                        body: JSON.stringify({
+                            texto: texto
+                        })
+                    }
+                );
+
+                if (!res.ok) {
+                    throw new Error('Erro ao enviar comentário');
+                }
+
+                novoComentarioInput.value = '';
+
+                carregarComentarios(noticiaAtualId);
+
+            } catch (err) {
+
+                console.error('Erro ao enviar comentário:', err);
+
+                alert(
+                    'Não foi possível enviar o comentário.'
+                );
+            }
         });
     }
 
-    function criarSlidesHero(){
+
+    /* =========================================================
+       TOGGLE DOS COMENTÁRIOS
+    ========================================================= */
+    if (toggleBtn && comentariosContainer) {
+
+        toggleBtn.addEventListener('click', function () {
+
+            const escondido =
+                comentariosContainer.classList.contains(
+                    'comentarios-escondidos'
+                );
+
+            comentariosContainer.classList.toggle(
+                'comentarios-escondidos'
+            );
+
+            comentariosContainer.classList.toggle(
+                'comentarios-visiveis'
+            );
+
+            toggleBtn.setAttribute(
+                'aria-expanded',
+                escondido ? 'true' : 'false'
+            );
+        });
+    }
+
+
+    /* =========================================================
+       HERO SLIDER
+    ========================================================= */
+    function criarSlidesHero() {
+
+        if (!heroSlidesContainer) return;
+
         heroSlidesContainer.innerHTML = '';
-        noticias.forEach((n,i)=>{
+
+        heroSlideIndex = 0;
+
+        if (heroInterval) {
+            clearInterval(heroInterval);
+            heroInterval = null;
+        }
+
+        if (noticias.length === 0) return;
+
+        noticias.forEach(function (n, i) {
+
             const slide = document.createElement('div');
+
             slide.className = 'hero-slide';
-            if(i===0) slide.classList.add('active');
-            slide.style.backgroundImage = n.imagemUrl ? `url('http://localhost:8080${n.imagemUrl}')` : "url('assets/img/default.jpg')";
-            slide.innerHTML = `<h1>${n.titulo}</h1>`;
+
+            if (i === 0) {
+                slide.classList.add('active');
+            }
+
+            slide.style.backgroundImage = n.imagemUrl
+                ? `url('http://localhost:8080${n.imagemUrl}')`
+                : "url('assets/img/default.jpg')";
+
+            slide.innerHTML = `
+                <div class="hero-slide-content">
+                    <h1>${n.titulo || ''}</h1>
+                </div>
+            `;
+
             heroSlidesContainer.appendChild(slide);
         });
-        setInterval(animarHeroSlides, 5000);
+
+        heroInterval = setInterval(
+            animarHeroSlides,
+            5000
+        );
     }
 
-    function animarHeroSlides(){
-        const slides = document.querySelectorAll('.hero-slide');
-        if(slides.length===0) return;
-        slides.forEach(s=>s.classList.remove('active'));
+
+    function animarHeroSlides() {
+
+        const slides =
+            document.querySelectorAll('.hero-slide');
+
+        if (slides.length === 0) return;
+
+        slides.forEach(function (slide) {
+            slide.classList.remove('active');
+        });
+
         slides[heroSlideIndex].classList.add('active');
-        heroSlideIndex = (heroSlideIndex + 1) % slides.length;
+
+        heroSlideIndex =
+            (heroSlideIndex + 1) % slides.length;
     }
 
-    function populateCategories(){
-        const setCat = new Set(noticias.map(n=>n.categoria || 'Geral'));
-        categoryFilter.innerHTML = '<option value="all">Todas</option>';
-        setCat.forEach(cat=>{
-            const opt = document.createElement('option');
-            opt.value = cat;
-            opt.textContent = cat;
-            categoryFilter.appendChild(opt);
+
+    /* =========================================================
+       CATEGORIAS
+    ========================================================= */
+    function populateCategories() {
+
+        if (!categoryFilter) return;
+
+        const categorias = new Set(
+            noticias.map(function (n) {
+                return n.categoria || 'Geral';
+            })
+        );
+
+        categoryFilter.innerHTML =
+            '<option value="all">Todas</option>';
+
+        categorias.forEach(function (categoria) {
+
+            const option =
+                document.createElement('option');
+
+            option.value = categoria;
+            option.textContent = categoria;
+
+            categoryFilter.appendChild(option);
         });
     }
 
-    function filterPosts(){
-        const searchTerm = searchInput.value.toLowerCase();
-        const selectedCategory = categoryFilter.value;
-        document.querySelectorAll('.post-card').forEach(card=>{
-            const title = card.querySelector('h3').textContent.toLowerCase();
-            const summary = card.querySelector('p').textContent.toLowerCase();
-            const category = card.querySelector('.category').textContent;
-            card.style.display = ((title.includes(searchTerm) || summary.includes(searchTerm)) &&
-                (selectedCategory==='all' || category===selectedCategory)) ? 'block' : 'none';
-        });
+
+    /* =========================================================
+       FILTRAR POSTS
+    ========================================================= */
+    function filterPosts() {
+
+        if (!searchInput || !categoryFilter) {
+            return;
+        }
+
+        const searchTerm =
+            searchInput.value.toLowerCase().trim();
+
+        const selectedCategory =
+            categoryFilter.value;
+
+        document
+            .querySelectorAll('.post-card')
+            .forEach(function (card) {
+
+                const title =
+                    card.querySelector('h3')
+                        ?.textContent
+                        .toLowerCase() || '';
+
+                const summary =
+                    card.querySelector('p')
+                        ?.textContent
+                        .toLowerCase() || '';
+
+                const category =
+                    card.querySelector('.category')
+                        ?.textContent || '';
+
+                const correspondePesquisa =
+                    title.includes(searchTerm) ||
+                    summary.includes(searchTerm);
+
+                const correspondeCategoria =
+                    selectedCategory === 'all' ||
+                    category === selectedCategory;
+
+                card.style.display =
+                    correspondePesquisa &&
+                    correspondeCategoria
+                        ? 'block'
+                        : 'none';
+            });
     }
 
-    searchInput.addEventListener('input', filterPosts);
-    categoryFilter.addEventListener('change', filterPosts);
 
+    if (searchInput) {
+        searchInput.addEventListener(
+            'input',
+            filterPosts
+        );
+    }
+
+    if (categoryFilter) {
+        categoryFilter.addEventListener(
+            'change',
+            filterPosts
+        );
+    }
+
+
+    /* =========================================================
+       INICIAR API
+       IMPORTANTE:
+       O MENU JÁ FOI INICIALIZADO ANTES DESTA CHAMADA.
+    ========================================================= */
     carregarNoticias();
 
 });
