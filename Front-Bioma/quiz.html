@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bioma-Guiné: O Jogo</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<link rel="stylesheet" href="assets/css/quiz.css">
+<style>
+/* --- Estilos básicos para cards e progress --- */
+
+</style>
+</head>
+<body>
+
+<a href="index.html" class="btn-home"><i class="fas fa-home"></i></a>
+
+<!-- Tela Inicial -->
+<section id="screen-start" class="screen active">
+  <div style="flex-grow:1; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+    <h1 style="font-family:'Montserrat'; font-size:clamp(3rem, 10vw, 5rem); color:var(--verde-guine); text-align:center;">
+      BIOMA<br><span style="color:var(--vermelho-guine)">GUINÉ</span>
+    </h1>
+    <div id="user-welcome" style="margin-top:20px; font-weight:bold;">Carregando perfil...</div>
+  </div>
+  <button class="btn-action" onclick="fetchCategories()">INICIAR JOGO</button>
+</section>
+
+<!-- Tela Categorias -->
+<section id="screen-categories" class="screen">
+  <h2 style="color:var(--verde-guine)">MISSÕES DISPONÍVEIS</h2>
+  <div id="categories-grid" class="grid-layout"></div>
+  <button onclick="goToScreen('screen-start')" style="margin-top:auto; background:none; border:none; cursor:pointer; font-weight:bold;">VOLTAR</button>
+</section>
+
+<!-- Tela Níveis -->
+<section id="screen-levels" class="screen">
+  <h2 id="cat-title" style="color:var(--verde-guine)">NÍVEIS</h2>
+  <div id="levels-grid" class="grid-layout"></div>
+  <button onclick="goToScreen('screen-categories')" style="margin-top:auto; background:none; border:none; cursor:pointer; font-weight:bold;">VOLTAR</button>
+</section>
+
+<!-- Tela Quiz -->
+<section id="screen-quiz" class="screen">
+  <div class="hud-wrapper">
+    <div id="score" style="color:var(--verde-guine)">⭐ 0</div>
+    <div class="progress-container"><div id="progress-bar" class="progress-fill"></div></div>
+  </div>
+  <div class="question-area"><h2 id="q-text">...</h2></div>
+  <div id="ans-container" class="options-grid"></div>
+  <button id="next-btn" class="btn-action" style="display:none; width:100%;">PRÓXIMA</button>
+</section>
+
+<script>
+let currentUser = localStorage.getItem("token") || null;
+let currentQuiz = null;
+
+// ---------- Navegação entre telas ----------
+function goToScreen(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+}
+
+// ---------- Inicialização ----------
+document.addEventListener("DOMContentLoaded", () => {
+  if(currentUser) {
+    document.getElementById("user-welcome").textContent = "Bem-vindo de volta!";
+  } else {
+    document.getElementById("user-welcome").textContent = "Jogue como visitante";
+  }
+});
+
+// ---------- Fetch Categorias ----------
+async function fetchCategories() {
+  const res = await fetch("http://localhost:8080/api/quiz/categories");
+  const categories = await res.json();
+
+  const grid = document.getElementById("categories-grid");
+  grid.innerHTML = "";
+
+  categories.forEach(cat => {
+    const div = document.createElement("div");
+    div.className = "category-card";
+    div.innerHTML = `<img src="${cat.imageUrl}" alt="${cat.name}"><h3>${cat.name}</h3>`;
+    div.onclick = () => fetchLevels(cat.id, cat.name);
+    grid.appendChild(div);
+  });
+
+  goToScreen("screen-categories");
+}
+
+// ---------- Fetch Níveis ----------
+async function fetchLevels(categoryId, categoryName) {
+  let headers = {};
+  if(currentUser) headers["Authorization"] = `Bearer ${currentUser}`;
+  const res = await fetch(`http://localhost:8080/api/quiz/quiz/levels-status/${categoryId}`, { headers });
+  const levels = await res.json();
+
+  const grid = document.getElementById("levels-grid");
+  grid.innerHTML = "";
+  document.getElementById("cat-title").textContent = categoryName;
+
+  levels.forEach(level => {
+    const div = document.createElement("div");
+    div.className = "level-card";
+    div.innerHTML = `<h4>${level.levelName}</h4><div class="level-stars">${"⭐".repeat(level.stars || 0)}</div>`;
+
+    if(level.unlocked) div.onclick = () => startQuiz(level.levelId);
+    else div.classList.add("locked");
+
+    grid.appendChild(div);
+  });
+
+  goToScreen("screen-levels");
+}
+
+// ---------- Start Quiz ----------
+async function startQuiz(levelId) {
+  const res = await fetch(`http://localhost:8080/api/quiz/questions/${levelId}`);
+  const questions = await res.json();
+  currentQuiz = { levelId, questions, score:0, current:0 };
+  showQuestion();
+  goToScreen("screen-quiz");
+}
+
+// ---------- Show Question ----------
+function showQuestion() {
+  const quiz = currentQuiz;
+  const q = quiz.questions[quiz.current];
+  document.getElementById("q-text").textContent = q.text;
+
+  const container = document.getElementById("ans-container");
+  container.innerHTML = "";
+  q.answers.forEach((a,i)=>{
+    const btn = document.createElement("button");
+    btn.className = "option-btn";
+    btn.textContent = a;
+    btn.onclick = () => selectAnswer(i);
+    container.appendChild(btn);
+  });
+
+  const progress = (quiz.current / quiz.questions.length) * 100;
+  document.getElementById("progress-bar").style.width = `${progress}%`;
+  document.getElementById("next-btn").style.display = "none";
+}
+
+// ---------- Select Answer ----------
+function selectAnswer(index) {
+  const quiz = currentQuiz;
+  const q = quiz.questions[quiz.current];
+  if(index === q.correctIndex) quiz.score++;
+  document.getElementById("score").textContent = `⭐ ${quiz.score}`;
+  document.getElementById("next-btn").style.display = "block";
+}
+
+// ---------- Next Question ----------
+document.getElementById("next-btn").onclick = () => {
+  const quiz = currentQuiz;
+  quiz.current++;
+  if(quiz.current < quiz.questions.length) showQuestion();
+  else finishQuiz();
+}
+
+// ---------- Finish Quiz ----------
+async function finishQuiz() {
+  const quiz = currentQuiz;
+  const total = quiz.questions.length;
+  let headers = {};
+  if(currentUser) headers["Authorization"] = `Bearer ${currentUser}`;
+
+  const res = await fetch(`http://localhost:8080/api/quiz/quiz/submit?levelId=${quiz.levelId}&correctAnswers=${quiz.score}&totalQuestions=${total}`, {
+    method: "POST",
+    headers
+  });
+
+  const result = await res.json();
+
+  if(result.passed) confetti({ particleCount:100, spread:70, origin:{y:0.6} });
+
+  const scoreEl = document.getElementById("score");
+  scoreEl.textContent = "⭐ 0";
+  for(let i=1;i<=result.stars;i++){
+    setTimeout(()=>{scoreEl.textContent=`⭐ ${i}`}, i*300);
+  }
+
+  alert(`Quiz terminado! Estrelas: ${result.stars} - Passou: ${result.passed}`);
+  fetchLevels(quiz.categoryId || 1, document.getElementById("cat-title").textContent); // Atualiza níveis
+  goToScreen("screen-levels");
+}
+</script>
+</body>
+</html>

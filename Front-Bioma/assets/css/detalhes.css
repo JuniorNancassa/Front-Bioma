@@ -1,0 +1,402 @@
+/* =========================
+   Variáveis de cores
+========================= */
+:root {
+    --cor-verde-escuro: #386b3a;
+    --cor-verde-musgo: #458748;
+    --cor-marrom-terra: #45874869;
+    --cor-bege-claro: #fafafa;
+    --cor-branco: #FFFFFF;
+    --cor-cinza-claro: #f4f4f4;
+}
+
+/* =========================
+   Reset e estilos globais
+========================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--cor-bege-claro);
+    color: var(--cor-verde-escuro);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* =========================
+   Top Bar
+========================= */
+.top-bar {
+    background-color: transparent;
+    color: var(--cor-verde-escuro);
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+}
+
+.top-bar .container {
+    display: flex;
+    justify-content: center;
+}
+
+.top-bar-links a {
+    color: var(--cor-verde-escuro);
+    text-decoration: none;
+    margin: 0 1rem;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.top-bar-links a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* =========================
+   Navegação Principal
+========================= */
+.main-nav {
+    background-color: var(--cor-verde-escuro);
+    color: var(--cor-branco);
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-nav .logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.main-nav .logo i {
+    color: var(--cor-verde-musgo);
+    font-size: 2rem;
+    margin-right: 0.5rem;
+}
+
+.main-nav .logo span {
+    color: var(--cor-branco);
+}
+
+.main-nav-links a {
+    color: var(--cor-branco);
+    text-decoration: none;
+    margin-left: 1.5rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.main-nav-links a:hover {
+    color: var(--cor-bege-claro);
+}
+
+.nav-buttons .btn,
+.nav-buttons .user-info {
+    background-color: var(--cor-verde-musgo);
+    border-color: var(--cor-verde-musgo);
+    color: var(--cor-branco);
+    padding: 0.5rem 1.2rem;
+    border-radius: 5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.nav-buttons .btn:hover {
+    background-color: #3f7b42;
+}
+
+.nav-buttons .user-info {
+    background-color: transparent;
+    border: 2px solid var(--cor-bege-claro);
+    color: var(--cor-bege-claro);
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+/* =========================
+   Hero Denúncia
+========================= */
+.hero-denuncia {
+    position: relative;
+    height: 100vh;
+    color: var(--cor-branco);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-image: url('../img/Poupinha-Prionops-plumatus-scaled.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.hero-denuncia-content {
+    position: relative;
+    z-index: 1;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.hero-denuncia h1 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    margin-bottom: 1rem;
+}
+
+.hero-denuncia p {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    max-width: 800px;
+    margin: 0 auto 2rem;
+}
+
+/* Botão "Fale conosco" flutuante */
+.fale {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    color: #FFFFFF;
+    border: 2px solid #FFD700;
+    border-radius: 25px;
+    background-color: transparent;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    animation: flutuar 3s ease-in-out infinite;
+}
+
+.fale:hover {
+    background-color: #FFD700;
+    color: #000;
+    transform: translateY(-5px);
+}
+
+@keyframes flutuar {
+    0%   { transform: translateY(0px); }
+    50%  { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Botão de voltar */
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--cor-verde-escuro);
+    text-decoration: none;
+    margin: 1rem 0;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-voltar:hover {
+    color: var(--cor-verde-musgo);
+    transform: translateX(-3px);
+}
+
+/* =========================
+   Seção Detalhes Seres
+========================= */
+.detalhes-seres {
+    display: flex;
+    gap: 2rem;
+}
+
+.col-imagem {
+    flex: 7;
+}
+
+.col-info {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.info-item {
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.info-label {
+    font-weight: 600;
+}
+
+/* Espaço entre informações e Descrição */
+.col-info + h5 {
+    margin-top: 2rem;
+}
+
+/* Wrapper da imagem */
+.imagem-wrapper {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #e0f7ea, #ffffff);
+    padding: 0;
+}
+
+.ser-img {
+    width: 100%;
+    height: 100%;
+    max-height: 600px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.ser-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+/* Descrição */
+.descricao {
+    white-space: pre-wrap;
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+/* Comentários */
+.comentarios {
+    margin-top: 2rem;
+}
+
+#listaComentarios > div {
+    border: none;
+    padding: 0.5rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    box-shadow: none;
+    line-height: 1.4;
+}
+
+/* Caixa de envio de comentário */
+.textarea-wrapper {
+    position: relative;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.textarea-wrapper textarea {
+    width: 100%;
+    padding: 0.75rem 3rem 0.75rem 0.75rem;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    resize: none;
+    font-size: 0.95rem;
+    transition: border 0.2s;
+}
+
+.textarea-wrapper textarea:focus {
+    outline: none;
+    border-color: #28a745;
+    box-shadow: 0 0 5px rgba(40,167,69,0.5);
+}
+
+/* Botão enviar */
+.btn-send {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background-color: #28a745;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-send:hover {
+    transform: translateY(-50%) scale(1.1);
+}
+
+.btn-send i {
+    font-size: 1rem;
+}
+
+/* =========================
+   Card sem borda
+========================= */
+.card {
+    border: none !important;
+    box-shadow: none !important;
+    background-color: transparent;
+}
+
+/* =========================
+   Responsividade
+========================= */
+@media (max-width: 992px) {
+    .detalhes-seres {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .col-imagem, .col-info {
+        flex: 1;
+        width: 100%;
+    }
+    .ser-img {
+        max-height: 450px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 0.95rem;
+    }
+    .detalhes-seres {
+        gap: 1rem;
+    }
+    .ser-img {
+        max-height: 300px;
+    }
+    .info-item {
+        font-size: 0.9rem;
+    }
+    .descricao {
+        font-size: 0.9rem;
+        padding: 0.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ser-img {
+        max-height: 220px;
+    }
+    .textarea-wrapper textarea {
+        font-size: 0.85rem;
+        padding: 0.6rem 2.5rem 0.6rem 0.6rem;
+    }
+    .btn-send {
+        padding: 0.4rem 0.6rem;
+    }
+    .btn-voltar {
+        font-size: 0.9rem;
+        margin: 0.5rem 0;
+    }
+}

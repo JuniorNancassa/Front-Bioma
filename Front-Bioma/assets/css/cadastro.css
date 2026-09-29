@@ -1,0 +1,777 @@
+/* =========================
+   Variáveis de cores
+========================= */
+:root {
+  --cor-verde-escuro: #2e7d32;
+  --cor-verde-musgo: #4caf50;
+  --cor-branco: #ffffff;
+  --cor-cinza-claro: #f4f4f4;
+  --cor-fundo: #f0f9f5;
+  --cor-texto: #21312a;
+}
+
+/* =========================
+   Reset e fonte
+========================= */
+body {
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  margin: 0; padding: 0;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+/* =========================
+   Navbar
+========================= */
+.main-nav {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 0.9rem 1.5rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-radius: 14px;
+  margin: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+  transition: all 0.3s ease;
+}
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.4rem;
+  text-decoration: none;
+  color: var(--cor-verde-escuro);
+}
+
+.logo img {
+  height: 70px;
+  width: auto;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover img {
+  transform: scale(1.15);
+}
+
+/* Links */
+.main-nav-links {
+  display: flex;
+  gap: 1.8rem;
+  align-items: center;
+}
+
+.main-nav-links a {
+  text-decoration: none;
+  color: var(--cor-verde-escuro);
+  font-weight: 600;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.main-nav-links a::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: var(--cor-verde-musgo);
+  transition: width 0.3s ease;
+}
+
+.main-nav-links a:hover::after {
+  width: 100%;
+}
+
+/* User menu */
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--cor-verde-escuro);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.user-menu:hover {
+  background-color: var(--cor-cinza-claro);
+  transform: scale(1.05);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 30px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  z-index: 1300;
+}
+
+.hamburger i {
+  font-size: 1.5rem;
+  color: var(--cor-verde-escuro);
+}
+
+/* =========================
+   Responsividade
+========================= */
+@media (max-width: 992px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .logo {
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
+  .main-nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 65%;
+    max-width: 280px;
+    height: 100vh;
+    background: var(--cor-branco);
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 6rem 1.5rem;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 3px 0 20px rgba(0,0,0,0.15);
+    border-radius: 0 12px 12px 0;
+    z-index: 999;
+  }
+
+  .main-nav-links.active {
+    transform: translateX(0);
+  }
+
+  .main-nav-links a {
+    padding: 12px 0;
+    font-size: 1.1rem;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+
+  .user-menu {
+    width: 100%;
+    justify-content: center;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 15px;
+  }
+}
+
+/* Desktop fixes */
+@media (min-width: 992px) {
+  .main-nav-links {
+    display: flex !important;
+    position: static;
+    flex-direction: row;
+    background: none;
+    box-shadow: none;
+    width: auto;
+    padding: 0;
+  }
+
+  .main-nav-links a { border: none; padding: 0 15px; }
+}
+
+
+/* =====================================================
+   3️⃣ HAMBURGER MODERNO ANIMADO
+===================================================== */
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1300;
+}
+
+.hamburger span {
+    height: 3px;
+    width: 100%;
+    background-color: var(--cor-verde-escuro);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* Animação para virar X */
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+
+/* =====================================================
+   4️⃣ RESPONSIVIDADE NAVBAR
+===================================================== */
+
+@media (max-width: 992px) {
+
+    .hamburger {
+        display: flex;
+        order: 1;
+    }
+
+    .logo {
+        justify-content: center;
+        flex: 0 0 auto;
+    }
+
+    .main-nav .logo img {
+        height: 90px;
+    }
+
+    .main-nav {
+        padding: 1rem;
+    }
+
+    /* Menu lateral mobile */
+    .main-nav-links {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 65%;
+        max-width: 280px;
+        height: 100vh;
+        background: var(--cor-branco);
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 6rem 1.5rem;
+        transform: translateX(-100%);
+        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        box-shadow: 3px 0 20px rgba(0,0,0,0.15);
+        z-index: 999;
+        border-radius: 0 12px 12px 0;
+    }
+
+    .main-nav-links.active {
+        transform: translateX(0);
+    }
+
+    .main-nav-links a {
+        padding: 12px 0;
+        font-size: 1.1rem;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+}
+
+
+/* =====================================================
+   5️⃣ HERO DENÚNCIA
+   (Mantido exatamente como você enviou)
+===================================================== */
+
+.hero-denuncia {
+    position: relative;
+    height: 60vh;
+    color: var(--cor-branco);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: var(--cor-verde-musgo);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* resto do seu CSS permanece igual */
+.hero-denuncia-content {
+    position: relative;
+    z-index: 1;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-denuncia h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 1rem;
+}
+
+.hero-denuncia p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+/* =========================
+   Formulário Cadastro Seres
+========================= */
+h2 {
+    color: var(--cor-verde-escuro);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#serForm {
+    background-color: var(--cor-branco);
+    padding: 20px 25px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    align-items: stretch;
+}
+
+.form-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-right #map {
+    flex: 1;
+    min-height: 1000px;
+    width: 100%;
+    border-radius: 15px;
+    border: 1px solid var(--cor-cinza-claro);
+}
+
+.form-label {
+    color: #000;
+    font-weight: 600;
+}
+
+.form-control, .form-select, input[type="file"] {
+    border-radius: 10px;
+    border: 1px solid var(--cor-cinza-claro);
+    background-color: var(--cor-cinza-claro);
+    padding: 10px 12px;
+    color: #000;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus, input[type="file"]:focus {
+    border-color: #000;
+    box-shadow: 0 0 0 0.2rem rgba(115, 183, 235, 0.537);
+    color: #000;
+}
+
+.btn-full {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: var(--cor-verde-musgo);
+    border-color: var(--cor-verde-musgo);
+    padding: 0.7rem 1.5rem;
+    font-weight: 600;
+    border-radius: 10px;
+    color: var(--cor-branco);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--cor-verde-escuro);
+    border-color: var(--cor-verde-escuro);
+}
+
+.mb-3 {
+    margin-bottom: 20px !important;
+}
+
+/* =========================
+   Lista de Espécies
+========================= */
+.lista-especies {
+    background-color: #f9f9f9;
+    padding: 40px 0;
+}
+
+.lista-especies h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700;
+    color: #333;
+}
+
+/* =========================
+   Filtro de Espécies
+========================= */
+.filtro-especies {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+#buscaTitulo {
+    flex: 1;
+    min-width: 180px;
+    max-width: 250px;
+    height: 42px;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+/* Botões no desktop */
+.filtro-especies .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    padding: 8px 16px;
+    font-size: 14px;
+    max-width: 150px;
+    height: 42px;          /* mesma altura do input */
+    line-height: 1.2;
+    white-space: nowrap;
+}
+/* Limitar tamanho dos selects no desktop */
+.filtro-especies .filtro-select {
+    min-width: 180px;
+    max-width: 220px; /* define largura máxima */
+    height: 42px;      /* altura igual aos botões */
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+/* Mobile */
+@media (max-width: 576px) {
+    .filtro-especies {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filtro-especies .filtro-input,
+    .filtro-especies .filtro-select,
+    .filtro-especies .btn {
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
+#listaEspecies .card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+#listaEspecies .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+#listaEspecies .card-body {
+    padding: 20px;
+}
+
+#listaEspecies .card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+#listaEspecies .card-text {
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #555;
+}
+
+.pinterest-card {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: #fff;
+}
+
+.pinterest-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.pinterest-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.pinterest-card .card-body {
+    padding: 15px;
+}
+
+.pinterest-card .card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.pinterest-card p {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+/* =========================
+   Footer
+========================= */
+.footer {
+    background-color: #386b3a;
+    color: var(--cor-branco);
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 10px;
+}
+
+.footer-section h3 {
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px;
+}
+
+.footer-section ul li a {
+    color: var(--cor-branco);
+    text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+    text-decoration: underline;
+}
+
+.footer-section form {
+    display: flex;
+}
+
+.footer-section input {
+    padding: 10px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    flex: 1;
+}
+
+.footer-section button {
+    padding: 10px;
+    background-color: var(--cor-verde-musgo);
+    color: var(--cor-branco);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.footer-section button:hover {
+    background-color: var(--cor-verde-escuro);
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icons a {
+    color: var(--cor-branco);
+    text-decoration: none;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--cor-verde-musgo);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.social-icons a:hover {
+    background-color: var(--cor-verde-escuro);
+    color: var(--cor-branco);
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* =========================
+   Media Queries
+========================= */
+@media (max-width: 991px) {
+    .main-nav-links a:not(:last-child) {
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-right #map {
+        min-height: 300px;
+    }
+
+    .filtro-input,
+    .filtro-select {
+        width: 100%;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-section {
+        flex: 1 1 100%;
+        margin: 15px 0;
+    }
+
+    .footer-section form {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .footer-section input {
+        margin: 0 0 10px 0;
+        width: 100%;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-nav {
+        padding: 0.5rem 1rem;
+        margin: 8px;
+    }
+
+    .logo img {
+        height: 32px;
+    }
+
+    .main-nav-links {
+        width: 80%;
+    }
+
+    .hero-denuncia {
+        height: 70vh;
+        background-attachment: scroll;
+    }
+
+    .hero-denuncia h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-denuncia p {
+        font-size: 1rem;
+    }
+
+    .fale {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    #serForm {
+        padding: 15px;
+    }
+
+    .form-right #map {
+        min-height: 250px;
+    }
+
+    .filtro-especies {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filtro-especies .filtro-input,
+    .filtro-especies .filtro-select,
+    .filtro-especies .btn {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    #listaEspecies .card img,
+    .pinterest-card img {
+        height: 180px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-section {
+        margin: 10px 0;
+        text-align: center;
+    }
+}

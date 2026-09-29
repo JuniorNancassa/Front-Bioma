@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil do Usuário</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+:root {
+  --cor-verde-escuro: #2e7d32;
+  --cor-verde-musgo: #4caf50;
+  --cor-branco: #ffffff;
+  --cor-fundo: #f0f9f5;
+  --cor-texto: #21312a;
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--cor-fundo);
+}
+
+/* Container ocupa a tela inteira */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: white;
+  border-radius: 0;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  overflow-y: auto;
+}
+
+/* Header */
+.profile-header {
+  position: relative;
+  padding: 40px 20px 20px 20px;
+  background: linear-gradient(135deg, var(--cor-verde-escuro), var(--cor-verde-musgo));
+  color: white;
+  text-align: center;
+}
+
+/* Topo */
+.top-buttons {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Sino */
+.notification-icon {
+  position: relative;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.notification-count {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: red;
+  color: white;
+  font-size: 10px;
+  padding: 3px 6px;
+  border-radius: 50%;
+}
+
+/* Botões */
+.btn-topo {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+/* Avatar */
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: white;
+  color: var(--cor-verde-escuro);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 55px;
+  font-weight: bold;
+  margin: 15px auto;
+}
+
+/* Nome completo e login */
+#user-login {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 5px 0 2px 0;
+}
+
+#user-nome {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 2px 0;
+}
+
+#user-email {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Abas */
+.tabs {
+  display: flex;
+  border-bottom: 2px solid #eee;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 18px;
+  border: none;
+  background: none;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab-btn.active { color: var(--cor-verde-escuro); }
+
+.tab-btn::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 4px;
+  background: var(--cor-verde-escuro);
+  transition: 0.4s;
+}
+
+.tab-btn.active::after { width: 100%; }
+
+.tab-content {
+  display: none;
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.tab-content.active-content { display: block; }
+
+/* Feed Notificações */
+#notificacoes-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.notificacao-card {
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.notificacao-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.notificacao-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--cor-verde-musgo);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.notificacao-content {
+  flex: 1;
+}
+
+.notificacao-msg { font-size: 15px; margin: 5px 0; }
+
+.notificacao-data {
+  font-size: 12px;
+  color: gray;
+}
+
+.nao-lida {
+  border-left: 5px solid var(--cor-verde-escuro);
+  background: #f4fff6;
+}
+
+.badge-global {
+  background: var(--cor-verde-escuro);
+  color: white;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  margin-left: 6px;
+}
+
+@media(max-width:768px){
+  .container { margin: 0; height: 100%; }
+  .tab-content { padding: 10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="profile-header">
+
+    <div class="top-buttons">
+      <button class="btn-topo" onclick="window.location.href='index.html'">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+
+      <div class="notification-icon" onclick="abrirNotificacoes()">
+        <i class="fas fa-bell"></i>
+        <span id="notification-count" class="notification-count" style="display:none;">0</span>
+      </div>
+
+      <button class="btn-topo" onclick="window.location.href='editar-perfil.html'">
+        <i class="fas fa-user-edit"></i>
+      </button>
+      
+    </div>
+
+    <div class="avatar" id="avatar">U</div>
+    <h2 id="user-login">Login</h2>
+   
+
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-target="seres-section">Seres</button>
+    <button class="tab-btn" data-target="denuncias-section">Denúncias</button>
+    <button class="tab-btn" data-target="notificacoes-section">Notificações</button>
+  </div>
+
+  <div id="seres-section" class="tab-content active-content"></div>
+  <div id="denuncias-section" class="tab-content"></div>
+
+  <div id="notificacoes-section" class="tab-content">
+    <div id="notificacoes-feed"></div>
+  </div>
+
+</div>
+
+<script>
+let socket;
+
+// =============================
+// MOSTRAR LOGIN, NOME E EMAIL
+// =============================
+window.addEventListener("load", async () => {
+
+  const login = localStorage.getItem("login") || "Login";
+
+
+  document.getElementById("user-login").textContent = login;
+  document.getElementById("avatar").textContent = login.charAt(0).toUpperCase();
+
+  await carregarNotificacoes();
+  setInterval(carregarNotificacoes, 5000);
+  conectarWebSocket();
+});
+
+// =============================
+// ABAS
+// =============================
+document.querySelectorAll('.tab-btn').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active-content'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.target).classList.add('active-content');
+
+    if(tab.dataset.target==="notificacoes-section"){
+      carregarNotificacoes();
+    }
+  });
+});
+
+// =============================
+// ABRIR PELO SINO
+// =============================
+function abrirNotificacoes(){
+  document.querySelector('[data-target="notificacoes-section"]').click();
+}
+
+// =============================
+// CARREGAR NOTIFICAÇÕES
+// =============================
+async function carregarNotificacoes(){
+  const feed = document.getElementById("notificacoes-feed");
+  const token = localStorage.getItem("token");
+  if(!token) return;
+
+  const res = await fetch("http://127.0.0.1:8080/api/notificacoes/minhas",{
+    headers:{Authorization:`Bearer ${token}`}
+  });
+
+  const notificacoes = await res.json();
+  feed.innerHTML="";
+  let naoLidas = 0;
+
+  notificacoes.sort((a,b)=> new Date(b.data)-new Date(a.data));
+
+  notificacoes.forEach(n=>{
+    if(!n.lida) naoLidas++;
+    const card=document.createElement("div");
+    card.className="notificacao-card";
+    if(!n.lida) card.classList.add("nao-lida");
+
+    const usuario=n.usuarioId? n.usuarioId:"Sistema";
+    const inicial=usuario.charAt(0).toUpperCase();
+
+    card.innerHTML=`
+      <div class="notificacao-avatar">${inicial}</div>
+      <div class="notificacao-content">
+        <strong>${usuario}
+        ${!n.usuarioId?'<span class="badge-global">GLOBAL</span>':''}
+        </strong>
+        <div class="notificacao-msg">${n.mensagem}</div>
+        <div class="notificacao-data">${new Date(n.data).toLocaleString()}</div>
+      </div>
+    `;
+
+    card.addEventListener("click", async ()=>{
+      if(!n.lida){
+        await fetch(`http://127.0.0.1:8080/api/notificacoes/${n.id}/marcar-lida`,{
+          method:"PUT",
+          headers:{Authorization:`Bearer ${token}`}
+        });
+        card.classList.remove("nao-lida");
+        atualizarContadorAtual();
+      }
+    });
+
+    feed.appendChild(card);
+  });
+
+  atualizarContador(naoLidas);
+}
+
+// =============================
+// CONTADOR
+// =============================
+function atualizarContador(qtd){
+  const badge=document.getElementById("notification-count");
+  if(qtd>0){
+    badge.style.display="block";
+    badge.textContent=qtd;
+  }else{
+    badge.style.display="none";
+  }
+}
+function atualizarContadorAtual(){
+  const qtd=document.querySelectorAll(".nao-lida").length;
+  atualizarContador(qtd);
+}
+
+// =============================
+// WEBSOCKET
+// =============================
+function conectarWebSocket(){
+  try{
+    socket = new WebSocket("ws://127.0.0.1:8080/ws/notificacoes");
+    socket.onmessage = function(event){
+      const nova = JSON.parse(event.data);
+      criarNotificacaoTempoReal(nova);
+    };
+    socket.onclose = function(){ setTimeout(conectarWebSocket,3000); }
+  }catch(e){ console.log("WebSocket não ativo."); }
+}
+
+function criarNotificacaoTempoReal(nova){
+  const feed = document.getElementById("notificacoes-feed");
+  const card=document.createElement("div");
+  card.className="notificacao-card nao-lida";
+
+  const usuario=nova.usuarioId? nova.usuarioId:"Sistema";
+  const inicial=usuario.charAt(0).toUpperCase();
+
+  card.innerHTML=`
+    <div class="notificacao-avatar">${inicial}</div>
+    <div class="notificacao-content">
+      <strong>${usuario}
+      ${!nova.usuarioId?'<span class="badge-global">GLOBAL</span>':''}
+      </strong>
+      <div class="notificacao-msg">${nova.mensagem}</div>
+      <div class="notificacao-data">${new Date(nova.data).toLocaleString()}</div>
+    </div>
+  `;
+
+  feed.prepend(card);
+  atualizarContadorAtual();
+}
+</script>
+</body>
+</html>

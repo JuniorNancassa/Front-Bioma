@@ -1,0 +1,1459 @@
+/* =========================
+   Variáveis de cores
+========================= */
+:root {
+  --cor-verde-escuro: #2e7d32;
+  --cor-verde-musgo: #4caf50;
+  --cor-verde-hover: #245f28;
+  --cor-branco: #ffffff;
+  --cor-cinza-claro: #f4f4f4;
+  --cor-cinza-borda: #d9dedb;
+  --cor-cinza-texto: #66736c;
+  --cor-fundo: #f0f9f5;
+  --cor-texto: #21312a;
+  --sombra-suave: 0 6px 18px rgba(0, 0, 0, 0.08);
+  --sombra-media: 0 12px 30px rgba(0, 0, 0, 0.12);
+  --raio: 14px;
+}
+
+/* =========================
+   Reset e fonte
+========================= */
+body {
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  margin: 0; padding: 0;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+}
+
+/* =========================
+   Navbar
+========================= */
+.main-nav {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 0.9rem 1.5rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-radius: 14px;
+  margin: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+  transition: all 0.3s ease;
+}
+
+.flex-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1.4rem;
+  text-decoration: none;
+  color: var(--cor-verde-escuro);
+}
+
+.logo img {
+  height: 70px;
+  width: auto;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover img {
+  transform: scale(1.05);
+}
+
+/* Links */
+.main-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.15rem;
+}
+
+.main-nav-links a {
+  position: relative;
+  padding: 8px 4px;
+  text-decoration: none;
+  color: var(--cor-verde-escuro);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.main-nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 1px;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--cor-verde-musgo);
+  transition: width 0.25s ease;
+}
+
+.main-nav-links a:hover::after,
+.main-nav-links a[aria-current="page"]::after {
+  width: 100%;
+}
+
+/* User menu */
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--cor-verde-escuro);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.user-menu:hover,
+.user-menu:focus-visible {
+  background: var(--cor-cinza-claro);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  z-index: 1301;
+  flex: 0 0 44px;
+  padding: 0;
+  border-radius: 10px;
+  color: var(--cor-verde-escuro);
+}
+
+.hamburger i {
+  font-size: 1.5rem;
+  color: var(--cor-verde-escuro);
+}
+
+/* =========================
+   Responsividade
+========================= */
+@media (max-width: 992px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .logo {
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
+  .main-nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 65%;
+    max-width: 280px;
+    height: 100vh;
+    background: var(--cor-branco);
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 6rem 1.5rem;
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 3px 0 20px rgba(0,0,0,0.15);
+    border-radius: 0 12px 12px 0;
+    z-index: 999;
+  }
+
+  .main-nav-links.active {
+    transform: translateX(0);
+  }
+
+  .main-nav-links a {
+    padding: 12px 0;
+    font-size: 1.1rem;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+
+  .user-menu {
+    width: 100%;
+    justify-content: center;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+    padding-top: 15px;
+  }
+}
+
+/* Desktop fixes */
+@media (min-width: 992px) {
+  .main-nav-links {
+    display: flex !important;
+    position: static;
+    flex-direction: row;
+    background: none;
+    box-shadow: none;
+    width: auto;
+    padding: 0;
+  }
+
+  .main-nav-links a { border: none; padding: 0 15px; }
+}
+
+/* =========================
+   Hero Denúncia
+========================= */
+.hero-denuncia {
+    position: relative;
+    height: 100vh;
+    color: var(--cor-branco);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-image: url('../img/Poupinha-Prionops-plumatus-scaled.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    transition: none;
+}
+
+.hero-denuncia-content {
+    position: relative;
+    z-index: 1;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.hero-denuncia h1 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    margin-bottom: 1rem;
+}
+
+.hero-denuncia p {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    max-width: 800px;
+    margin: 0 auto 2rem;
+}
+
+/* Botão "Fale conosco" */
+.fale {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    color: #FFFFFF;
+    border: 2px solid #FFD700;
+    border-radius: 25px;
+    background-color: transparent;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    animation: flutuar 3s ease-in-out infinite;
+}
+
+.fale:hover {
+    background-color: #FFD700;
+    color: #000000;
+    transform: translateY(-5px);
+}
+
+@keyframes flutuar {
+    0%   { transform: translateY(0px); }
+    50%  { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+
+/* =========================
+   🌱 Seção Missão
+========================= */
+#missao {
+  position: relative;
+  padding: 5rem 1rem;
+  background-image: url('../img/Poupinha-Prionops-plumatus-scaled.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Overlay escuro */
+#missao::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+/* Conteúdo acima do overlay */
+#missao .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================
+   Título e texto da seção
+========================= */
+#missao .container > h1 {
+  font-size: 2.4rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+#missao > .container > p {
+  font-size: 1.1rem;
+  margin-bottom: 3rem;
+  color: #f1f1f1;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================
+   Cards Missão
+========================= */
+.mission-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.mission-card {
+  max-width: 280px;
+  padding: 2rem 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  backdrop-filter: blur(4px);
+}
+
+/* Ícones */
+.mission-card .icon svg {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+}
+
+/* Texto do card */
+.mission-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+  color: #000;
+  transition: color 0.3s ease;
+}
+
+#missao .mission-card p {
+  font-size: 0.95rem;
+  color: #000; /* PRETO antes do hover */
+  line-height: 1.5;
+  transition: color 0.3s ease;
+}
+
+/* =========================
+   Hover Card
+========================= */
+.mission-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, #4caf4fe4, #3b833f65);
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+  z-index: 0;
+}
+
+.mission-card:hover::before {
+  opacity: 1;
+}
+
+.mission-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 18px 35px rgba(0,0,0,0.25);
+}
+
+.mission-card * {
+  position: relative;
+  z-index: 1;
+}
+
+.mission-card:hover h3,
+#missao.mission-card:hover p {
+  color: #ffffff;
+}
+
+/* Card do meio (destaque) */
+.middle-carde {
+  max-width: 300px;
+  margin-top: 30px;
+}
+
+/* =========================
+   Responsividade
+========================= */
+@media (max-width: 768px) {
+  #missao {
+    background-attachment: scroll;
+    padding: 4rem 1rem;
+  }
+
+  #missao h1 {
+    font-size: 1.9rem;
+  }
+
+  .mission-cards {
+    gap: 1.5rem;
+  }
+
+  .middle-carde {
+    margin-top: 0;
+  }
+}
+
+/* =========================
+   🎠 Carrossel de Seres
+========================= */
+
+/* =========================
+   🟢 Seção do Carrossel
+========================= */
+/* =========================
+   Carrossel de Seres
+========================= */
+#carrossel-seres {
+  padding: 4rem 1rem;
+  background: #f4faf6;
+  text-align: center;
+}
+
+.carrossel-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* Título */
+#carrossel-seres h1 {
+  font-size: 2.2rem;
+  color: #1f3d2b;
+  margin-bottom: 0.5rem;
+}
+
+.carrossel-subtitle {
+  font-size: 1rem;
+  color: #4f6f5c;
+  margin-bottom: 2.5rem;
+}
+
+/* =========================
+   Estrutura do carrossel
+========================= */
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding: 0.5rem;
+}
+
+/* =========================
+   Card do carrossel
+========================= */
+.carousel-card {
+  min-width: 260px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.carousel-card:hover {
+  transform: translateY(-8px);
+}
+
+/* Imagem */
+.carousel-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Conteúdo */
+.carousel-card-content {
+  padding: 1rem;
+  text-align: left;
+}
+
+.carousel-card-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+  color: #1f3d2b;
+}
+
+.carousel-card-content p {
+  font-size: 0.9rem;
+  color: #4f6f5c;
+  line-height: 1.4;
+}
+
+/* =========================
+   Botões
+========================= */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #ffffff;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #1f3d2b;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.carousel-btn:hover {
+  background: #4caf50;
+  color: #fff;
+}
+
+.carousel-btn.prev {
+  left: -15px;
+}
+
+.carousel-btn.next {
+  right: -15px;
+}
+
+/* =========================
+   Mobile
+========================= */
+@media (max-width: 768px) {
+  #carrossel-seres {
+    padding: 3rem 1rem;
+  }
+
+  .carousel-track {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .carousel-card {
+    scroll-snap-align: start;
+    min-width: 220px;
+  }
+
+  .carousel-btn {
+    display: none;
+  }
+}
+
+
+/* =========================
+   🎴 Cards Estilo Pinterest
+========================= */
+
+/* --- Card individual --- */
+.pinterest-card {
+  flex: 0 0 350px;         /* largura fixa dos cards */
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* --- Hover do card --- */
+.pinterest-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* --- Imagem do card --- */
+.pinterest-card img {
+  width: 100%;
+  height: 180px;           /* altura da imagem */
+  object-fit: cover;
+}
+
+/* --- Corpo do card --- */
+.pinterest-card .card-body {
+  flex-grow: 1;
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Título do card --- */
+.pinterest-card .card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* --- Texto do card --- */
+.pinterest-card p {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  flex-grow: 1;
+}
+
+/* --- Botão Ver Mais --- */
+.pinterest-card .btn-ver-mais {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  background-color: #386b3a;
+  transition: all 0.3s ease;
+}
+
+.pinterest-card .btn-ver-mais:hover {
+  background-color: #2e5330;
+}
+
+/* =========================
+   Variáveis Globais
+========================= */
+:root {
+    --cor-verde-escuro: #2e7d32;
+    --cor-verde-musgo: #4caf50;
+    --cor-branco: #ffffff;
+    --cor-cinza-claro: #f4f4f4;
+    --cor-fundo: #f0f9f5;
+    --cor-texto: #21312a;
+    --cor-primaria: #2e7d32;
+    --cor-secundaria: #4caf50;
+    --cor-destaque: #2e7d32;
+}
+
+/* =========================
+   Destaque Espécie
+========================= */
+.destaque-especie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 40px 20px;
+    background-color: var(--cor-fundo);
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    animation: flutuar 6s ease-in-out infinite;
+}
+
+.imagem-especie { 
+    flex: 1 1 400px; 
+    text-align: center; 
+}
+.imagem-especie img { 
+    width: 100%; 
+    max-width: 200px; 
+    border-radius: 20px; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+    object-fit: cover; 
+}
+
+.info-especie { 
+    flex: 1 1 400px; 
+    max-width: 600px; 
+    text-align: left; 
+}
+.info-especie h2 { 
+    font-size: 32px;
+    color: var(--cor-verde-escuro);
+    margin-bottom: 5px;
+    text-align: center;
+}
+.info-especie h4 { 
+    font-size: 18px;
+    color: #666;
+    font-style: italic;
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+.info-especie p { 
+    margin: 10px 0;
+    line-height: 1.6;
+    color: #444;
+}
+.info-especie button { 
+    margin-top: 15px;
+    background: var(--cor-verde-escuro);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Formulário na seção destaque */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+    width: 100%;
+}
+.form-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.form-row input,
+textarea {
+    flex: 1 1 100%;
+    min-width: 0;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+textarea { resize: vertical; }
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--cor-verde-escuro);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+button[type="submit"]:hover {
+    background-color: var(--cor-verde-musgo);
+}
+
+/* Responsividade Destaque */
+@media (max-width: 768px) {
+    .destaque-especie { flex-direction: column; padding: 30px 15px; }
+    .imagem-especie, .info-especie { flex: 1 1 100%; max-width: 100%; }
+    .form-row { flex-direction: column; }
+}
+
+/* =========================
+   Footer
+========================= */
+.footer {
+    background-color: #386b3a;
+    color: var(--cor-branco);
+    padding: 40px 20px;
+    font-family: Arial, sans-serif;
+}
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.footer-section {
+    flex: 1;
+    margin: 10px;
+}
+.footer-section h3 { margin-bottom: 10px; }
+.footer-section ul { list-style: none; padding: 0; }
+.footer-section ul li { margin-bottom: 8px; }
+.footer-section ul li a {
+    color: var(--cor-branco);
+    text-decoration: none;
+}
+.footer-section ul li a:hover { text-decoration: underline; }
+.footer-section form { display: flex; }
+.footer-section input {
+    padding: 10px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    flex: 1;
+}
+.footer-section button {
+    padding: 10px;
+    background-color: var(--cor-verde-musgo);
+    color: var(--cor-branco);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.footer-section button:hover { background-color: var(--cor-verde-escuro); }
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+.social-icons a {
+    color: var(--cor-branco);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background-color: var(--cor-verde-musgo);
+    transition: background-color 0.3s, color 0.3s;
+}
+.social-icons a:hover { background-color: var(--cor-verde-escuro); }
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+}
+/* Responsividade Footer */
+@media (max-width: 768px) {
+    .footer-content { flex-direction: column; align-items: center; text-align: center; }
+    .footer-section { flex: 1 1 100%; margin: 15px 0; }
+    .footer-section form { flex-direction: column; gap: 10px; width: 100%; }
+    .footer-section input { margin: 0 0 10px 0; width: 100%; }
+    .social-icons { justify-content: center; }
+}
+
+
+/* =========================
+   Sidebar e Overlay
+========================= */
+.overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    opacity: 0;
+    z-index: 1400;
+    transition: opacity 0.18s;
+}
+.overlay.active { display: block; opacity: 1; }
+
+.sidebar {
+    position: fixed; top: 0; left: 0; height: 100vh;
+    width: 300px; max-width: 86vw;
+    background: var(--cor-verde-escuro); color: #fff;
+    transform: translateX(-110%);
+    transition: transform .32s cubic-bezier(.2,.9,.2,1);
+    z-index: 1500; display: flex; flex-direction: column; padding-top: 64px; overflow: auto;
+}
+.sidebar.active { transform: translateX(0); }
+.sidebar nav a {
+    display: block; padding: 12px 16px; color: #fff; text-decoration: none; font-weight: 600; border-radius: 10px;
+}
+.sidebar nav a:hover { background: rgba(255,255,255,0.06); }
+
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: max-height 0.28s ease;
+    margin: 0 6px;
+}
+.submenu a { padding-left: 34px; font-weight: 500; font-size: 0.98rem; color: #f2fbf6; }
+
+/* Menu responsivo */
+.main-nav-links.active { display: flex; }
+.main-nav-links a {
+    padding: 12px 20px;
+    text-decoration: none;
+    color: var(--cor-verde-musgo);
+    font-weight: 500;
+}
+@media (max-width: 991px) {
+    .main-nav-links a:not(:last-child) { border-bottom: 1px solid #ddd; }
+}
+@media (min-width: 992px) {
+    .main-nav-links {
+        display: flex !important;
+        position: static;
+        flex-direction: row;
+        background: none;
+        box-shadow: none;
+        width: auto;
+        padding: 0;
+    }
+    .main-nav-links a { border: none; padding: 0 15px; }
+    #overlay { display: none !important; }
+}
+
+/* =========================
+   Seções de Conteúdo
+========================= */
+.content-section {
+    padding: 60px 20px;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+}
+
+
+
+.hero-denuncia h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #ebe5e5;
+    text-align: center;
+}
+
+.sobre-nos-texto h1,#missao h1,.content-section h1{
+font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #000000;
+    text-align: center;
+
+}
+@media (max-width: 768px) {
+    .content-section h1,
+    #missao h1,
+    .sobre-nos-texto h1,
+    .hero-denuncia h1 { font-size: 2rem; }
+}
+
+#mais{
+  color: #000;
+}
+
+/* =========================
+   Sobre Nós
+========================= */
+.sobre-nos-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+
+    max-width: 1200px;   /* limita a largura */
+    margin: 2rem auto;   /* centraliza + cria espaço em cima/baixo */
+    padding: 0 1rem;     /* espaço lateral interno */
+}
+
+.sobre-nos-texto {
+    flex: 1;
+    max-width: 50%;
+    text-align: justify;
+    text-justify: inter-word;
+}
+.sobre-nos-texto h1 {
+    margin-bottom: 20px;
+    color: var(--cor-primaria);
+}
+.sobre-nos-texto p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+.sobre-nos-texto .btn-saiba-mais {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: var(--cor-destaque);
+    color: var(--cor-texto);
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.sobre-nos-texto .btn-saiba-mais:hover { background-color: var(--cor-secundaria); }
+
+.sobre-nos-imagem {
+    flex: 1;
+    max-width: 45%;
+}
+.sobre-nos-imagem img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+@media (max-width: 768px) {
+    .sobre-nos-wrapper { flex-direction: column; align-items: center; }
+    .sobre-nos-imagem { max-width: 80%; margin-top: 20px; }
+}
+
+@media (max-width: 768px) {
+  .fale:hover,
+  .fale:active {
+    background-color: #FFD700;
+    color: #000;
+    transform: translateY(-5px);
+  }
+}
+/* Container do usuário 
+#user-menu {
+    display: flex;
+    position: relative;
+    cursor: pointer;
+}
+*/
+/* Desktop: botão no final da navbar */
+@media(min-width: 769px) {
+    #user-menu {
+        order: 3; /* garante que fique depois do nav */
+    }
+}
+
+/* Mobile: botão no menu centralizado */
+@media(max-width: 768px) {
+    #user-menu {
+        position: static;
+        justify-content: center;
+        width: 100%;
+        margin-top: 20px;
+    }
+}
+/* Cada link */
+.main-nav-links a {
+    padding: 12px 20px;
+    text-decoration: none;
+    color: var(--cor-verde-musgo);
+    font-weight: 500;
+}
+
+/* Linha separadora entre links - somente em telas pequenas */
+@media (max-width: 991px) {
+    .main-nav-links a:not(:last-child) {
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+/* Overlay ativo */
+#overlay.active {
+    display: block;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    z-index: 998;
+}
+
+/* Apenas em telas grandes, mostrar horizontal normalmente */
+@media (min-width: 992px) {
+    .main-nav-links {
+        display: flex !important;
+        position: static;
+        flex-direction: row;
+        background: none;
+        box-shadow: none;
+        width: auto;
+        padding: 0;
+    }
+    .main-nav-links a {
+        border: none; /* remove a linha em telas grandes */
+        padding: 0 15px;
+    }
+    #overlay {
+        display: none !important;
+    }
+}
+/* Modal: fundo escuro */
+/* =========================
+   Ajustes extras para telas pequenas
+========================= */
+@media (max-width: 576px) {
+    /* Navbar compacta */
+    .main-nav {
+        padding: 0.5rem 1rem;
+        margin: 8px;
+    }
+
+    .logo img {
+        height: 32px;
+    }
+
+    .main-nav-links {
+        width: 80%; /* menu ocupa mais espaço em telas muito pequenas */
+    }
+
+    /* Hero: reduz altura */
+    .hero-denuncia {
+        height: 70vh;
+        background-attachment: scroll; /* remove fixo p/ evitar bugs no mobile */
+    }
+
+    .hero-denuncia h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-denuncia p {
+        font-size: 1rem;
+    }
+
+    /* Botão flutuante menor */
+    .fale {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Formulário */
+    #serForm {
+        padding: 15px;
+    }
+
+    .form-right #map {
+        min-height: 250px; /* reduz mapa em mobile */
+    }
+
+    /* Lista de espécies */
+    .filtro-especies {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filtro-especies .filtro-input,
+    .filtro-especies .filtro-select,
+    .filtro-especies .btn {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    #listaEspecies .card img,
+    .pinterest-card img {
+        height: 180px; /* imagens menores em cards */
+    }
+
+    /* Footer empilhado */
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-section {
+        margin: 10px 0;
+        text-align: center;
+    }
+}
+
+
+/* =========================
+   📌 Seção de Ações
+========================= */
+#acoes {
+  max-width: 1200px;
+  margin: 3rem auto;         /* centraliza e dá espaçamento vertical */
+  padding: 0 1rem;           /* espaçamento lateral */
+  text-align: center;
+}
+
+.acoes-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;                 /* espaço entre os cards */
+  flex-wrap: wrap;           /* quebra em telas menores */
+}
+
+/* =========================
+   🎴 Cards de Ação
+========================= */
+.acao-card {
+  flex: 1;
+  min-width: 280px;          /* garante que não fique pequeno demais */
+  max-width: 400px;
+  padding: 2rem;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.acao-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+.acao-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #386b3a; /* verde principal */
+}
+
+.acao-card p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: #444;
+}
+
+/* =========================
+   🎯 Botões de Ação
+========================= */
+.btn-acao {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Botão Denúncia (vermelho) */
+.btn-acao.denuncia {
+  background-color: #b33a3a;
+}
+
+.btn-acao.denuncia:hover {
+  background-color: #922d2d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Botão Cadastro (verde) */
+.btn-acao.cadastro {
+  background-color: #386b3a;
+}
+
+.btn-acao.cadastro:hover {
+  background-color: #2e5330;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Clique */
+.btn-acao:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* =========================
+   📱 Responsividade
+========================= */
+@media (max-width: 768px) {
+  .acoes-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .acao-card {
+    max-width: 90%;
+    margin-bottom: 1.5rem;
+  }
+}
+/* =========================
+   Botão de usuário - Desktop
+========================= */
+#user-menu {
+    order: 4;               /* garante que fique por último no flex */
+    margin-left: auto;      /* empurra para o canto direito */
+    display: flex;
+    align-items: center;
+}
+
+/* =========================
+   Mobile: botão centralizado no menu
+========================= */
+@media (max-width: 768px) {
+    #user-menu {
+        order: 3;           /* depois do hamburger e logo */
+        margin-left: 0;     /* remove o auto para centralizar */
+        justify-content: center;
+        width: 100%;
+        margin-top: 20px;
+    }
+}
+
+
+
+/* =========================
+   Histórias / Denúncias
+========================= */
+#historias {
+  padding: 3rem 1rem; /* reduzido */
+  background: linear-gradient(
+    135deg,
+    #e8f5ec 0%,
+    #dff1e6 100%
+  );
+  color: #1f3d2b;
+}
+
+.historias-wrapper {
+  max-width: 1100px;
+  margin: auto;
+  position: relative;
+  min-height: 360px; /* garante estabilidade do carrossel */
+}
+
+/* =========================
+   Barra de progresso
+========================= */
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: #4caf50;
+  transition: width linear;
+}
+
+/* =========================
+   Story
+========================= */
+.historia {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  opacity: 0;
+  transform: translateX(30px);
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.historia.active {
+  opacity: 1;
+  transform: translateX(0);
+  position: relative;
+}
+
+/* =========================
+   Imagem
+========================= */
+.historia-img img {
+  width: 100%;
+  height: 320px; /* reduzido */
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* =========================
+   Texto
+========================= */
+.historia-texto h2 {
+  font-size: 1.7rem;
+  margin: 0.6rem 0;
+}
+
+.historia-texto p {
+  font-size: 1rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* =========================
+   Tags
+========================= */
+.tag {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.tag.denuncia {
+  background: #e53935;
+}
+
+.tag.descoberta {
+  background: #4caf50;
+}
+
+/* =========================
+   Botões
+========================= */
+.btn-historia {
+  display: inline-block;
+  margin-top: 1.2rem;
+  padding: 10px 26px;
+  border-radius: 30px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  color: #fff;
+}
+
+/* Denúncia */
+.btn-historia.denuncia {
+  background: #e53935;
+}
+
+.btn-historia.denuncia:hover {
+  background: #c62828;
+  transform: translateY(-2px);
+}
+
+/* Cadastro */
+.btn-historia.cadastro {
+  background: #4caf50;
+  color: #0f2a1d;
+}
+
+.btn-historia.cadastro:hover {
+  background: #43a047;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   Mobile
+========================= */
+@media (max-width: 768px) {
+  #historias {
+    padding: 2.5rem 1rem;
+  }
+
+  .historia {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .historia-img img {
+    height: 220px;
+  }
+
+  .historia-texto h2 {
+    font-size: 1.4rem;
+  }
+
+  .historia-texto p {
+    font-size: 0.95rem;
+  }
+}

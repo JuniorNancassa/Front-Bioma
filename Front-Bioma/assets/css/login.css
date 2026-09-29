@@ -1,0 +1,34 @@
+/* Ícone */
+.icon-green {
+    color: #458748; /* Novo tom de verde para o ícone */
+}
+
+/* Inputs com borda */
+.custom-input {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.custom-input:focus {
+    border-color: #458748; /* Novo tom de verde no foco */
+    box-shadow: 0 0 5px rgba(69, 135, 72, 0.5); /* Sombra correspondente */
+}
+/* Links e texto inferior */
+.text-center a {
+    color: #458748; /* Verde Musgo da nova paleta */
+    text-decoration: none;
+}
+
+/* Botão Entrar */
+.btn-success {
+    background-color: #458748; /* Cor principal da paleta */
+    border-color: #458748;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-success:hover {
+    background-color: #458748; /* Novo tom de verde no hover */
+    border-color: #458748;
+}

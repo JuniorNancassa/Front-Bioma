@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Seres | Bioma-Guiné</title>
+
+    <!-- =========================================================
+         FAVICON
+    ========================================================== -->
+    <link rel="icon"
+        href="assets/img/logo/logo-bioma-removebg-preview.png">
+
+
+    <!-- =========================================================
+         GOOGLE FONTS
+    ========================================================== -->
+    <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <!-- =========================================================
+         FONT AWESOME
+    ========================================================== -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+    <!-- =========================================================
+         TAILWIND
+    ========================================================== -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- =========================================================
+         LEAFLET CSS
+    ========================================================== -->
+    <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        crossorigin="">
+
+
+    <!-- =========================================================
+         LEAFLET GEOCODER
+    ========================================================== -->
+    <link rel="stylesheet"
+        href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css">
+
+
+    <!-- =========================================================
+         CSS DA PÁGINA
+    ========================================================== -->
+    <link rel="stylesheet"
+        href="assets/css/seres.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================================
+         HEADER
+    ========================================================== -->
+    <header class="main-header">
+
+        <div class="header-container">
+
+
+            <!-- =================================================
+                 LOGO
+            ================================================== -->
+            <a href="index.html"
+                class="brand">
+
+                <img
+                    src="assets/img/logo/logo-bioma-removebg-preview.png"
+                    alt="Logo Bioma-Guiné">
+
+                <span>
+                    Bioma-Guiné
+                </span>
+
+            </a>
+
+
+            <!-- =================================================
+                 MENU DESKTOP
+            ================================================== -->
+            <nav class="desktop-navigation"
+                aria-label="Navigation principale">
+
+
+                <a href="index.html">
+
+                    <i class="fas fa-house"></i>
+
+                    <span>
+                        Home
+                    </span>
+
+                </a>
+
+
+                <a href="especies.html"
+                    class="active">
+
+                    <i class="fas fa-leaf"></i>
+
+                    <span>
+                        Espécies
+                    </span>
+
+                </a>
+
+
+                <a href="denuncia.html">
+
+                    <i class="fas fa-triangle-exclamation"></i>
+
+                    <span>
+                        Denúncias
+                    </span>
+
+                </a>
+
+
+                <a href="sobre.html">
+
+                    <i class="fas fa-circle-info"></i>
+
+                    <span>
+                        Sobre
+                    </span>
+
+                </a>
+
+
+                <a href="contacto.html">
+
+                    <i class="fas fa-envelope"></i>
+
+                    <span>
+                        Contato
+                    </span>
+
+                </a>
+
+
+                <a href="blogtexte.html">
+
+                    <i class="fas fa-newspaper"></i>
+
+                    <span>
+                        Notícias
+                    </span>
+
+                </a>
+
+
+                <a href="quiz.html">
+
+                    <i class="fas fa-circle-question"></i>
+
+                    <span>
+                        Quiz
+                    </span>
+
+                </a>
+
+
+            </nav>
+
+
+            <!-- =================================================
+                 HAMBURGER
+            ================================================== -->
+            <button
+                id="hamburger"
+                class="hamburger"
+                type="button"
+                aria-label="Abrir menu"
+                aria-expanded="false"
+                aria-controls="sidebar">
+
+                <i class="fas fa-bars"></i>
+
+            </button>
+
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================================================
+         OVERLAY EXCLUSIVO DO MENU MOBILE
+    ========================================================== -->
+    <div
+        id="menu-overlay"
+        class="menu-overlay"
+        aria-hidden="true">
+    </div>
+
+
+
+    <!-- =========================================================
+         SIDEBAR MOBILE
+         ESTE MENU ENTRA PELA ESQUERDA
+    ========================================================== -->
+    <aside
+        id="sidebar"
+        class="mobile-sidebar"
+        aria-hidden="true">
+
+
+        <!-- =====================================================
+             CABEÇALHO DO MENU
+        ====================================================== -->
+        <div class="mobile-menu-header">
+
+
+            <div class="mobile-brand">
+
+                <img
+                    src="assets/img/logo/logo-bioma-removebg-preview.png"
+                    alt="Logo Bioma-Guiné">
+
+                <span>
+                    Bioma-Guiné
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =====================================================
+             NAVEGAÇÃO MOBILE
+        ====================================================== -->
+        <nav
+            class="mobile-navigation"
+            aria-label="Menu mobile">
+
+
+            <a href="index.html">
+
+                <i class="fas fa-house"></i>
+
+                <span>
+                    Home
+                </span>
+
+            </a>
+
+
+            <a href="especies.html"
+                class="active">
+
+                <i class="fas fa-leaf"></i>
+
+                <span>
+                    Espécies
+                </span>
+
+            </a>
+
+
+            <a href="denuncia.html">
+
+                <i class="fas fa-triangle-exclamation"></i>
+
+                <span>
+                    Denúncias
+                </span>
+
+            </a>
+
+
+            <a href="sobre.html">
+
+                <i class="fas fa-circle-info"></i>
+
+                <span>
+                    Sobre
+                </span>
+
+            </a>
+
+
+            <a href="contacto.html">
+
+                <i class="fas fa-envelope"></i>
+
+                <span>
+                    Contato
+                </span>
+
+            </a>
+
+
+            <a href="blogtexte.html">
+
+                <i class="fas fa-newspaper"></i>
+
+                <span>
+                    Notícias
+                </span>
+
+            </a>
+
+
+            <a href="quiz.html">
+
+                <i class="fas fa-circle-question"></i>
+
+                <span>
+                    Quiz
+                </span>
+
+            </a>
+
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- =========================================================
+         CONTEÚDO PRINCIPAL
+    ========================================================== -->
+    <main class="main-content">
+
+
+        <div class="seres-container">
+
+
+            <!-- =================================================
+                 TÍTULO
+            ================================================== -->
+            <div class="page-title">
+
+
+                <span class="title-icon">
+
+                    <i class="fas fa-leaf"></i>
+
+                </span>
+
+
+                <div>
+
+                    <h1>
+                        Seres
+                    </h1>
+
+                    <p>
+                        Explore e gerencie os seres registrados
+                        no Bioma-Guiné.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FILTROS
+            ================================================== -->
+            <section class="filters-card">
+
+
+                <!-- PESQUISA -->
+                <div class="filter-item">
+
+
+                    <label for="filtro-nome">
+
+                        Pesquisar
+
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+
+                        <i class="fas fa-search"></i>
+
+
+                        <input
+                            id="filtro-nome"
+                            type="text"
+                            placeholder="Pesquisar por nome..."
+                            autocomplete="off">
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- STATUS -->
+                <div class="filter-item">
+
+
+                    <label for="filtro-status">
+
+                        Status de conservação
+
+                    </label>
+
+
+                    <div class="select-wrapper">
+
+
+                        <select id="filtro-status">
+
+
+                            <option value="">
+
+                                Todos os status
+
+                            </option>
+
+
+                            <option value="CRITICAMENTE_EM_PERIGO">
+
+                                Criticamente em perigo
+
+                            </option>
+
+
+                            <option value="EM_PERIGO">
+
+                                Em perigo
+
+                            </option>
+
+
+                            <option value="VULNERAVEL">
+
+                                Vulnerável
+
+                            </option>
+
+
+                        </select>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+                 LISTAGEM DOS SERES
+            ================================================== -->
+            <section>
+
+                <div
+                    id="seres-container"
+                    class="seres-grid">
+
+                    <!--
+                        Os seres serão carregados
+                        pelo JavaScript.
+                    -->
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =========================================================
+         OVERLAY DO DRAWER DE EDIÇÃO
+         NÃO USAR ESTE OVERLAY PARA O MENU
+    ========================================================== -->
+    <div
+        id="overlay"
+        class="edit-overlay">
+    </div>
+
+
+
+    <!-- =========================================================
+         DRAWER DE EDIÇÃO
+    ========================================================== -->
+    <aside
+        id="drawer-editar"
+        class="drawer-editar">
+
+
+        <!-- CABEÇALHO -->
+        <div class="drawer-header">
+
+
+            <div>
+
+                <h2>
+                    Editar Ser
+                </h2>
+
+                <p>
+                    Atualize as informações do ser.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="btn-fechar-drawer"
+                class="btn-fechar-drawer"
+                aria-label="Fechar">
+
+                <i class="fas fa-xmark"></i>
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- =====================================================
+             FORMULÁRIO
+        ====================================================== -->
+        <form
+            id="form-editar"
+            class="edit-form">
+
+
+            <!-- NOME -->
+            <div class="form-group">
+
+
+                <label for="edit-nome">
+
+                    Nome
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="edit-nome"
+                    name="nome"
+                    placeholder="Nome do ser">
+
+
+            </div>
+
+
+
+            <!-- NOME CIENTÍFICO -->
+            <div class="form-group">
+
+
+                <label for="edit-nome-cientifico">
+
+                    Nome científico
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="edit-nome-cientifico"
+                    name="nomeCientifico"
+                    placeholder="Nome científico">
+
+
+            </div>
+
+
+
+            <!-- STATUS -->
+            <div class="form-group">
+
+
+                <label for="edit-status">
+
+                    Status de conservação
+
+                </label>
+
+
+                <select
+                    id="edit-status"
+                    name="status">
+
+
+                    <option value="CRITICAMENTE_EM_PERIGO">
+
+                        Criticamente em perigo
+
+                    </option>
+
+
+                    <option value="EM_PERIGO">
+
+                        Em perigo
+
+                    </option>
+
+
+                    <option value="VULNERAVEL">
+
+                        Vulnerável
+
+                    </option>
+
+
+                </select>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 LOCALIZAÇÃO
+            ================================================== -->
+            <div class="form-group">
+
+
+                <label>
+
+                    Localização do Ser
+
+                </label>
+
+
+                <button
+                    type="button"
+                    onclick="pegarLocalizacaoAtual()"
+                    class="location-button">
+
+                    <i class="fas fa-location-arrow"></i>
+
+                    Usar minha localização atual
+
+                </button>
+
+
+                <!-- MAPA -->
+                <div id="mapa-editar"></div>
+
+
+                <!-- COORDENADAS -->
+                <div class="coordinates-grid">
+
+
+                    <div>
+
+
+                        <label for="edit-lat">
+
+                            Latitude
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="edit-lat"
+                            name="latitude"
+                            readonly
+                            placeholder="Latitude">
+
+
+                    </div>
+
+
+
+                    <div>
+
+
+                        <label for="edit-long">
+
+                            Longitude
+
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="edit-long"
+                            name="longitude"
+                            readonly
+                            placeholder="Longitude">
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 BOTÕES
+            ================================================== -->
+            <div class="form-actions">
+
+
+                <button
+                    type="button"
+                    id="btn-cancelar-edicao"
+                    class="btn-cancelar">
+
+                    Cancelar
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="btn-salvar">
+
+                    <i class="fas fa-save"></i>
+
+                    Salvar alterações
+
+                </button>
+
+
+            </div>
+
+
+        </form>
+
+    </aside>
+
+
+
+    <!-- =========================================================
+         LEAFLET JS
+    ========================================================== -->
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    </script>
+
+
+    <!-- =========================================================
+         GEOCODER
+    ========================================================== -->
+    <script
+        src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js">
+    </script>
+
+
+
+    <!-- =========================================================
+         JAVASCRIPT DA PÁGINA
+    ========================================================== -->
+    <script src="assets/page/seres.js"></script>
+
+
+
+    <!-- =========================================================
+         MENU HAMBURGER
+    ========================================================== -->
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+
+                const hamburger =
+                    document.getElementById("hamburger");
+
+
+                const sidebar =
+                    document.getElementById("sidebar");
+
+
+                const menuOverlay =
+                    document.getElementById("menu-overlay");
+
+
+                const body =
+                    document.body;
+
+
+
+                /* ===============================================
+                   VERIFICAR ELEMENTOS
+                =============================================== */
+
+                if (
+                    !hamburger ||
+                    !sidebar ||
+                    !menuOverlay
+                ) {
+
+                    console.error(
+                        "Menu mobile: elementos não encontrados."
+                    );
+
+                    return;
+
+                }
+
+
+
+                /* ===============================================
+                   ABRIR MENU
+                =============================================== */
+
+                function abrirMenu() {
+
+
+                    sidebar.classList.add("active");
+
+
+                    menuOverlay.classList.add("active");
+
+
+                    body.classList.add("no-scroll");
+
+
+                    hamburger.setAttribute(
+                        "aria-expanded",
+                        "true"
+                    );
+
+
+                    hamburger.setAttribute(
+                        "aria-label",
+                        "Fechar menu"
+                    );
+
+
+                    sidebar.setAttribute(
+                        "aria-hidden",
+                        "false"
+                    );
+
+
+                    menuOverlay.setAttribute(
+                        "aria-hidden",
+                        "false"
+                    );
+
+
+                }
+
+
+
+                /* ===============================================
+                   FECHAR MENU
+                =============================================== */
+
+                function fecharMenu() {
+
+
+                    sidebar.classList.remove("active");
+
+
+                    menuOverlay.classList.remove("active");
+
+
+                    body.classList.remove("no-scroll");
+
+
+                    hamburger.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+
+                    hamburger.setAttribute(
+                        "aria-label",
+                        "Abrir menu"
+                    );
+
+
+                    sidebar.setAttribute(
+                        "aria-hidden",
+                        "true"
+                    );
+
+
+                    menuOverlay.setAttribute(
+                        "aria-hidden",
+                        "true"
+                    );
+
+
+                }
+
+
+
+                /* ===============================================
+                   CLICK NO HAMBURGER
+                =============================================== */
+
+                hamburger.addEventListener(
+                    "click",
+                    function () {
+
+
+                        if (
+                            sidebar.classList.contains("active")
+                        ) {
+
+                            fecharMenu();
+
+                        } else {
+
+                            abrirMenu();
+
+                        }
+
+
+                    }
+                );
+
+
+
+                /* ===============================================
+                   CLICK NO OVERLAY
+                =============================================== */
+
+                menuOverlay.addEventListener(
+                    "click",
+                    fecharMenu
+                );
+
+
+
+                /* ===============================================
+                   FECHAR AO CLICAR NO LINK
+                =============================================== */
+
+                const links =
+                    sidebar.querySelectorAll("a");
+
+
+                links.forEach(
+                    function (link) {
+
+
+                        link.addEventListener(
+                            "click",
+                            fecharMenu
+                        );
+
+
+                    }
+                );
+
+
+
+                /* ===============================================
+                   ESC PARA FECHAR
+                =============================================== */
+
+                document.addEventListener(
+                    "keydown",
+                    function (event) {
+
+
+                        if (
+                            event.key === "Escape" &&
+                            sidebar.classList.contains("active")
+                        ) {
+
+                            fecharMenu();
+
+                        }
+
+
+                    }
+                );
+
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

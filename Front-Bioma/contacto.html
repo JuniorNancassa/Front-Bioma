@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bio-Guiné | Contato</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS da página -->
+    <link rel="stylesheet" href="assets/css/contacto.css">
+</head>
+
+<body>
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+<header class="main-nav">
+
+    <div class="container flex-container">
+
+        <!-- LOGO -->
+        <a href="index.html" class="logo">
+            <img
+                src="assets/img/logo/logo-bioma-removebg-preview.png"
+                alt="Logo Bio-Guiné"
+            >
+        </a>
+
+        <!-- MENU DESKTOP / MOBILE -->
+        <nav class="main-nav-links" id="nav-links">
+
+            <a href="index.html">Home</a>
+            <a href="cadastro.html">Espécies</a>
+            <a href="denuncia.html">Denúncias</a>
+            <a href="sobre.html">Sobre</a>
+            <a href="contacto.html" class="active-link">Contato</a>
+            <a href="blogtexte.html">Notícias</a>
+
+            <div id="user-menu" class="user-menu">
+                <i class="fas fa-user"></i>
+                <span>Entrar</span>
+            </div>
+
+        </nav>
+
+        <!-- BOTÃO HAMBURGER -->
+        <button
+            class="hamburger"
+            id="hamburger"
+            type="button"
+            aria-label="Abrir menu"
+            aria-expanded="false"
+            aria-controls="nav-links"
+        >
+            <i class="fas fa-bars"></i>
+        </button>
+
+    </div>
+</header>
+
+<!-- OVERLAY DO MENU MOBILE -->
+<div class="menu-overlay" id="menu-overlay"></div>
+
+
+<!-- =========================================================
+     CONTEÚDO PRINCIPAL
+========================================================= -->
+<main class="secao-contato-premium">
+
+    <div class="container">
+
+        <div class="glass-card-container">
+
+            <!-- =================================================
+                 INFORMAÇÕES DE CONTATO
+            ================================================== -->
+            <section class="glass-info">
+
+                <span class="subtitulo">CONTACTO</span>
+
+                <h1>
+                    Entre em
+                    <br>
+                    <span class="destaque">Contato</span>
+                </h1>
+
+                <p class="descricao-contato">
+                    Tem alguma dúvida ou deseja mais informações?
+                    Estamos aqui para ajudar!
+                </p>
+
+                <div class="lista-contatos">
+
+                    <!-- TELEFONE -->
+                    <div class="item-contato">
+
+                        <div class="icone-contato">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+
+                        <div>
+                            <span>Telefone</span>
+                            <p>+245 956334824</p>
+                        </div>
+
+                    </div>
+
+                    <!-- EMAIL -->
+                    <div class="item-contato">
+
+                        <div class="icone-contato">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+
+                        <div>
+                            <span>E-mail</span>
+                            <p>biomaguine@gmail.com</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- REDES SOCIAIS -->
+                <div class="redes-sociais-pills">
+
+                    <a
+                        href="#"
+                        aria-label="Facebook"
+                    >
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="Instagram"
+                    >
+                        <i class="fab fa-instagram"></i>
+                    </a>
+
+                    <a
+                        href="https://wa.me/956334824"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="WhatsApp"
+                    >
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 FORMULÁRIO
+            ================================================== -->
+            <section class="glass-form">
+
+                <form
+                    action="https://api.web3forms.com/submit"
+                    method="POST"
+                >
+
+                    <input
+                        type="hidden"
+                        name="access_key"
+                        value="b8a05d47-8f3d-4c1d-8ac3-6b8f9a377919"
+                    >
+
+                    <!-- NOME -->
+                    <div class="grupo-input">
+
+                        <label for="nome" class="visually-hidden">
+                            Seu Nome
+                        </label>
+
+                        <input
+                            id="nome"
+                            type="text"
+                            name="name"
+                            placeholder="Seu Nome"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+                    <div class="grupo-input">
+
+                        <label for="email" class="visually-hidden">
+                            Seu E-mail
+                        </label>
+
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            placeholder="Seu E-mail"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- TELEFONE -->
+                    <div class="grupo-input-combo">
+
+                        <span class="indicativo">+245</span>
+
+                        <label for="numero" class="visually-hidden">
+                            Telefone
+                        </label>
+
+                        <input
+                            id="numero"
+                            type="tel"
+                            name="numero"
+                            placeholder="Telefone"
+                            autocomplete="tel"
+                            inputmode="tel"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- MENSAGEM -->
+                    <div class="grupo-input">
+
+                        <label for="mensagem" class="visually-hidden">
+                            Sua mensagem
+                        </label>
+
+                        <textarea
+                            id="mensagem"
+                            name="mensagem"
+                            rows="5"
+                            placeholder="Sua mensagem..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- BOTÃO -->
+                    <button
+                        type="submit"
+                        class="btn-enviar-moderno"
+                    >
+                        ENVIAR AGORA
+                    </button>
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+<footer class="footer">
+
+    <div class="footer-content">
+
+        <!-- CONTATO -->
+        <div class="footer-section">
+
+            <h3>Contato</h3>
+
+            <ul>
+                <li>
+                    <a href="mailto:biomaguine@gmail.com">
+                        biomaguine@gmail.com
+                    </a>
+                </li>
+
+                <li>
+                    <a href="tel:+245956334824">
+                        +245 95 633 48 24
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+
+        <!-- LINKS -->
+        <div class="footer-section">
+
+            <h3>Links Úteis</h3>
+
+            <ul>
+                <li>
+                    <a href="index.html">Início</a>
+                </li>
+
+                <li>
+                    <a href="cadastro.html">Espécies</a>
+                </li>
+
+                <li>
+                    <a href="denuncia.html">Denúncias</a>
+                </li>
+            </ul>
+
+        </div>
+
+
+        <!-- REDES SOCIAIS -->
+        <div class="footer-section">
+
+            <h3>Siga-nos</h3>
+
+            <ul class="social-icons">
+
+                <li>
+                    <a href="#" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </li>
+
+                <li>
+                    <a
+                        href="https://wa.me/956334824"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="WhatsApp"
+                    >
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <p>
+            &copy; 2026 Bio-Guiné. Todos os direitos reservados.
+        </p>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="assets/page/contacto.js"></script>
+
+<script src="assets/page/usuariospage.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,2062 @@
+/* =========================================================
+   BIOMA-GUINÉ
+   PLATAFORMA DE DENÚNCIAS
+   CSS PRINCIPAL
+========================================================= */
+
+
+/* =========================================================
+   1. VARIÁVEIS
+========================================================= */
+
+:root {
+    --cor-verde-escuro: #2e7d32;
+    --cor-verde-musgo: #4caf50;
+    --cor-verde-claro: #e8f5e9;
+
+    --cor-branco: #ffffff;
+
+    --cor-cinza-claro: #f4f4f4;
+    --cor-cinza: #d9d9d9;
+    --cor-cinza-texto: #6b7280;
+
+    --cor-fundo: #f0f9f5;
+    --cor-texto: #21312a;
+    --cor-preto: #1f2937;
+
+    --sombra-pequena:
+        0 4px 12px rgba(0, 0, 0, 0.06);
+
+    --sombra-media:
+        0 10px 30px rgba(0, 0, 0, 0.10);
+
+    --raio-pequeno: 8px;
+    --raio-medio: 12px;
+    --raio-grande: 16px;
+
+    --transicao: 0.3s ease;
+}
+
+
+/* =========================================================
+   2. RESET
+========================================================= */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    font-family:
+        "Inter",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+
+    line-height: 1.6;
+
+    overflow-x: hidden;
+}
+
+body.menu-open {
+    overflow: hidden;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+}
+
+.container {
+    width: min(1200px, calc(100% - 32px));
+    margin-inline: auto;
+}
+
+
+/* =========================================================
+   3. NAVBAR
+========================================================= */
+
+.main-nav {
+    position: sticky;
+    top: 0;
+
+    z-index: 1200;
+
+    margin: 12px 15px;
+    padding: 10px 20px;
+
+    background-color: rgba(255, 255, 255, 0.96);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.08);
+
+    transition:
+        box-shadow var(--transicao),
+        background-color var(--transicao);
+}
+
+.flex-container {
+    position: relative;
+
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+}
+
+
+/* =========================================================
+   4. LOGO
+========================================================= */
+
+.logo {
+    display: flex;
+    align-items: center;
+
+    flex-shrink: 0;
+
+    text-decoration: none;
+
+    z-index: 1401;
+}
+
+.logo img {
+    width: auto;
+    height: 70px;
+
+    object-fit: contain;
+
+    border-radius: 10px;
+
+    transition:
+        transform var(--transicao);
+}
+
+.logo:hover img {
+    transform: scale(1.04);
+}
+
+
+/* =========================================================
+   5. MENU DESKTOP
+========================================================= */
+
+.main-nav-links {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 1.4rem;
+
+    margin-left: auto;
+}
+
+.main-nav-links a {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+
+    color: var(--cor-verde-escuro);
+
+    text-decoration: none;
+
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition:
+        color var(--transicao);
+}
+
+.main-nav-links a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: -7px;
+
+    width: 0;
+    height: 2px;
+
+    background-color: var(--cor-verde-musgo);
+
+    transition:
+        width var(--transicao);
+}
+
+.main-nav-links a:hover,
+.main-nav-links a.active {
+    color: var(--cor-verde-musgo);
+}
+
+.main-nav-links a:hover::after,
+.main-nav-links a.active::after {
+    width: 100%;
+}
+
+
+/* =========================================================
+   6. MENU DO UTILIZADOR
+========================================================= */
+
+.user-menu {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 8px 12px;
+
+    color: var(--cor-verde-escuro);
+
+    font-weight: 600;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition:
+        background-color var(--transicao),
+        color var(--transicao),
+        transform var(--transicao);
+}
+
+.user-menu i {
+    font-size: 16px;
+}
+
+.user-menu:hover,
+.user-menu:focus {
+    background-color: var(--cor-verde-claro);
+
+    color: var(--cor-verde-escuro);
+
+    transform: translateY(-1px);
+
+    outline: none;
+}
+
+
+/* =========================================================
+   7. HAMBURGER
+   Compatível com:
+   <i class="fas fa-bars"></i>
+========================================================= */
+
+.hamburger {
+    display: none;
+
+    position: relative;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+
+    padding: 0;
+
+    margin-left: auto;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: transparent;
+
+    color: var(--cor-verde-escuro);
+
+    z-index: 1500;
+
+    transition:
+        background-color var(--transicao),
+        color var(--transicao);
+}
+
+.hamburger i {
+    display: block;
+
+    font-size: 24px;
+    line-height: 1;
+
+    transition:
+        transform 0.25s ease;
+}
+
+.hamburger:hover,
+.hamburger:focus {
+    background-color: var(--cor-verde-claro);
+
+    outline: none;
+}
+
+
+/*
+   Mantém o ícone como hamburger.
+   Não transformamos em X.
+*/
+
+.hamburger.active i {
+    transform: none;
+}
+
+
+/* =========================================================
+   8. HERO
+========================================================= */
+
+.hero-denuncia {
+    position: relative;
+
+    min-height: 55vh;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 80px 20px;
+
+    text-align: center;
+
+    color: var(--cor-branco);
+
+    background:
+        linear-gradient(
+            135deg,
+            #2e7d32 0%,
+            #386b3a 55%,
+            #245124 100%
+        );
+
+    overflow: hidden;
+}
+
+.hero-denuncia::before {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    top: -250px;
+    right: -180px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+}
+
+.hero-denuncia::after {
+    content: "";
+
+    position: absolute;
+
+    width: 400px;
+    height: 400px;
+
+    bottom: -250px;
+    left: -180px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.05);
+}
+
+.hero-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 255, 255, 0.08),
+            transparent 60%
+        );
+}
+
+.hero-denuncia-content {
+    position: relative;
+
+    z-index: 2;
+
+    width: min(800px, 100%);
+
+    padding: 20px;
+}
+
+.hero-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 7px 14px;
+
+    margin-bottom: 18px;
+
+    border-radius: 30px;
+
+    background:
+        rgba(255, 255, 255, 0.14);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.25);
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+}
+
+.hero-denuncia h1 {
+    margin: 0 0 15px;
+
+    font-size:
+        clamp(2.3rem, 6vw, 4.2rem);
+
+    line-height: 1.1;
+
+    font-weight: 700;
+}
+
+.hero-denuncia p {
+    max-width: 650px;
+
+    margin: 0 auto;
+
+    font-size:
+        clamp(1rem, 2vw, 1.25rem);
+
+    line-height: 1.7;
+
+    color:
+        rgba(255, 255, 255, 0.94);
+}
+
+
+/* =========================================================
+   9. FILTROS
+========================================================= */
+
+.filtros-section {
+    padding: 35px 20px 10px;
+}
+
+.filtro-denuncias {
+    width: min(900px, 100%);
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(180px, 250px);
+
+    gap: 18px;
+
+    padding: 20px;
+
+    background-color:
+        var(--cor-branco);
+
+    border-radius:
+        var(--raio-medio);
+
+    box-shadow:
+        var(--sombra-pequena);
+}
+
+.filtro-campo {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.filtro-campo label {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color:
+        var(--cor-verde-escuro);
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+}
+
+.filtro-campo label i {
+    color:
+        var(--cor-verde-musgo);
+}
+
+#buscaTitulo,
+#statusFiltro {
+    width: 100%;
+
+    height: 44px;
+
+    padding: 9px 12px;
+
+    border:
+        1px solid var(--cor-cinza);
+
+    border-radius:
+        var(--raio-pequeno);
+
+    background-color:
+        #fafafa;
+
+    color:
+        var(--cor-texto);
+
+    outline: none;
+
+    transition:
+        border-color var(--transicao),
+        box-shadow var(--transicao),
+        background-color var(--transicao);
+}
+
+#buscaTitulo:focus,
+#statusFiltro:focus {
+    border-color:
+        var(--cor-verde-musgo);
+
+    background-color:
+        var(--cor-branco);
+
+    box-shadow:
+        0 0 0 3px rgba(76, 175, 80, 0.12);
+}
+
+
+/* =========================================================
+   10. NOVA DENÚNCIA
+========================================================= */
+
+.nova-denuncia-section {
+    width: min(1100px, calc(100% - 32px));
+
+    margin: 25px auto 10px;
+}
+
+.nova-denuncia-content {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    padding: 25px 30px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f3faf5
+        );
+
+    border:
+        1px solid rgba(46, 125, 50, 0.12);
+
+    border-radius:
+        var(--raio-grande);
+
+    box-shadow:
+        var(--sombra-pequena);
+}
+
+.nova-denuncia-content h2 {
+    margin: 0 0 4px;
+
+    color:
+        var(--cor-verde-escuro);
+
+    font-size: 1.35rem;
+}
+
+.nova-denuncia-content p {
+    margin: 0;
+
+    color:
+        var(--cor-cinza-texto);
+
+    font-size: 0.92rem;
+}
+
+
+/* =========================================================
+   11. BOTÃO FAZER DENÚNCIA
+========================================================= */
+
+.btn-link {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    min-height: 44px;
+
+    padding: 11px 22px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--cor-verde-musgo),
+            var(--cor-verde-escuro)
+        );
+
+    color:
+        var(--cor-branco);
+
+    text-decoration: none;
+
+    font-size: 0.95rem;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    box-shadow:
+        0 5px 12px rgba(46, 125, 50, 0.20);
+
+    transition:
+        transform var(--transicao),
+        box-shadow var(--transicao),
+        background var(--transicao);
+}
+
+.btn-link:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(46, 125, 50, 0.25);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--cor-verde-escuro),
+            #245124
+        );
+
+    color:
+        var(--cor-branco);
+}
+
+
+/* =========================================================
+   12. CONTAINER DE DENÚNCIAS
+========================================================= */
+
+.denuncias-section {
+    padding: 20px 0 50px;
+}
+
+#denuncias-container {
+    width: min(1200px, calc(100% - 32px));
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                min(100%, 280px),
+                1fr
+            )
+        );
+
+    gap: 25px;
+}
+
+
+/* =========================================================
+   13. CARD DE DENÚNCIA
+========================================================= */
+
+.denuncia-card {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background-color:
+        var(--cor-branco);
+
+    border:
+        1px solid rgba(0, 0, 0, 0.04);
+
+    border-radius:
+        var(--raio-grande);
+
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.07);
+
+    transition:
+        transform var(--transicao),
+        box-shadow var(--transicao);
+}
+
+.denuncia-card:hover {
+    transform:
+        translateY(-7px);
+
+    box-shadow:
+        0 16px 35px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   14. IMAGEM DO CARD
+========================================================= */
+
+.img-wrapper {
+    position: relative;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    background-color:
+        var(--cor-cinza-claro);
+}
+
+.img-wrapper img {
+    width: 100%;
+
+    height: 210px;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.4s ease;
+}
+
+.denuncia-card:hover .img-wrapper img {
+    transform:
+        scale(1.04);
+}
+
+
+/* =========================================================
+   15. BADGE
+========================================================= */
+
+.contador-badge {
+    position: absolute;
+
+    right: 12px;
+    bottom: 12px;
+
+    min-width: 30px;
+    min-height: 30px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 5px 8px;
+
+    border:
+        2px solid var(--cor-branco);
+
+    border-radius: 50%;
+
+    background-color:
+        var(--cor-verde-musgo);
+
+    color:
+        var(--cor-branco);
+
+    font-size: 0.72rem;
+
+    font-weight: 700;
+
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.20);
+}
+
+
+/* =========================================================
+   16. CORPO DO CARD
+========================================================= */
+
+.card-body {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    padding: 20px;
+}
+
+.titulo-wrapper {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+.titulo-wrapper h4 {
+    margin: 0;
+
+    color:
+        var(--cor-preto);
+
+    font-size: 1.15rem;
+
+    line-height: 1.35;
+
+    font-weight: 700;
+
+    overflow-wrap: anywhere;
+}
+
+.titulo-wrapper i {
+    flex-shrink: 0;
+
+    color:
+        #e76f51;
+
+    font-size: 1.15rem;
+}
+
+
+/* =========================================================
+   17. LOCALIZAÇÃO
+========================================================= */
+
+.localizacao {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 7px;
+
+    margin: 0;
+
+    color:
+        var(--cor-cinza-texto);
+
+    font-size: 0.82rem;
+
+    line-height: 1.5;
+}
+
+.localizacao i {
+    flex-shrink: 0;
+
+    margin-top: 3px;
+
+    color:
+        var(--cor-verde-musgo);
+}
+
+
+/* =========================================================
+   18. DESCRIÇÃO
+========================================================= */
+
+.descricao-wrapper {
+    margin-top: 4px;
+}
+
+.btn-descricao {
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color:
+        var(--cor-verde-musgo);
+
+    font-size: 0.9rem;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        color var(--transicao);
+}
+
+.btn-descricao:hover {
+    color:
+        var(--cor-verde-escuro);
+}
+
+.descricao {
+    max-height: 0;
+
+    margin: 6px 0 0;
+
+    overflow: hidden;
+
+    color: #555;
+
+    font-size: 0.9rem;
+
+    line-height: 1.55;
+
+    transition:
+        max-height 0.35s ease;
+}
+
+
+/* =========================================================
+   19. ESTADOS VAZIOS / LOADING
+========================================================= */
+
+.loading-message,
+.empty-message,
+.error-message {
+    grid-column: 1 / -1;
+
+    padding: 40px 20px;
+
+    text-align: center;
+
+    background-color:
+        var(--cor-branco);
+
+    border-radius:
+        var(--raio-medio);
+
+    color:
+        var(--cor-cinza-texto);
+
+    box-shadow:
+        var(--sombra-pequena);
+}
+
+.error-message {
+    color:
+        #b42318;
+}
+
+
+/* =========================================================
+   20. FORMULÁRIO
+========================================================= */
+
+#serForm {
+    width: min(700px, calc(100% - 32px));
+
+    margin: 30px auto;
+
+    padding: 25px;
+
+    display: none;
+
+    background-color:
+        var(--cor-branco);
+
+    border-radius:
+        var(--raio-grande);
+
+    box-shadow:
+        var(--sombra-media);
+
+    animation:
+        fadeIn 0.5s ease;
+}
+
+.form-row {
+    display: flex;
+
+    gap: 30px;
+}
+
+.form-col {
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+.form-left input,
+.form-left textarea,
+.form-left select {
+    width: 100%;
+}
+
+#descricao {
+    min-height: 200px;
+
+    resize: vertical;
+}
+
+.form-label {
+    color: #000;
+
+    font-weight: 600;
+}
+
+.form-control,
+.form-select,
+input[type="file"] {
+    width: 100%;
+
+    padding: 10px 12px;
+
+    border:
+        1px solid var(--cor-cinza);
+
+    border-radius: 10px;
+
+    background-color:
+        var(--cor-cinza-claro);
+
+    color: #000;
+
+    transition:
+        border-color var(--transicao),
+        box-shadow var(--transicao);
+}
+
+.form-control:focus,
+.form-select:focus,
+input[type="file"]:focus {
+    border-color:
+        var(--cor-verde-musgo);
+
+    outline: none;
+
+    box-shadow:
+        0 0 0 3px rgba(76, 175, 80, 0.15);
+}
+
+.btn-full {
+    width: 100%;
+
+    margin-top: 20px;
+}
+
+.btn-primary {
+    padding: 11px 20px;
+
+    border:
+        1px solid var(--cor-verde-musgo);
+
+    border-radius: 10px;
+
+    background-color:
+        var(--cor-verde-musgo);
+
+    color:
+        var(--cor-branco);
+
+    font-weight: 600;
+
+    transition:
+        background-color var(--transicao),
+        transform var(--transicao);
+}
+
+.btn-primary:hover {
+    background-color:
+        var(--cor-verde-escuro);
+
+    transform:
+        translateY(-1px);
+}
+
+#serForm button[type="submit"] {
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--cor-verde-musgo),
+            var(--cor-verde-escuro)
+        );
+
+    color:
+        var(--cor-branco);
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+    transition:
+        transform var(--transicao),
+        box-shadow var(--transicao);
+}
+
+#serForm button[type="submit"]:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 7px 15px rgba(46, 125, 50, 0.20);
+}
+
+#btnMostrarForm {
+    display: block;
+
+    margin: 30px auto;
+
+    padding: 10px 20px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background-color:
+        var(--cor-verde-musgo);
+
+    color:
+        var(--cor-branco);
+
+    font-weight: 600;
+
+    transition:
+        background-color var(--transicao),
+        transform var(--transicao);
+}
+
+#btnMostrarForm:hover {
+    background-color:
+        var(--cor-verde-escuro);
+
+    transform:
+        translateY(-2px);
+}
+
+#previewImagem {
+    max-width: 100%;
+
+    border:
+        2px dashed var(--cor-verde-musgo);
+
+    border-radius: 12px;
+
+    padding: 5px;
+
+    background-color:
+        var(--cor-cinza-claro);
+}
+
+#btnTirarFoto,
+#btnEscolherGaleria {
+    flex: 1;
+
+    padding: 8px 12px;
+
+    border-radius: 8px;
+
+    font-size: 0.9rem;
+
+    font-weight: 600;
+}
+
+#btnTirarFoto {
+    border:
+        2px solid var(--cor-verde-musgo);
+
+    color:
+        var(--cor-verde-musgo);
+
+    background:
+        transparent;
+}
+
+#btnTirarFoto:hover {
+    background:
+        var(--cor-verde-musgo);
+
+    color:
+        var(--cor-branco);
+}
+
+#btnEscolherGaleria {
+    border:
+        2px solid #888;
+
+    color:
+        #555;
+
+    background:
+        transparent;
+}
+
+#btnEscolherGaleria:hover {
+    background:
+        #888;
+
+    color:
+        var(--cor-branco);
+}
+
+.mb-3 {
+    margin-bottom: 20px !important;
+}
+
+
+/* =========================================================
+   21. FOOTER
+========================================================= */
+
+.footer {
+    margin-top: 20px;
+
+    padding:
+        45px 20px 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #386b3a,
+            #2e6332
+        );
+
+    color:
+        var(--cor-branco);
+}
+
+.footer-content {
+    width: min(1100px, 100%);
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 40px;
+}
+
+.footer-section {
+    min-width: 0;
+}
+
+.footer-section h3 {
+    margin: 0 0 15px;
+
+    font-size: 1.05rem;
+
+    font-weight: 700;
+}
+
+.footer-section ul {
+    list-style: none;
+
+    margin: 0;
+
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color:
+        var(--cor-branco);
+
+    text-decoration: none;
+
+    font-size: 0.9rem;
+
+    transition:
+        opacity var(--transicao),
+        transform var(--transicao);
+}
+
+.footer-section ul li a:hover {
+    opacity: 0.8;
+
+    transform:
+        translateX(3px);
+}
+
+.footer-section ul li a i {
+    width: 18px;
+
+    text-align: center;
+}
+
+.social-icons {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.social-icons li {
+    margin: 0 !important;
+}
+
+.social-icons a {
+    width: 40px;
+    height: 40px;
+
+    display: flex !important;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color:
+        var(--cor-verde-musgo);
+
+    color:
+        var(--cor-branco);
+
+    font-size: 18px !important;
+
+    transition:
+        background-color var(--transicao),
+        transform var(--transicao);
+}
+
+.social-icons a:hover {
+    background-color:
+        var(--cor-verde-escuro);
+
+    transform:
+        translateY(-3px) !important;
+
+    opacity: 1 !important;
+}
+
+.footer-bottom {
+    width: min(1100px, 100%);
+
+    margin: 35px auto 0;
+
+    padding-top: 18px;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.18);
+
+    text-align: center;
+}
+
+.footer-bottom p {
+    margin: 0;
+
+    color:
+        rgba(255, 255, 255, 0.85);
+
+    font-size: 0.82rem;
+}
+
+
+/* =========================================================
+   22. ANIMAÇÃO
+========================================================= */
+
+@keyframes fadeIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =========================================================
+   23. TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .main-nav-links {
+        gap: 1rem;
+    }
+
+    .main-nav-links a {
+        font-size: 0.9rem;
+    }
+
+    #denuncias-container {
+        gap: 20px;
+    }
+}
+
+
+/* =========================================================
+   24. TABLET / MOBILE
+   HAMBURGER + MENU LATERAL À ESQUERDA
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .main-nav {
+        margin: 10px;
+
+        padding:
+            8px 12px;
+    }
+
+    .flex-container {
+        min-height: 64px;
+
+        justify-content:
+            space-between;
+    }
+
+
+    /* =====================================================
+       LOGO
+       Continua no lado esquerdo
+    ===================================================== */
+
+    .logo {
+        order: 1;
+
+        margin-right: auto;
+    }
+
+    .logo img {
+        height: 58px;
+    }
+
+
+    /* =====================================================
+       HAMBURGER
+       Continua no lado direito
+    ===================================================== */
+
+    .hamburger {
+        display: flex;
+
+        order: 2;
+
+        margin-left: auto;
+    }
+
+
+    /* =====================================================
+       MENU LATERAL
+       ABRE A PARTIR DA ESQUERDA
+    ===================================================== */
+
+    .main-nav-links {
+
+        position: fixed;
+
+        top: 0;
+
+        left: 0;
+
+        right: auto;
+
+        width: min(82vw, 330px);
+
+        height: 100vh;
+
+        margin: 0;
+
+        padding:
+            95px 22px 30px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        justify-content: flex-start;
+
+        gap: 0;
+
+        background:
+            var(--cor-branco);
+
+        box-shadow:
+            8px 0 25px rgba(0, 0, 0, 0.15);
+
+        border-radius:
+            0 16px 16px 0;
+
+        overflow-y: auto;
+
+        /*
+           MENU ESCONDIDO À ESQUERDA
+        */
+
+        transform:
+            translateX(-110%);
+
+        transition:
+            transform 0.35s ease;
+
+        z-index: 1400;
+    }
+
+
+    /*
+       MENU ABERTO
+    */
+
+    .main-nav-links.active {
+        transform:
+            translateX(0);
+    }
+
+
+    /* =====================================================
+       LINKS MOBILE
+    ===================================================== */
+
+    .main-nav-links a {
+        width: 100%;
+
+        min-height: 48px;
+
+        padding:
+            13px 10px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-bottom:
+            1px solid #eeeeee;
+
+        font-size:
+            1rem;
+
+        text-align:
+            center;
+    }
+
+    .main-nav-links a::after {
+        display: none;
+    }
+
+    .main-nav-links a:hover,
+    .main-nav-links a.active {
+        background:
+            var(--cor-verde-claro);
+
+        color:
+            var(--cor-verde-escuro);
+    }
+
+
+    /* =====================================================
+       USER MENU MOBILE
+    ===================================================== */
+
+    .main-nav-links .user-menu {
+        width: 100%;
+
+        min-height: 50px;
+
+        margin-top: 18px;
+
+        padding: 13px;
+
+        justify-content: center;
+
+        border:
+            1px solid #e0e0e0;
+
+        background:
+            var(--cor-fundo);
+    }
+
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .hero-denuncia {
+        min-height: 48vh;
+
+        padding:
+            70px 20px;
+    }
+
+
+    /* =====================================================
+       NOVA DENÚNCIA
+    ===================================================== */
+
+    .nova-denuncia-content {
+        align-items:
+            flex-start;
+
+        flex-direction:
+            column;
+    }
+
+    .btn-link {
+        width: 100%;
+    }
+
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    .form-row {
+        flex-direction:
+            column;
+    }
+
+    .form-right #map {
+        min-height:
+            320px;
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    .footer-content {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+
+/* =========================================================
+   25. MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+
+    .container {
+        width:
+            calc(100% - 20px);
+    }
+
+    .main-nav {
+        border-radius:
+            10px;
+    }
+
+    .logo img {
+        height:
+            54px;
+    }
+
+    .hamburger {
+        width:
+            42px;
+
+        height:
+            42px;
+    }
+
+
+    /* =====================================================
+       MENU ESQUERDO
+    ===================================================== */
+
+    .main-nav-links {
+        width:
+            min(84vw, 320px);
+
+        padding:
+            90px 18px 25px;
+    }
+
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .hero-denuncia {
+        min-height:
+            43vh;
+
+        padding:
+            55px 15px;
+    }
+
+    .hero-badge {
+        font-size:
+            0.76rem;
+
+        padding:
+            6px 11px;
+    }
+
+    .hero-denuncia h1 {
+        font-size:
+            clamp(2rem, 10vw, 3rem);
+    }
+
+    .hero-denuncia p {
+        font-size:
+            0.95rem;
+    }
+
+
+    /* =====================================================
+       FILTROS
+    ===================================================== */
+
+    .filtros-section {
+        padding:
+            25px 15px 10px;
+    }
+
+    .filtro-denuncias {
+        grid-template-columns:
+            1fr;
+
+        padding:
+            18px;
+
+        gap:
+            15px;
+    }
+
+
+    /* =====================================================
+       NOVA DENÚNCIA
+    ===================================================== */
+
+    .nova-denuncia-section {
+        width:
+            calc(100% - 30px);
+    }
+
+    .nova-denuncia-content {
+        padding:
+            20px;
+    }
+
+    .nova-denuncia-content h2 {
+        font-size:
+            1.15rem;
+    }
+
+
+    /* =====================================================
+       CARDS
+    ===================================================== */
+
+    #denuncias-container {
+        width:
+            calc(100% - 30px);
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            18px;
+    }
+
+    .img-wrapper img {
+        height:
+            190px;
+    }
+
+    .card-body {
+        padding:
+            17px;
+    }
+
+    .titulo-wrapper h4 {
+        font-size:
+            1.05rem;
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    .footer {
+        padding:
+            35px 18px 18px;
+    }
+
+    .footer-content {
+        grid-template-columns:
+            1fr;
+
+        gap:
+            28px;
+
+        text-align:
+            center;
+    }
+
+    .footer-section ul li a {
+        justify-content:
+            center;
+    }
+
+    .social-icons {
+        justify-content:
+            center;
+    }
+
+    .footer-bottom {
+        margin-top:
+            25px;
+    }
+}
+
+
+/* =========================================================
+   26. MOBILE PEQUENO
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .main-nav {
+        margin:
+            7px;
+    }
+
+    .flex-container {
+        min-height:
+            58px;
+    }
+
+    .logo img {
+        height:
+            48px;
+    }
+
+    .hamburger {
+        width:
+            40px;
+
+        height:
+            40px;
+    }
+
+    .hamburger i {
+        font-size:
+            21px;
+    }
+
+
+    /*
+       MENU ABRE PELA ESQUERDA
+    */
+
+    .main-nav-links {
+        width:
+            88vw;
+
+        padding:
+            85px 16px 25px;
+    }
+
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .hero-denuncia {
+        min-height:
+            40vh;
+
+        padding:
+            45px 12px;
+    }
+
+    .hero-denuncia-content {
+        padding:
+            10px;
+    }
+
+    .hero-denuncia h1 {
+        font-size:
+            2rem;
+    }
+
+    .hero-denuncia p {
+        font-size:
+            0.9rem;
+
+        line-height:
+            1.6;
+    }
+
+
+    /* =====================================================
+       FILTROS
+    ===================================================== */
+
+    .filtro-denuncias {
+        padding:
+            15px;
+    }
+
+
+    /* =====================================================
+       CARDS
+    ===================================================== */
+
+    #denuncias-container {
+        width:
+            calc(100% - 20px);
+
+        gap:
+            15px;
+    }
+
+    .img-wrapper img {
+        height:
+            165px;
+    }
+
+    .card-body {
+        padding:
+            15px;
+    }
+
+    .contador-badge {
+        right:
+            9px;
+
+        bottom:
+            9px;
+    }
+
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    #serForm {
+        width:
+            calc(100% - 20px);
+
+        padding:
+            18px;
+    }
+
+    .form-right #map {
+        min-height:
+            270px;
+    }
+}
+
+
+/* =========================================================
+   27. ACESSIBILIDADE
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior:
+            auto !important;
+
+        transition-duration:
+            0.01ms !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+    }
+}

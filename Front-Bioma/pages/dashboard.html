@@ -1,0 +1,31 @@
+<div class="w-full">
+
+    <h1 class="text-2xl font-bold mb-6">Dashboard</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="stat-card">
+            <p class="text-gray-500">Denúncias Totais</p>
+            <h2 class="text-3xl font-bold text-orange-500" id="count-denuncias">--</h2>
+        </div>
+        <div class="stat-card">
+            <p class="text-gray-500">Espécies Catalogadas</p>
+            <h2 class="text-3xl font-bold text-green-500" id="count-seres">--</h2>
+        </div>
+        <div class="stat-card">
+            <p class="text-gray-500">Usuários na Plataforma</p>
+            <h2 class="text-3xl font-bold text-blue-500" id="count-usuarios">--</h2>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h3 class="text-lg font-bold mb-4">Status das Denúncias</h3>
+            <canvas id="chartDenuncias"></canvas>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <h3 class="text-lg font-bold mb-4">Conservação das Espécies</h3>
+            <canvas id="chartSeres"></canvas>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard de Espécies | Bioma-Guiné</title>
+
+    <meta
+        name="description"
+        content="Dashboard de monitoramento e conservação das espécies da Guiné-Bissau."
+    >
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- =====================================================
+         CSS DA PÁGINA
+         ===================================================== -->
+    <style>
+
+        /* =====================================================
+           RESET
+           ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #f4f8f5;
+            color: #21312a;
+            line-height: 1.6;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* =====================================================
+           VARIÁVEIS
+           ===================================================== */
+
+        :root {
+            --green-dark: #1b5e20;
+            --green-primary: #2e7d32;
+            --green-medium: #388e3c;
+            --green-light: #4caf50;
+            --green-soft: #e8f5e9;
+
+            --orange: #f57c00;
+            --orange-light: #ff9800;
+
+            --red: #c62828;
+            --red-soft: #ffebee;
+
+            --yellow: #f9a825;
+            --yellow-soft: #fff8e1;
+
+            --blue: #1565c0;
+            --blue-soft: #e3f2fd;
+
+            --white: #ffffff;
+            --background: #f4f8f5;
+
+            --text-dark: #21312a;
+            --text-medium: #52635a;
+            --text-light: #748179;
+
+            --border: #dfe8e2;
+
+            --shadow-sm: 0 2px 10px rgba(33, 49, 42, 0.06);
+            --shadow-md: 0 8px 25px rgba(33, 49, 42, 0.08);
+            --shadow-lg: 0 15px 40px rgba(33, 49, 42, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        /* =====================================================
+           HEADER
+           ===================================================== */
+
+        .main-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            width: 100%;
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(12px);
+
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-container {
+            width: min(1400px, 92%);
+            min-height: 76px;
+
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        /* =====================================================
+           LOGO
+           ===================================================== */
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            flex-shrink: 0;
+        }
+
+        .brand img {
+            width: 52px;
+            height: 52px;
+
+            object-fit: contain;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .brand-name {
+            font-family: "Poppins", sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--green-dark);
+        }
+
+        .brand-subtitle {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        /* =====================================================
+           NAVIGATION
+           ===================================================== */
+
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-links a {
+            position: relative;
+
+            padding: 10px 13px;
+
+            color: var(--text-medium);
+
+            font-size: 14px;
+            font-weight: 600;
+
+            border-radius: 8px;
+
+            transition:
+                color 0.25s ease,
+                background 0.25s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--green-primary);
+            background: var(--green-soft);
+        }
+
+        .nav-links a.active::after {
+            content: "";
+
+            position: absolute;
+            left: 13px;
+            right: 13px;
+            bottom: 4px;
+
+            height: 2px;
+
+            background: var(--green-primary);
+            border-radius: 10px;
+        }
+
+        /* =====================================================
+           MOBILE BUTTON
+           ===================================================== */
+
+        .mobile-menu {
+            display: none;
+
+            width: 44px;
+            height: 44px;
+
+            border: 1px solid var(--border);
+            border-radius: 10px;
+
+            background: var(--white);
+            color: var(--green-primary);
+
+            font-size: 20px;
+
+            align-items: center;
+            justify-content: center;
+
+            transition: 0.25s ease;
+        }
+
+        .mobile-menu:hover {
+            background: var(--green-soft);
+        }
+
+        /* =====================================================
+           MAIN
+           ===================================================== */
+
+        main {
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            width: min(1400px, 92%);
+            margin: 0 auto;
+            padding: 35px 0 60px;
+        }
+
+        /* =====================================================
+           HERO
+           ===================================================== */
+
+        .hero {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 45px;
+
+            border-radius: var(--radius-lg);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1b5e20 0%,
+                    #2e7d32 55%,
+                    #388e3c 100%
+                );
+
+            color: white;
+
+            box-shadow: var(--shadow-lg);
+
+            margin-bottom: 28px;
+        }
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            right: -100px;
+            top: -150px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 200px;
+            height: 200px;
+
+            right: 150px;
+            bottom: -130px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+
+            max-width: 780px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 7px 13px;
+
+            margin-bottom: 15px;
+
+            border-radius: 30px;
+
+            background: rgba(255, 255, 255, 0.15);
+
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-family: "Poppins", sans-serif;
+
+            font-size: clamp(30px, 4vw, 48px);
+            line-height: 1.15;
+
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            max-width: 700px;
+
+            color: rgba(255, 255, 255, 0.88);
+
+            font-size: 15px;
+        }
+
+        .hero-actions {
+            position: relative;
+            z-index: 2;
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            margin-top: 25px;
+
+            flex-wrap: wrap;
+        }
+
+        /* =====================================================
+           BOTÕES
+           ===================================================== */
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+
+            min-height: 44px;
+
+            padding: 10px 18px;
+
+            border: none;
+            border-radius: 9px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--green-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+            box-shadow: 0 7px 18px rgba(46, 125, 50, 0.25);
+        }
+
+        .btn-light {
+            background: white;
+            color: var(--green-primary);
+        }
+
+        .btn-light:hover {
+            box-shadow: 0 7px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .btn-danger {
+            background: var(--red);
+            color: white;
+        }
+
+        /* =====================================================
+           NOTICE
+           ===================================================== */
+
+        .data-notice {
+            display: flex;
+            align-items: flex-start;
+            gap: 13px;
+
+            padding: 17px 20px;
+
+            margin-bottom: 28px;
+
+            background: #fffdf3;
+
+            border: 1px solid #f1e4a8;
+            border-left: 4px solid var(--yellow);
+
+            border-radius: var(--radius-md);
+
+            color: #6d5a18;
+
+            font-size: 13px;
+        }
+
+        .data-notice i {
+            margin-top: 3px;
+
+            color: var(--yellow);
+            font-size: 17px;
+        }
+
+        /* =====================================================
+           FILTROS
+           ===================================================== */
+
+        .filters-card {
+            padding: 22px;
+
+            margin-bottom: 28px;
+
+            background: var(--white);
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filters-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+            font-family: "Poppins", sans-serif;
+
+            color: var(--text-dark);
+
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .filters-grid {
+            display: grid;
+
+            grid-template-columns:
+                minmax(220px, 2fr)
+                repeat(2, minmax(170px, 1fr))
+                auto;
+
+            gap: 13px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+
+            left: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: var(--text-light);
+
+            pointer-events: none;
+        }
+
+        .input-control {
+            width: 100%;
+            height: 46px;
+
+            padding: 0 14px;
+
+            border: 1px solid var(--border);
+            border-radius: 9px;
+
+            background: #fbfdfb;
+
+            color: var(--text-dark);
+
+            outline: none;
+
+            font-size: 14px;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .input-group .input-control {
+            padding-left: 42px;
+        }
+
+        select.input-control {
+            cursor: pointer;
+        }
+
+        .input-control:focus {
+            border-color: var(--green-primary);
+
+            box-shadow:
+                0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        /* =====================================================
+           KPI
+           ===================================================== */
+
+        .kpi-grid {
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 28px;
+        }
+
+        .kpi-card {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 23px;
+
+            background: var(--white);
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+
+            box-shadow: var(--shadow-sm);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .kpi-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+        }
+
+        .kpi-icon {
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            font-size: 19px;
+        }
+
+        .kpi-card.total .kpi-icon {
+            background: var(--green-soft);
+            color: var(--green-primary);
+        }
+
+        .kpi-card.critical .kpi-icon {
+            background: var(--red-soft);
+            color: var(--red);
+        }
+
+        .kpi-card.endangered .kpi-icon {
+            background: #fff3e0;
+            color: var(--orange);
+        }
+
+        .kpi-card.vulnerable .kpi-icon {
+            background: var(--yellow-soft);
+            color: var(--yellow);
+        }
+
+        .kpi-label {
+            color: var(--text-light);
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .kpi-value {
+            font-family: "Poppins", sans-serif;
+
+            color: var(--text-dark);
+
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .kpi-description {
+            margin-top: 8px;
+
+            color: var(--text-light);
+
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           CHARTS
+           ===================================================== */
+
+        .charts-grid {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 20px;
+
+            margin-bottom: 28px;
+        }
+
+        .chart-card {
+            min-width: 0;
+
+            padding: 23px;
+
+            background: var(--white);
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-family: "Poppins", sans-serif;
+
+            color: var(--text-dark);
+
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .chart-description {
+            margin-top: 4px;
+
+            color: var(--text-light);
+
+            font-size: 12px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+
+            width: 100%;
+            height: 290px;
+        }
+
+        /* =====================================================
+           TABELA
+           ===================================================== */
+
+        .table-card {
+            overflow: hidden;
+
+            background: var(--white);
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+
+            box-shadow: var(--shadow-sm);
+        }
+
+        .table-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 23px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .results-count {
+            color: var(--text-light);
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .species-table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 850px;
+        }
+
+        .species-table th {
+            padding: 15px 20px;
+
+            background: #f8faf8;
+
+            color: var(--text-medium);
+
+            font-size: 11px;
+            font-weight: 800;
+
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .species-table td {
+            padding: 17px 20px;
+
+            color: var(--text-medium);
+
+            font-size: 13px;
+
+            border-bottom: 1px solid #edf2ee;
+        }
+
+        .species-table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .species-table tbody tr:hover {
+            background: #f8fcf9;
+        }
+
+        .species-name {
+            color: var(--text-dark);
+
+            font-weight: 700;
+        }
+
+        .scientific-name {
+            color: var(--text-light);
+
+            font-size: 11px;
+            font-style: italic;
+
+            margin-top: 2px;
+        }
+
+        /* =====================================================
+           STATUS BADGES
+           ===================================================== */
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            padding: 6px 10px;
+
+            border-radius: 30px;
+
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status-badge::before {
+            content: "";
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: currentColor;
+        }
+
+        .status-critical {
+            background: var(--red-soft);
+            color: var(--red);
+        }
+
+        .status-endangered {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .status-vulnerable {
+            background: var(--yellow-soft);
+            color: #9a7300;
+        }
+
+        .status-stable {
+            background: var(--green-soft);
+            color: var(--green-primary);
+        }
+
+        /* =====================================================
+           EMPTY STATE
+           ===================================================== */
+
+        .empty-state {
+            display: none;
+
+            padding: 55px 20px;
+
+            text-align: center;
+
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            display: block;
+
+            margin-bottom: 12px;
+
+            color: #b8c7bc;
+
+            font-size: 42px;
+        }
+
+        .empty-state strong {
+            display: block;
+
+            color: var(--text-dark);
+
+            margin-bottom: 5px;
+        }
+
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+
+        .main-footer {
+            background: #183d20;
+
+            color: rgba(255, 255, 255, 0.75);
+
+            padding: 30px 0;
+        }
+
+        .footer-container {
+            width: min(1400px, 92%);
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+        }
+
+        .footer-brand span {
+            font-size: 13px;
+        }
+
+        .footer-copy {
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           TABLET
+           ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            .header-container {
+                width: 94%;
+            }
+
+            .dashboard-container {
+                width: 94%;
+            }
+
+            .nav-links {
+                gap: 0;
+            }
+
+            .nav-links a {
+                padding: 9px 9px;
+                font-size: 13px;
+            }
+
+            .filters-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filters-grid .btn {
+                width: 100%;
+            }
+
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        /* =====================================================
+           MOBILE NAVIGATION
+           ===================================================== */
+
+        @media (max-width: 850px) {
+
+            .header-container {
+                min-height: 70px;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .main-nav {
+                position: absolute;
+
+                top: 70px;
+                left: 0;
+                right: 0;
+
+                display: none;
+
+                padding: 12px;
+
+                background: white;
+
+                border-bottom: 1px solid var(--border);
+
+                box-shadow: var(--shadow-md);
+            }
+
+            .main-nav.open {
+                display: block;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: stretch;
+
+                gap: 4px;
+            }
+
+            .nav-links a {
+                display: block;
+
+                padding: 13px 15px;
+
+                font-size: 14px;
+            }
+
+            .nav-links a.active::after {
+                display: none;
+            }
+
+            .nav-links a.active {
+                background: var(--green-soft);
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 35px 28px;
+            }
+
+        }
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
+        @media (max-width: 600px) {
+
+            .dashboard-container {
+                width: 94%;
+
+                padding-top: 20px;
+                padding-bottom: 40px;
+            }
+
+            .brand img {
+                width: 44px;
+                height: 44px;
+            }
+
+            .brand-name {
+                font-size: 17px;
+            }
+
+            .brand-subtitle {
+                font-size: 9px;
+            }
+
+            .hero {
+                padding: 28px 22px;
+
+                border-radius: 16px;
+            }
+
+            .hero h1 {
+                font-size: 29px;
+            }
+
+            .hero p {
+                font-size: 13px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+            }
+
+            .data-notice {
+                padding: 15px;
+
+                font-size: 12px;
+            }
+
+            .filters-card {
+                padding: 17px;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-card {
+                padding: 20px;
+            }
+
+            .chart-card {
+                padding: 17px;
+            }
+
+            .chart-wrapper {
+                height: 250px;
+            }
+
+            .table-header {
+                padding: 18px;
+
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .footer-container {
+                flex-direction: column;
+
+                text-align: center;
+            }
+
+        }
+
+        /* =====================================================
+           MOBILE MUITO PEQUENO
+           ===================================================== */
+
+        @media (max-width: 380px) {
+
+            .brand-text {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 25px;
+            }
+
+            .kpi-value {
+                font-size: 28px;
+            }
+
+            .chart-wrapper {
+                height: 220px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="main-header">
+
+        <div class="header-container">
+
+            <!-- LOGO -->
+            <a href="index.html" class="brand">
+
+                <img
+                    src="assets/img/logo/logo-bioma-removebg-preview.png"
+                    alt="Logo Bioma-Guiné"
+                >
+
+                <div class="brand-text">
+                    <span class="brand-name">Bioma-Guiné</span>
+                    <span class="brand-subtitle">
+                        Biodiversidade e Conservação
+                    </span>
+                </div>
+
+            </a>
+
+
+            <!-- MENU MOBILE -->
+            <button
+                type="button"
+                class="mobile-menu"
+                id="mobileMenu"
+                aria-label="Abrir menu"
+                aria-expanded="false"
+            >
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+
+            <!-- NAVEGAÇÃO -->
+            <nav class="main-nav" id="dashboardNav">
+
+                <ul class="nav-links">
+
+                    <li>
+                        <a href="index.html">
+                            <i class="fa-solid fa-house"></i>
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="especies.html">
+                            <i class="fa-solid fa-leaf"></i>
+                            Espécies
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="denuncia.html">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            Denúncias
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="sobre.html">
+                            <i class="fa-solid fa-circle-info"></i>
+                            Sobre
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="contacto.html">
+                            <i class="fa-solid fa-envelope"></i>
+                            Contato
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="blogtexte.html">
+                            <i class="fa-solid fa-newspaper"></i>
+                            Notícias
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="quiz.html">
+                            <i class="fa-solid fa-circle-question"></i>
+                            Quiz
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main>
+
+        <div class="dashboard-container" id="dashboardContent">
+
+            <!-- =================================================
+                 HERO
+                 ================================================= -->
+
+            <section class="hero">
+
+                <div class="hero-content">
+
+                    <span class="hero-label">
+                        <i class="fa-solid fa-chart-line"></i>
+                        Monitoramento da biodiversidade
+                    </span>
+
+                    <h1>
+                        Estado das Espécies
+                    </h1>
+
+                    <p>
+                        Acompanhe dados sobre espécies ameaçadas,
+                        estado de conservação, grupos biológicos,
+                        habitats e ações de monitoramento da
+                        biodiversidade na Guiné-Bissau.
+                    </p>
+
+                </div>
+
+                <div class="hero-actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-light"
+                        id="downloadPdf"
+                    >
+                        <i class="fa-solid fa-file-pdf"></i>
+                        Exportar PDF
+                    </button>
+
+                    <a
+                        href="especies.html"
+                        class="btn btn-light"
+                    >
+                        <i class="fa-solid fa-leaf"></i>
+                        Ver espécies
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 AVISO
+                 ================================================= -->
+
+            <div class="data-notice">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                <div>
+                    <strong>Informação dos dados:</strong>
+                    os dados apresentados neste dashboard são
+                    demonstrativos para estruturação da plataforma.
+                    Devem ser substituídos posteriormente pelos
+                    dados oficiais do sistema de monitoramento.
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FILTROS
+                 ================================================= -->
+
+            <section class="filters-card">
+
+                <div class="filters-header">
+
+                    <div>
+                        <h2 class="section-title">
+                            Filtros de pesquisa
+                        </h2>
+                    </div>
+
+                    <span class="results-count" id="resultsCount">
+                        0 espécies encontradas
+                    </span>
+
+                </div>
+
+
+                <div class="filters-grid">
+
+                    <!-- PESQUISA -->
+                    <div class="input-group">
+
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="search"
+                            id="searchSpecies"
+                            class="input-control"
+                            placeholder="Pesquisar espécie..."
+                            aria-label="Pesquisar espécie"
+                        >
+
+                    </div>
+
+
+                    <!-- STATUS -->
+                    <select
+                        id="statusFilter"
+                        class="input-control"
+                        aria-label="Filtrar por estado de conservação"
+                    >
+
+                        <option value="">
+                            Todos os estados
+                        </option>
+
+                        <option value="Crítico">
+                            Criticamente ameaçada
+                        </option>
+
+                        <option value="Em Perigo">
+                            Em perigo
+                        </option>
+
+                        <option value="Vulnerável">
+                            Vulnerável
+                        </option>
+
+                        <option value="Estável">
+                            Estável
+                        </option>
+
+                    </select>
+
+
+                    <!-- GRUPO -->
+                    <select
+                        id="groupFilter"
+                        class="input-control"
+                        aria-label="Filtrar por grupo"
+                    >
+
+                        <option value="">
+                            Todos os grupos
+                        </option>
+
+                        <option value="Mamíferos">
+                            Mamíferos
+                        </option>
+
+                        <option value="Aves">
+                            Aves
+                        </option>
+
+                        <option value="Répteis">
+                            Répteis
+                        </option>
+
+                        <option value="Peixes">
+                            Peixes
+                        </option>
+
+                        <option value="Flora">
+                            Flora
+                        </option>
+
+                    </select>
+
+
+                    <!-- LIMPAR -->
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="clearFilters"
+                    >
+                        <i class="fa-solid fa-rotate-left"></i>
+                        Limpar
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 KPI
+                 ================================================= -->
+
+            <section class="kpi-grid">
+
+                <!-- TOTAL -->
+                <article class="kpi-card total">
+
+                    <div class="kpi-top">
+
+                        <span class="kpi-label">
+                            Total monitorizado
+                        </span>
+
+                        <div class="kpi-icon">
+                            <i class="fa-solid fa-leaf"></i>
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="kpi-value"
+                        id="totalSpecies"
+                    >
+                        0
+                    </div>
+
+                    <p class="kpi-description">
+                        Espécies registradas na base
+                    </p>
+
+                </article>
+
+
+                <!-- CRÍTICAS -->
+                <article class="kpi-card critical">
+
+                    <div class="kpi-top">
+
+                        <span class="kpi-label">
+                            Estado crítico
+                        </span>
+
+                        <div class="kpi-icon">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="kpi-value"
+                        id="criticalSpecies"
+                    >
+                        0
+                    </div>
+
+                    <p class="kpi-description">
+                        Necessitam de atenção prioritária
+                    </p>
+
+                </article>
+
+
+                <!-- PERIGO -->
+                <article class="kpi-card endangered">
+
+                    <div class="kpi-top">
+
+                        <span class="kpi-label">
+                            Em perigo
+                        </span>
+
+                        <div class="kpi-icon">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="kpi-value"
+                        id="endangeredSpecies"
+                    >
+                        0
+                    </div>
+
+                    <p class="kpi-description">
+                        Espécies em risco elevado
+                    </p>
+
+                </article>
+
+
+                <!-- VULNERÁVEIS -->
+                <article class="kpi-card vulnerable">
+
+                    <div class="kpi-top">
+
+                        <span class="kpi-label">
+                            Vulneráveis
+                        </span>
+
+                        <div class="kpi-icon">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="kpi-value"
+                        id="vulnerableSpecies"
+                    >
+                        0
+                    </div>
+
+                    <p class="kpi-description">
+                        Espécies sob pressão ambiental
+                    </p>
+
+                </article>
+
+            </section>
+
+
+            <!-- =================================================
+                 GRÁFICOS
+                 ================================================= -->
+
+            <section class="charts-grid">
+
+                <!-- STATUS -->
+                <article class="chart-card">
+
+                    <div class="chart-header">
+
+                        <div>
+
+                            <h2 class="chart-title">
+                                Estado de conservação
+                            </h2>
+
+                            <p class="chart-description">
+                                Distribuição das espécies por categoria
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="chart-wrapper">
+
+                        <canvas id="statusChart"></canvas>
+
+                    </div>
+
+                </article>
+
+
+                <!-- GRUPOS -->
+                <article class="chart-card">
+
+                    <div class="chart-header">
+
+                        <div>
+
+                            <h2 class="chart-title">
+                                Espécies por grupo
+                            </h2>
+
+                            <p class="chart-description">
+                                Distribuição por grupo biológico
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="chart-wrapper">
+
+                        <canvas id="groupChart"></canvas>
+
+                    </div>
+
+                </article>
+
+
+                <!-- HABITAT -->
+                <article class="chart-card">
+
+                    <div class="chart-header">
+
+                        <div>
+
+                            <h2 class="chart-title">
+                                Principais habitats
+                            </h2>
+
+                            <p class="chart-description">
+                                Distribuição das espécies por habitat
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="chart-wrapper">
+
+                        <canvas id="habitatChart"></canvas>
+
+                    </div>
+
+                </article>
+
+
+                <!-- MONITORAMENTO -->
+                <article class="chart-card">
+
+                    <div class="chart-header">
+
+                        <div>
+
+                            <h2 class="chart-title">
+                                Estado do monitoramento
+                            </h2>
+
+                            <p class="chart-description">
+                                Situação atual do acompanhamento
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="chart-wrapper">
+
+                        <canvas id="monitoringChart"></canvas>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- =================================================
+                 TABELA
+                 ================================================= -->
+
+            <section class="table-card">
+
+                <div class="table-header">
+
+                    <div>
+
+                        <h2 class="section-title">
+                            Espécies monitorizadas
+                        </h2>
+
+                    </div>
+
+                    <span
+                        class="results-count"
+                        id="resultsCount"
+                    >
+                        0 espécies
+                    </span>
+
+                </div>
+
+
+                <div class="table-responsive">
+
+                    <table class="species-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Espécie
+                                </th>
+
+                                <th>
+                                    Grupo
+                                </th>
+
+                                <th>
+                                    Estado
+                                </th>
+
+                                <th>
+                                    Habitat
+                                </th>
+
+                                <th>
+                                    População estimada
+                                </th>
+
+                                <th>
+                                    Monitoramento
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="speciesTable">
+                            <!-- Preenchido pelo JavaScript -->
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- ESTADO VAZIO -->
+
+                <div
+                    class="empty-state"
+                    id="emptyState"
+                >
+
+                    <i class="fa-solid fa-leaf"></i>
+
+                    <strong>
+                        Nenhuma espécie encontrada
+                    </strong>
+
+                    <span>
+                        Tente alterar os filtros ou o termo de pesquisa.
+                    </span>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="main-footer">
+
+        <div class="footer-container">
+
+            <div class="footer-brand">
+
+                <img
+                    src="assets/img/logo/logo-bioma-removebg-preview.png"
+                    alt="Bioma-Guiné"
+                >
+
+                <span>
+                    Bioma-Guiné — Biodiversidade e Conservação
+                </span>
+
+            </div>
+
+            <p class="footer-copy">
+                © 2026 Bioma-Guiné. Todos os direitos reservados.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script src="assets/js/dashboard-especies.js"></script>
+
+</body>
+</html>

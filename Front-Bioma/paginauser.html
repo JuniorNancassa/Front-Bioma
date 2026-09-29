@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil do Usuário</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f0f4f3; margin: 0; padding: 20px; }
+  #perfil-container { max-width: 700px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 15px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+  .perfil-header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
+  #usuario-avatar { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #4CAF50; transition: transform 0.3s; }
+  #usuario-avatar:hover { transform: scale(1.05); }
+  .perfil-info h2 { margin:0; color:#2e7d32; }
+  .perfil-info p { margin:4px 0 0; color:#555; font-style: italic; }
+  .perfil-stats { display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  .stat-card { flex:1 1 45%; background:#4CAF50; color:#fff; padding:20px; border-radius:12px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.1); transition: transform 0.3s, background-color 0.3s; }
+  .stat-card:hover { transform: translateY(-5px); background-color: #386b3a; }
+  .stat-card h3 { margin:0; font-size:2rem; }
+  .stat-card p { margin:5px 0 0; font-size:1rem; }
+  @media(max-width:600px){ .perfil-header { flex-direction: column; text-align:center; } .perfil-stats{flex-direction:column;} .stat-card{flex:1 1 100%;} }
+</style>
+</head>
+<body>
+
+<div id="perfil-container">
+  <!-- Header do Perfil -->
+  <div class="perfil-header">
+    <img id="usuario-avatar" src="assets/images/default-avatar.png" alt="Avatar do usuário">
+    <div class="perfil-info">
+      <h2 id="usuario-login">Login</h2>
+      <p id="usuario-email">email@exemplo.com</p>
+    </div>
+  </div>
+
+  <!-- Estatísticas -->
+  <div class="perfil-stats">
+    <div class="stat-card">
+      <h3 id="quant-seres">0</h3>
+      <p>Seres cadastrados</p>
+    </div>
+    <div class="stat-card">
+      <h3 id="quant-denuncias">0</h3>
+      <p>Denúncias feitas</p>
+    </div>
+  </div>
+</div>
+
+<script>
+async function fetchUsuario() {
+    try {
+        // Buscar dados do usuário logado
+        const respUser = await fetch("http://localhost:8080/api/usuarios/me");
+        if (!respUser.ok) throw new Error("Erro ao buscar dados do usuário");
+        const usuario = await respUser.json();
+
+        // Atualiza login, email e avatar
+        document.getElementById("usuario-login").textContent = usuario.login;
+        document.getElementById("usuario-email").textContent = usuario.email;
+        if (usuario.avatar) {
+            document.getElementById("usuario-avatar").src = `data:image/jpeg;base64,${usuario.avatar}`;
+        }
+
+        // Buscar seres cadastrados por esse usuário
+        const respSeres = await fetch(`http://localhost:8080/api/seres/usuario?login=${usuario.login}&email=${usuario.email}`);
+        const seres = respSeres.ok ? await respSeres.json() : [];
+        document.getElementById("quant-seres").textContent = seres.length;
+
+        // Buscar denúncias feitas pelo usuário (mesma lógica, se houver endpoint)
+        const respDenuncias = await fetch(`http://localhost:8080/api/denuncias?usuarioId=${usuario.id}`);
+        const denuncias = respDenuncias.ok ? await respDenuncias.json() : [];
+        document.getElementById("quant-denuncias").textContent = denuncias.length;
+
+    } catch (err) {
+        console.error(err);
+        alert("Erro ao carregar perfil do usuário");
+    }
+}
+
+// Chama ao carregar a página
+fetchUsuario();
+</script>
+
+</body>
+</html>

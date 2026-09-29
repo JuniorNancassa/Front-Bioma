@@ -1,0 +1,1778 @@
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    font-family: "Poppins", "Inter", sans-serif;
+    background: #f4f8f5;
+    color: #21312a;
+    min-height: 100vh;
+}
+
+
+body.no-scroll {
+    overflow: hidden;
+}
+
+
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   CORES
+========================================================= */
+
+:root {
+
+    --verde-principal: #2e7d32;
+
+    --verde-escuro: #1b5e20;
+
+    --verde-medio: #4caf50;
+
+    --verde-claro: #e8f5e9;
+
+    --verde-fundo: #f4f8f5;
+
+    --branco: #ffffff;
+
+    --texto: #21312a;
+
+    --texto-secundario: #64746b;
+
+    --borda: #dce7df;
+
+    --sombra:
+        0 10px 30px rgba(27, 94, 32, 0.08);
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.main-header {
+
+    width: 100%;
+
+    height: 72px;
+
+    background: var(--branco);
+
+    border-bottom: 1px solid var(--borda);
+
+    box-shadow:
+        0 2px 12px rgba(0, 0, 0, 0.05);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+}
+
+
+.header-container {
+
+    width: 100%;
+
+    max-width: 1400px;
+
+    height: 100%;
+
+    margin: 0 auto;
+
+    padding: 0 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: var(--verde-principal);
+
+    text-decoration: none;
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+}
+
+
+.brand img {
+
+    width: 43px;
+
+    height: 43px;
+
+    object-fit: contain;
+
+}
+
+
+.brand span {
+
+    line-height: 1;
+
+}
+
+
+/* =========================================================
+   NAVEGAÇÃO DESKTOP
+========================================================= */
+
+.desktop-navigation {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+}
+
+
+.desktop-navigation a {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 10px 13px;
+
+    border-radius: 8px;
+
+    color: #43534a;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+
+}
+
+
+.desktop-navigation a i {
+
+    color: var(--verde-principal);
+
+}
+
+
+.desktop-navigation a:hover {
+
+    background: var(--verde-claro);
+
+    color: var(--verde-principal);
+
+}
+
+
+.desktop-navigation a.active {
+
+    background: var(--verde-claro);
+
+    color: var(--verde-escuro);
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================================
+   HAMBURGER
+========================================================= */
+
+.hamburger {
+
+    display: none;
+
+    width: 44px;
+
+    height: 44px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: var(--verde-principal);
+
+    font-size: 23px;
+
+    cursor: pointer;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+
+}
+
+
+.hamburger:hover {
+
+    background: var(--verde-claro);
+
+    color: var(--verde-escuro);
+
+}
+
+
+.hamburger:focus-visible {
+
+    outline: 3px solid rgba(76, 175, 80, 0.35);
+
+    outline-offset: 2px;
+
+}
+
+
+/* =========================================================
+   OVERLAY MENU MOBILE
+========================================================= */
+
+#menu-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.48);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+
+    z-index: 1050;
+
+}
+
+
+#menu-overlay.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
+}
+
+
+/* =========================================================
+   SIDEBAR MOBILE
+========================================================= */
+
+#sidebar {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 300px;
+
+    max-width: 85vw;
+
+    height: 100vh;
+
+    background: var(--branco);
+
+    box-shadow:
+        8px 0 30px rgba(0, 0, 0, 0.15);
+
+    transform: translateX(-105%);
+
+    transition:
+        transform 0.35s ease;
+
+    z-index: 1100;
+
+    overflow-y: auto;
+
+    visibility: hidden;
+
+}
+
+
+#sidebar.active {
+
+    transform: translateX(0);
+
+    visibility: visible;
+
+}
+
+
+/* =========================================================
+   CABEÇALHO DO MENU MOBILE
+========================================================= */
+
+.mobile-menu-header {
+
+    height: 72px;
+
+    padding: 0 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    border-bottom: 1px solid var(--borda);
+
+    background: var(--branco);
+
+}
+
+
+.mobile-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: var(--verde-principal);
+
+    font-size: 19px;
+
+    font-weight: 700;
+
+}
+
+
+.mobile-brand img {
+
+    width: 40px;
+
+    height: 40px;
+
+    object-fit: contain;
+
+}
+
+
+/* =========================================================
+   LINKS MOBILE
+========================================================= */
+
+.mobile-navigation {
+
+    padding: 18px 12px;
+
+}
+
+
+.mobile-navigation a {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    width: 100%;
+
+    padding: 14px 15px;
+
+    margin-bottom: 5px;
+
+    border-radius: 9px;
+
+    color: var(--texto);
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+
+.mobile-navigation a i {
+
+    width: 23px;
+
+    text-align: center;
+
+    color: var(--verde-principal);
+
+    font-size: 16px;
+
+}
+
+
+.mobile-navigation a:hover {
+
+    background: var(--verde-claro);
+
+    color: var(--verde-principal);
+
+    transform: translateX(3px);
+
+}
+
+
+.mobile-navigation a.active {
+
+    background: var(--verde-claro);
+
+    color: var(--verde-escuro);
+
+    font-weight: 600;
+
+}
+
+
+.mobile-navigation a.active i {
+
+    color: var(--verde-escuro);
+
+}
+
+
+/* =========================================================
+   CONTEÚDO PRINCIPAL
+========================================================= */
+
+.main-content {
+
+    width: 100%;
+
+    min-height: calc(100vh - 72px);
+
+}
+
+
+.seres-container {
+
+    width: 100%;
+
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    padding: 35px 30px 50px;
+
+}
+
+
+/* =========================================================
+   TÍTULO
+========================================================= */
+
+.page-title {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 30px;
+
+}
+
+
+.title-icon {
+
+    width: 55px;
+
+    height: 55px;
+
+    border-radius: 14px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--verde-claro);
+
+    color: var(--verde-principal);
+
+    font-size: 24px;
+
+}
+
+
+.page-title h1 {
+
+    color: var(--texto);
+
+    font-size: 30px;
+
+    line-height: 1.2;
+
+    font-weight: 700;
+
+}
+
+
+.page-title p {
+
+    margin-top: 5px;
+
+    color: var(--texto-secundario);
+
+    font-size: 14px;
+
+}
+
+
+/* =========================================================
+   FILTROS
+========================================================= */
+
+.filters-card {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(250px, 1fr)
+        minmax(220px, 300px);
+
+    gap: 20px;
+
+    padding: 22px;
+
+    margin-bottom: 30px;
+
+    background: var(--branco);
+
+    border: 1px solid var(--borda);
+
+    border-radius: 14px;
+
+    box-shadow: var(--sombra);
+
+}
+
+
+.filter-item {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+
+.filter-item label {
+
+    color: var(--texto);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.input-wrapper {
+
+    position: relative;
+
+}
+
+
+.input-wrapper i {
+
+    position: absolute;
+
+    left: 14px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #7c8b82;
+
+    pointer-events: none;
+
+}
+
+
+.input-wrapper input {
+
+    width: 100%;
+
+    height: 46px;
+
+    padding:
+        0 14px 0 42px;
+
+    border: 1px solid var(--borda);
+
+    border-radius: 9px;
+
+    background: #fff;
+
+    color: var(--texto);
+
+    outline: none;
+
+    transition:
+        border 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.input-wrapper input:focus {
+
+    border-color: var(--verde-medio);
+
+    box-shadow:
+        0 0 0 3px rgba(76, 175, 80, 0.12);
+
+}
+
+
+.select-wrapper select {
+
+    width: 100%;
+
+    height: 46px;
+
+    padding: 0 14px;
+
+    border: 1px solid var(--borda);
+
+    border-radius: 9px;
+
+    background: var(--branco);
+
+    color: var(--texto);
+
+    outline: none;
+
+    cursor: pointer;
+
+}
+
+
+.select-wrapper select:focus {
+
+    border-color: var(--verde-medio);
+
+    box-shadow:
+        0 0 0 3px rgba(76, 175, 80, 0.12);
+
+}
+
+
+/* =========================================================
+   GRID DOS SERES
+========================================================= */
+
+.seres-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 22px;
+
+}
+
+
+/* =========================================================
+   TABELA CASO SEU JS AINDA USE TABELA
+========================================================= */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 20px;
+
+    background: var(--branco);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+}
+
+
+th,
+td {
+
+    border: 1px solid var(--borda);
+
+    padding: 10px;
+
+    text-align: left;
+
+}
+
+
+th {
+
+    background: var(--verde-claro);
+
+    color: var(--verde-escuro);
+
+    font-weight: 600;
+
+}
+
+
+td {
+
+    color: var(--texto);
+
+}
+
+
+table img {
+
+    width: 50px;
+
+    height: 50px;
+
+    object-fit: cover;
+
+    border-radius: 7px;
+
+}
+
+
+/* =========================================================
+   DRAWER DE EDIÇÃO
+========================================================= */
+
+.edit-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+
+    z-index: 1200;
+
+}
+
+
+.edit-overlay.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
+}
+
+
+.drawer-editar {
+
+    position: fixed;
+
+    top: 0;
+
+    right: 0;
+
+    width: 420px;
+
+    max-width: 95vw;
+
+    height: 100vh;
+
+    background: var(--branco);
+
+    box-shadow:
+        -8px 0 30px rgba(0, 0, 0, 0.15);
+
+    transform: translateX(105%);
+
+    transition:
+        transform 0.35s ease;
+
+    z-index: 1250;
+
+    overflow-y: auto;
+
+}
+
+
+.drawer-editar.active {
+
+    transform: translateX(0);
+
+}
+
+
+/* =========================================================
+   CABEÇALHO DO DRAWER
+========================================================= */
+
+.drawer-header {
+
+    padding: 22px;
+
+    border-bottom: 1px solid var(--borda);
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+}
+
+
+.drawer-header h2 {
+
+    color: var(--texto);
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+}
+
+
+.drawer-header p {
+
+    margin-top: 4px;
+
+    color: var(--texto-secundario);
+
+    font-size: 12px;
+
+}
+
+
+.btn-fechar-drawer {
+
+    width: 38px;
+
+    height: 38px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #f5f7f6;
+
+    color: #526159;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.btn-fechar-drawer:hover {
+
+    background: #feecec;
+
+    color: #c62828;
+
+}
+
+
+/* =========================================================
+   FORMULÁRIO
+========================================================= */
+
+.edit-form {
+
+    padding: 22px;
+
+}
+
+
+.form-group {
+
+    margin-bottom: 20px;
+
+}
+
+
+.form-group > label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: var(--texto);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.form-group input,
+.form-group select {
+
+    width: 100%;
+
+    height: 44px;
+
+    padding: 0 12px;
+
+    border: 1px solid var(--borda);
+
+    border-radius: 8px;
+
+    background: var(--branco);
+
+    color: var(--texto);
+
+    outline: none;
+
+}
+
+
+.form-group input:focus,
+.form-group select:focus {
+
+    border-color: var(--verde-medio);
+
+    box-shadow:
+        0 0 0 3px rgba(76, 175, 80, 0.12);
+
+}
+
+
+/* =========================================================
+   BOTÃO LOCALIZAÇÃO
+========================================================= */
+
+.location-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-bottom: 10px;
+
+    padding: 8px 12px;
+
+    border: 1px solid #c8dfca;
+
+    border-radius: 7px;
+
+    background: #f0f8f1;
+
+    color: var(--verde-principal);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.location-button:hover {
+
+    background: var(--verde-claro);
+
+    border-color: var(--verde-medio);
+
+}
+
+
+/* =========================================================
+   MAPA
+========================================================= */
+
+#mapa-editar {
+
+    width: 100%;
+
+    height: 250px;
+
+    margin-bottom: 14px;
+
+    border-radius: 9px;
+
+    overflow: hidden;
+
+    border: 1px solid var(--borda);
+
+    z-index: 1;
+
+}
+
+
+/* =========================================================
+   COORDENADAS
+========================================================= */
+
+.coordinates-grid {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+}
+
+
+.coordinates-grid label {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--texto-secundario);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+.coordinates-grid input {
+
+    height: 38px;
+
+    background: #f7f9f8;
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================================
+   AÇÕES DO FORMULÁRIO
+========================================================= */
+
+.form-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    padding-top: 10px;
+
+    border-top: 1px solid var(--borda);
+
+}
+
+
+.btn-cancelar,
+.btn-salvar {
+
+    height: 42px;
+
+    padding: 0 16px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.btn-cancelar {
+
+    border: 1px solid var(--borda);
+
+    background: var(--branco);
+
+    color: #526159;
+
+}
+
+
+.btn-cancelar:hover {
+
+    background: #f5f7f6;
+
+}
+
+
+.btn-salvar {
+
+    border: none;
+
+    background: var(--verde-principal);
+
+    color: var(--branco);
+
+}
+
+
+.btn-salvar:hover {
+
+    background: var(--verde-escuro);
+
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .desktop-navigation {
+
+        gap: 0;
+
+    }
+
+
+    .desktop-navigation a {
+
+        padding:
+            9px 10px;
+
+        font-size: 13px;
+
+    }
+
+
+    .seres-grid {
+
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+    }
+
+}
+
+
+/* =========================================================
+   TABLET / MOBILE
+========================================================= */
+
+@media (max-width: 992px) {
+
+    .main-header {
+
+        height: 68px;
+
+    }
+
+
+    .header-container {
+
+        padding: 0 18px;
+
+    }
+
+
+    .desktop-navigation {
+
+        display: none;
+
+    }
+
+
+    .hamburger {
+
+        display: flex;
+
+        margin-left: auto;
+
+    }
+
+
+    .brand img {
+
+        width: 40px;
+
+        height: 40px;
+
+    }
+
+
+    .brand {
+
+        font-size: 19px;
+
+    }
+
+
+    .seres-container {
+
+        padding:
+            28px 20px 45px;
+
+    }
+
+
+    .seres-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .header-container {
+
+        padding:
+            0 14px;
+
+    }
+
+
+    .brand {
+
+        gap: 8px;
+
+        font-size: 17px;
+
+    }
+
+
+    .brand img {
+
+        width: 37px;
+
+        height: 37px;
+
+    }
+
+
+    .hamburger {
+
+        width: 42px;
+
+        height: 42px;
+
+        font-size: 21px;
+
+    }
+
+
+    .seres-container {
+
+        padding:
+            22px 14px 35px;
+
+    }
+
+
+    .page-title {
+
+        align-items: flex-start;
+
+        margin-bottom: 22px;
+
+    }
+
+
+    .title-icon {
+
+        width: 45px;
+
+        height: 45px;
+
+        font-size: 19px;
+
+        flex-shrink: 0;
+
+    }
+
+
+    .page-title h1 {
+
+        font-size: 24px;
+
+    }
+
+
+    .page-title p {
+
+        font-size: 12px;
+
+        line-height: 1.5;
+
+    }
+
+
+    .filters-card {
+
+        grid-template-columns: 1fr;
+
+        padding: 16px;
+
+        gap: 15px;
+
+        border-radius: 11px;
+
+    }
+
+
+    .seres-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .drawer-editar {
+
+        width: 100%;
+
+        max-width: 100%;
+
+    }
+
+
+    .coordinates-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .form-actions {
+
+        flex-direction: column-reverse;
+
+    }
+
+
+    .btn-cancelar,
+    .btn-salvar {
+
+        width: 100%;
+
+    }
+
+}
+
+/* =========================================================
+   MENU MOBILE - ABRIR PELA ESQUERDA
+========================================================= */
+
+/* Botão hamburger */
+#hamburger {
+    display: none;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+    color: #2e7d32;
+
+    font-size: 23px;
+
+    cursor: pointer;
+
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    z-index: 1201;
+}
+
+#hamburger:hover {
+    background: #e8f5e9;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+#sidebar {
+
+    position: fixed !important;
+
+    top: 0 !important;
+    left: 0 !important;
+    right: auto !important;
+    bottom: auto !important;
+
+    width: 300px !important;
+    max-width: 85vw;
+
+    height: 100vh !important;
+
+    background: #ffffff;
+
+    box-shadow:
+        8px 0 30px rgba(0, 0, 0, 0.18);
+
+    /*
+       IMPORTANTE:
+       O menu começa totalmente FORA da tela,
+       no lado esquerdo.
+    */
+    transform: translate3d(-100%, 0, 0) !important;
+
+    transition:
+        transform 0.35s ease-in-out !important;
+
+    visibility: hidden;
+
+    opacity: 1;
+
+    overflow-y: auto;
+
+    z-index: 1200 !important;
+
+    display: block;
+}
+
+
+/*
+   QUANDO CLICAR NO HAMBURGER
+   O menu entra pela esquerda.
+*/
+#sidebar.active {
+
+    transform: translate3d(0, 0, 0) !important;
+
+    visibility: visible;
+
+}
+
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+#menu-overlay {
+
+    position: fixed !important;
+
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.50);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.35s ease,
+        visibility 0.35s ease;
+
+    z-index: 1150 !important;
+}
+
+
+#menu-overlay.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
+}
+
+
+/* =========================================================
+   CONTEÚDO DO MENU
+========================================================= */
+
+.mobile-menu-header {
+
+    height: 72px;
+
+    padding: 0 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    border-bottom: 1px solid #dce7df;
+
+}
+
+
+.mobile-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: #2e7d32;
+
+    font-size: 19px;
+
+    font-weight: 700;
+
+}
+
+
+.mobile-brand img {
+
+    width: 40px;
+    height: 40px;
+
+    object-fit: contain;
+
+}
+
+
+.mobile-navigation {
+
+    padding: 18px 12px;
+
+}
+
+
+.mobile-navigation a {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    width: 100%;
+
+    padding: 14px 15px;
+
+    margin-bottom: 5px;
+
+    border-radius: 9px;
+
+    color: #21312a;
+
+    text-decoration: none;
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+
+.mobile-navigation a i {
+
+    width: 23px;
+
+    text-align: center;
+
+    color: #2e7d32;
+
+}
+
+
+.mobile-navigation a:hover {
+
+    background: #e8f5e9;
+
+    color: #2e7d32;
+
+    transform: translateX(3px);
+
+}
+
+
+.mobile-navigation a.active {
+
+    background: #e8f5e9;
+
+    color: #1b5e20;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 992px) {
+
+    .desktop-navigation {
+        display: none !important;
+    }
+
+    #hamburger {
+        display: flex !important;
+
+        margin-left: auto;
+    }
+
+    .header-container {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        width: 100%;
+
+        padding: 0 18px;
+
+    }
+
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width: 993px) {
+
+    #sidebar,
+    #menu-overlay,
+    #hamburger {
+
+        display: none !important;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE PEQUENO
+========================================================= */
+
+@media (max-width: 600px) {
+
+    #sidebar {
+
+        width: 285px !important;
+
+        max-width: 82vw;
+
+    }
+
+    #hamburger {
+
+        width: 42px;
+
+        height: 42px;
+
+        font-size: 21px;
+
+    }
+
+}

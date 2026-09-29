@@ -1,0 +1,1200 @@
+/* =========================================================
+   BIO-GUINÉ | CONTACTO
+   CSS RESPONSIVO
+========================================================= */
+
+
+/* =========================================================
+   VARIÁVEIS DE CORES
+========================================================= */
+
+:root {
+
+    --verde-principal: #2e7d32;
+    --verde-escuro: #1b5e20;
+    --verde-natural: #4caf50;
+    --verde-claro: #81c784;
+
+    --branco: #ffffff;
+    --fundo: #f1f8f3;
+    --fundo-suave: #f7faf8;
+
+    --texto: #21312a;
+    --texto-suave: #66736d;
+
+    --borda: #e1e9e4;
+
+    --sombra: 0 20px 45px rgba(27, 94, 32, 0.10);
+    --sombra-menu: 0 15px 40px rgba(0, 0, 0, 0.18);
+
+    --transicao: 0.3s ease;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+
+    background: var(--fundo);
+
+    color: var(--texto);
+
+    overflow-x: hidden;
+}
+
+body.no-scroll {
+    overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+button,
+input,
+textarea {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.main-nav {
+
+    position: sticky;
+
+    top: 15px;
+
+    z-index: 1200;
+
+    margin: 15px;
+
+    padding: 10px 20px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(46, 125, 50, 0.08);
+
+    border-radius: 16px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.flex-container {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-shrink: 0;
+}
+
+.logo img {
+
+    width: auto;
+
+    height: 64px;
+
+    display: block;
+
+    border-radius: 10px;
+
+    transition: transform var(--transicao);
+}
+
+.logo:hover img {
+    transform: scale(1.04);
+}
+
+
+/* =========================================================
+   LINKS DO MENU
+========================================================= */
+
+.main-nav-links {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 1.4rem;
+}
+
+.main-nav-links a {
+
+    position: relative;
+
+    color: var(--verde-escuro);
+
+    font-size: 0.92rem;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition:
+        color var(--transicao),
+        transform var(--transicao);
+}
+
+.main-nav-links a::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: -7px;
+
+    width: 0;
+
+    height: 2px;
+
+    background: var(--verde-natural);
+
+    border-radius: 10px;
+
+    transition: width var(--transicao);
+}
+
+.main-nav-links a:hover,
+.main-nav-links a.active-link {
+
+    color: var(--verde-principal);
+}
+
+.main-nav-links a:hover::after,
+.main-nav-links a.active-link::after {
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   USER MENU
+========================================================= */
+
+.user-menu {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 8px 13px;
+
+    color: var(--verde-escuro);
+
+    font-size: 0.92rem;
+
+    font-weight: 600;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition:
+        background var(--transicao),
+        transform var(--transicao);
+}
+
+.user-menu:hover {
+
+    background: var(--fundo);
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   HAMBURGER
+========================================================= */
+
+.hamburger {
+
+    display: none;
+
+    width: 44px;
+    height: 44px;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: var(--verde-escuro);
+
+    font-size: 1.5rem;
+
+    cursor: pointer;
+
+    transition:
+        background var(--transicao),
+        color var(--transicao),
+        transform var(--transicao);
+
+    z-index: 1400;
+}
+
+.hamburger:hover {
+
+    background: var(--fundo);
+
+    color: var(--verde-principal);
+
+    transform: scale(1.04);
+}
+
+.hamburger:focus-visible {
+
+    outline: 3px solid rgba(76, 175, 80, 0.35);
+
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   OVERLAY DO MENU
+========================================================= */
+
+.menu-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(15, 35, 20, 0.45);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity var(--transicao),
+        visibility var(--transicao);
+
+    z-index: 1100;
+}
+
+.menu-overlay.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   SEÇÃO DE CONTATO
+========================================================= */
+
+.secao-contato-premium {
+
+    padding: 70px 0;
+
+    min-height: calc(100vh - 110px);
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+/* =========================================================
+   CARD PRINCIPAL
+========================================================= */
+
+.glass-card-container {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1.2fr;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    background: var(--branco);
+
+    border: 1px solid rgba(46, 125, 50, 0.08);
+
+    border-radius: 28px;
+
+    box-shadow: var(--sombra);
+}
+
+
+/* =========================================================
+   LADO DAS INFORMAÇÕES
+========================================================= */
+
+.glass-info {
+
+    padding: 60px;
+
+    color: var(--branco);
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--verde-escuro),
+            var(--verde-principal)
+        );
+}
+
+.glass-info .subtitulo {
+
+    display: block;
+
+    margin-bottom: 12px;
+
+    color: var(--verde-claro);
+
+    font-size: 0.82rem;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.glass-info h1 {
+
+    margin: 0;
+
+    color: var(--branco);
+
+    font-size: clamp(2.4rem, 4vw, 3.4rem);
+
+    font-weight: 800;
+
+    line-height: 1.05;
+}
+
+.glass-info .destaque {
+
+    color: var(--verde-claro);
+}
+
+.descricao-contato {
+
+    max-width: 440px;
+
+    margin-top: 24px;
+
+    color: rgba(255, 255, 255, 0.85);
+
+    font-size: 0.95rem;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   LISTA DE CONTATOS
+========================================================= */
+
+.lista-contatos {
+
+    margin-top: 35px;
+}
+
+.item-contato {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.icone-contato {
+
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 12px;
+
+    color: var(--verde-claro);
+}
+
+.item-contato span {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: rgba(255, 255, 255, 0.65);
+
+    font-size: 0.78rem;
+}
+
+.item-contato p {
+
+    margin: 0;
+
+    color: var(--branco);
+
+    font-size: 0.95rem;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   REDES SOCIAIS
+========================================================= */
+
+.redes-sociais-pills {
+
+    display: flex;
+
+    gap: 12px;
+
+    margin-top: 35px;
+}
+
+.redes-sociais-pills a {
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: var(--branco);
+
+    background: rgba(255, 255, 255, 0.12);
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    border-radius: 50%;
+
+    transition:
+        background var(--transicao),
+        transform var(--transicao);
+}
+
+.redes-sociais-pills a:hover {
+
+    background: var(--verde-natural);
+
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   FORMULÁRIO
+========================================================= */
+
+.glass-form {
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 60px;
+
+    background: var(--branco);
+}
+
+.glass-form form {
+    width: 100%;
+}
+
+.grupo-input,
+.grupo-input-combo {
+
+    position: relative;
+
+    width: 100%;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.grupo-input input,
+.grupo-input textarea,
+.grupo-input-combo input {
+
+    width: 100%;
+
+    padding: 16px 18px;
+
+    color: var(--texto);
+
+    background: var(--fundo-suave);
+
+    border: 1px solid var(--borda);
+
+    border-radius: 12px;
+
+    outline: none;
+
+    font-size: 0.95rem;
+
+    transition:
+        border-color var(--transicao),
+        background var(--transicao),
+        box-shadow var(--transicao),
+        transform var(--transicao);
+}
+
+.grupo-input input:focus,
+.grupo-input textarea:focus,
+.grupo-input-combo input:focus {
+
+    background: var(--branco);
+
+    border-color: var(--verde-natural);
+
+    box-shadow: 0 8px 22px rgba(76, 175, 80, 0.12);
+
+    transform: translateY(-1px);
+}
+
+.grupo-input textarea {
+
+    min-height: 140px;
+
+    resize: vertical;
+}
+
+.grupo-input input::placeholder,
+.grupo-input textarea::placeholder,
+.grupo-input-combo input::placeholder {
+
+    color: #9aa59f;
+}
+
+
+/* =========================================================
+   TELEFONE
+========================================================= */
+
+.grupo-input-combo {
+
+    display: flex;
+}
+
+.indicativo {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 70px;
+
+    padding: 0 14px;
+
+    color: var(--verde-escuro);
+
+    background: #edf5ef;
+
+    border: 1px solid var(--borda);
+
+    border-right: none;
+
+    border-radius: 12px 0 0 12px;
+
+    font-size: 0.9rem;
+
+    font-weight: 700;
+}
+
+.grupo-input-combo input {
+
+    border-radius: 0 12px 12px 0;
+}
+
+
+/* =========================================================
+   BOTÃO
+========================================================= */
+
+.btn-enviar-moderno {
+
+    width: 100%;
+
+    margin-top: 5px;
+
+    padding: 17px 20px;
+
+    color: var(--branco);
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--verde-escuro),
+            var(--verde-principal)
+        );
+
+    border: none;
+
+    border-radius: 12px;
+
+    font-size: 0.95rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.8px;
+
+    cursor: pointer;
+
+    box-shadow: 0 10px 25px rgba(46, 125, 50, 0.20);
+
+    transition:
+        transform var(--transicao),
+        box-shadow var(--transicao),
+        filter var(--transicao);
+}
+
+.btn-enviar-moderno:hover {
+
+    filter: brightness(1.08);
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 14px 30px rgba(46, 125, 50, 0.28);
+}
+
+.btn-enviar-moderno:active {
+
+    transform: translateY(0);
+
+    box-shadow: 0 7px 15px rgba(46, 125, 50, 0.18);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+
+    padding: 45px 20px 25px;
+
+    color: var(--branco);
+
+    background:
+        linear-gradient(
+            145deg,
+            #245c2a,
+            var(--verde-escuro)
+        );
+}
+
+.footer-content {
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 40px;
+}
+
+.footer-section {
+
+    flex: 1;
+
+    min-width: 180px;
+}
+
+.footer-section h3 {
+
+    margin-bottom: 18px;
+
+    color: var(--branco);
+
+    font-size: 1.05rem;
+
+    font-weight: 700;
+}
+
+.footer-section ul {
+
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+}
+
+.footer-section ul li {
+
+    margin-bottom: 9px;
+}
+
+.footer-section ul li a {
+
+    color: rgba(255, 255, 255, 0.78);
+
+    font-size: 0.88rem;
+
+    transition: color var(--transicao);
+}
+
+.footer-section ul li a:hover {
+
+    color: var(--verde-claro);
+}
+
+
+/* =========================================================
+   REDES SOCIAIS FOOTER
+========================================================= */
+
+.social-icons {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+.social-icons li {
+    margin: 0 !important;
+}
+
+.social-icons a {
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    color: var(--branco) !important;
+
+    background: rgba(255, 255, 255, 0.10);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 50%;
+
+    transition:
+        background var(--transicao),
+        transform var(--transicao);
+}
+
+.social-icons a:hover {
+
+    color: var(--branco) !important;
+
+    background: var(--verde-natural);
+
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   FOOTER BOTTOM
+========================================================= */
+
+.footer-bottom {
+
+    max-width: 1200px;
+
+    margin: 30px auto 0;
+
+    padding-top: 20px;
+
+    text-align: center;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.footer-bottom p {
+
+    margin: 0;
+
+    color: rgba(255, 255, 255, 0.65);
+
+    font-size: 0.8rem;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .main-nav-links {
+        gap: 1rem;
+    }
+
+    .main-nav-links a {
+        font-size: 0.85rem;
+    }
+
+    .glass-info,
+    .glass-form {
+        padding: 45px;
+    }
+}
+
+
+/* =========================================================
+   MENU MOBILE
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .main-nav {
+
+        top: 10px;
+
+        margin: 10px;
+
+        padding: 8px 14px;
+    }
+
+    .logo img {
+        height: 58px;
+    }
+
+    /* Mostra o hamburger */
+    .hamburger {
+
+        display: flex;
+    }
+
+    /*
+       IMPORTANTE:
+       Não usamos display:none aqui.
+       O menu continua no DOM e é controlado
+       por transform + classe active.
+    */
+
+    .main-nav-links {
+
+        position: fixed;
+
+        top: 0;
+        left: 0;
+
+        width: min(82vw, 330px);
+
+        height: 100vh;
+
+        padding: 105px 25px 35px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        justify-content: flex-start;
+
+        gap: 0;
+
+        background: var(--branco);
+
+        box-shadow: var(--sombra-menu);
+
+        border-radius: 0 20px 20px 0;
+
+        transform: translateX(-105%);
+
+        transition: transform 0.35s ease;
+
+        overflow-y: auto;
+
+        z-index: 1300;
+    }
+
+    .main-nav-links.active {
+
+        transform: translateX(0);
+    }
+
+    .main-nav-links a {
+
+        width: 100%;
+
+        padding: 15px 8px;
+
+        color: var(--verde-escuro);
+
+        font-size: 1rem;
+
+        border-bottom: 1px solid #edf1ee;
+    }
+
+    .main-nav-links a::after {
+        display: none;
+    }
+
+    .main-nav-links a:hover,
+    .main-nav-links a.active-link {
+
+        padding-left: 14px;
+
+        color: var(--verde-principal);
+
+        background: var(--fundo);
+
+        border-radius: 8px;
+    }
+
+    .user-menu {
+
+        width: 100%;
+
+        justify-content: flex-start;
+
+        margin-top: 20px;
+
+        padding: 14px;
+
+        background: var(--fundo);
+
+        color: var(--verde-escuro);
+
+        border-radius: 10px;
+    }
+
+    /* Card passa para uma coluna */
+    .glass-card-container {
+
+        grid-template-columns: 1fr;
+    }
+
+    .secao-contato-premium {
+
+        padding: 50px 0;
+    }
+}
+
+
+/* =========================================================
+   TABLET / CELULAR
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .secao-contato-premium {
+
+        padding: 35px 0;
+    }
+
+    .glass-card-container {
+
+        border-radius: 20px;
+    }
+
+    .glass-info,
+    .glass-form {
+
+        padding: 35px 25px;
+    }
+
+    .glass-info h1 {
+
+        font-size: 2.5rem;
+    }
+
+    .descricao-contato {
+
+        font-size: 0.88rem;
+    }
+
+    .footer {
+
+        padding-top: 35px;
+    }
+
+    .footer-content {
+
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 25px;
+
+        text-align: center;
+    }
+
+    .footer-section {
+
+        width: 100%;
+    }
+
+    .social-icons {
+
+        justify-content: center;
+    }
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .main-nav {
+
+        margin: 8px;
+
+        border-radius: 12px;
+    }
+
+    .logo img {
+
+        height: 50px;
+    }
+
+    .hamburger {
+
+        width: 42px;
+
+        height: 42px;
+    }
+
+    .secao-contato-premium {
+
+        padding: 25px 0;
+    }
+
+    .glass-info,
+    .glass-form {
+
+        padding: 30px 20px;
+    }
+
+    .glass-info h1 {
+
+        font-size: 2.2rem;
+    }
+
+    .item-contato p {
+
+        font-size: 0.86rem;
+    }
+
+    .grupo-input input,
+    .grupo-input textarea,
+    .grupo-input-combo input {
+
+        padding: 14px;
+    }
+
+    .indicativo {
+
+        min-width: 64px;
+
+        padding: 0 10px;
+    }
+
+    .btn-enviar-moderno {
+
+        padding: 15px;
+    }
+
+    .footer {
+
+        padding-left: 15px;
+
+        padding-right: 15px;
+    }
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        scroll-behavior: auto !important;
+
+        transition-duration: 0.01ms !important;
+
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+    }
+}
+

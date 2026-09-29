@@ -1,0 +1,112 @@
+/* Ícone verde musgo */
+.header-brand i.icon-green {
+    color: #458748; /* Verde Musgo da nova paleta */
+    font-size: 3rem;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+/* Card central */
+.auth_left .card {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    background-color: #fff;
+}
+
+/* Título do formulário */
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* Inputs com borda arredondada e foco verde */
+.form-control {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control:focus {
+    border-color: #5C775D; /* Verde Musgo ao focar */
+    box-shadow: 0 0 5px rgba(92, 119, 93, 0.5); /* Sombra correspondente */
+    outline: none;
+}
+
+/* Botões sociais - Mantidos com as cores originais de branding */
+.btn-facebook, .btn-google {
+    margin: 0.25rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/*.btn-facebook { background-color: #3b5998; }
+.btn-facebook:hover { background-color: #2d4373; }
+
+.btn-google { background-color: #db4437; }
+.btn-google:hover { background-color: #c1351d; }*/
+
+/* Botão Criar Conta */
+#btnRegister{
+    background-color: #458748; /* Verde Escuro da nova paleta */
+    border-color: #458748;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+#btnRegister {
+    background-color: #458748; /* Verde Escuro da nova paleta */
+    border-color: #5C775D;
+}
+
+/* Checkbox customizado */
+.custom-control {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.custom-control-label {
+    margin-left: 0.5rem;
+}
+
+/* Links e texto inferior */
+.text-muted a {
+    color: #458748; /* Verde Musgo da nova paleta */
+    text-decoration: none;
+}
+
+.text-muted a:hover {
+    text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 576px) {
+    .auth_left .card {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    .header-brand i.brand-logo {
+        font-size: 2.5rem;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+    }
+}

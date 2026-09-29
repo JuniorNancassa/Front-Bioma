@@ -1,0 +1,62 @@
+<div class="container p-6">
+    <h1 class="text-2xl font-bold mb-6 text-center">Alterar Palavra-passe</h1>
+
+    <div class="max-w-md mx-auto bg-white p-6 rounded-xl shadow">
+
+        <input id="senhaAtual" type="password" placeholder="Senha atual"
+            class="w-full mb-3 p-2 border rounded">
+
+        <input id="novaSenha" type="password" placeholder="Nova senha"
+            class="w-full mb-3 p-2 border rounded">
+
+        <input id="confirmarSenha" type="password" placeholder="Confirmar nova senha"
+            class="w-full mb-4 p-2 border rounded">
+
+        <button onclick="alterarSenha()"
+            class="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700">
+            Atualizar senha
+        </button>
+
+        <p id="msg" class="text-center mt-3 text-sm"></p>
+    </div>
+</div>
+
+<script>
+    async function alterarSenha() {
+    const senhaAtual = document.getElementById("senhaAtual").value;
+    const novaSenha = document.getElementById("novaSenha").value;
+    const confirmarSenha = document.getElementById("confirmarSenha").value;
+    const msg = document.getElementById("msg");
+
+    if (novaSenha !== confirmarSenha) {
+        msg.textContent = "As senhas não coincidem!";
+        msg.className = "text-red-500 text-center mt-3";
+        return;
+    }
+
+    try {
+        const res = await fetch("http://localhost:8080/api/usuarios/alterar-senha", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({
+                senhaAtual: senhaAtual,
+                novaSenha: novaSenha
+            })
+        });
+
+        const texto = await res.text();
+
+        if (!res.ok) throw new Error(texto);
+
+        msg.textContent = "Senha alterada com sucesso!";
+        msg.className = "text-green-600 text-center mt-3";
+
+    } catch (error) {
+        msg.textContent = error.message;
+        msg.className = "text-red-500 text-center mt-3";
+    }
+}
+</script>

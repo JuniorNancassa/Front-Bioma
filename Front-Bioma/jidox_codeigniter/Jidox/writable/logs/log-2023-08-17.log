@@ -1,0 +1,49 @@
+ERROR - 2023-08-17 09:48:56 --> ErrorException: SQLite3::exec(): table `users` already exists in C:\Users\4\Desktop\jidox_codeigniter\vendor\codeigniter4\framework\system\Database\SQLite3\Connection.php:145
+Stack trace:
+#0 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'SQLite3::exec()...', 'C:\\Users\\4\\Desk...', 145)
+#1 C:\Users\4\Desktop\jidox_codeigniter\vendor\codeigniter4\framework\system\Database\SQLite3\Connection.php(145): SQLite3->exec('CREATE TABLE `u...')
+#2 C:\Users\4\Desktop\jidox_codeigniter\vendor\codeigniter4\framework\system\Database\BaseConnection.php(692): CodeIgniter\Database\SQLite3\Connection->execute('CREATE TABLE `u...')
+#3 C:\Users\4\Desktop\jidox_codeigniter\vendor\codeigniter4\framework\system\Database\BaseConnection.php(606): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `u...')
+#4 C:\Users\4\Desktop\jidox_codeigniter\vendor\codeigniter4\framework\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `u...')
+#5 C:\Users\4\Desktop\jidox_codeigniter\app\Database\Migrations\2023-08-17-094757_CreateUsersTable.php(19): CodeIgniter\Database\Forge->createTable('users')
+#6 C:\Users\4\Desktop\jidox_codeigniter\vendor\codeigniter4\framework\system\Database\MigrationRunner.php(877): App\Database\Migrations\CreateUsersTable->up()
+#7 C:\Users\4\Desktop\jidox_codeigniter\vendor\codeigniter4\framework\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#8 C:\Users\4\Desktop\jidox_codeigniter\vendor\codeigniter4\framework\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#9 C:\Users\4\Desktop\jidox_codeigniter\vendor\codeigniter4\framework\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#10 C:\Users\4\Desktop\jidox_codeigniter\vendor\codeigniter4\framework\system\CLI\Console.php(37): CodeIgniter\CLI\Commands->run('migrate', Array)
+#11 C:\Users\4\Desktop\jidox_codeigniter\spark(97): CodeIgniter\CLI\Console->run()
+#12 {main}
+CRITICAL - 2023-08-17 10:26:37 --> Undefined array key "password"
+in APPPATH\Controllers\Auth.php on line 22.
+ 1 APPPATH\Controllers\Auth.php(22): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "password"', 'C:\\Users\\4\\Desktop\\jidox_codeigniter\\app\\Controllers\\Auth.php', 22)
+ 2 SYSTEMPATH\CodeIgniter.php(932): App\Controllers\Auth->loginCheck()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 4 SYSTEMPATH\CodeIgniter.php(366): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\4\\Desktop\\jidox_codeigniter\\public\\index.php')
+CRITICAL - 2023-08-17 10:27:06 --> Attempt to read property "password" on array
+in APPPATH\Controllers\Auth.php on line 22.
+ 1 APPPATH\Controllers\Auth.php(22): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Attempt to read property "password" on array', 'C:\\Users\\4\\Desktop\\jidox_codeigniter\\app\\Controllers\\Auth.php', 22)
+ 2 SYSTEMPATH\CodeIgniter.php(932): App\Controllers\Auth->loginCheck()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 4 SYSTEMPATH\CodeIgniter.php(366): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\4\\Desktop\\jidox_codeigniter\\public\\index.php')
+CRITICAL - 2023-08-17 10:27:13 --> syntax error, unexpected token "[", expecting identifier or variable or "{" or "$"
+in APPPATH\Controllers\Auth.php on line 22.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(291): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\Users\\4\\Desktop\\jidox_codeigniter\\app\\Controllers\\Auth.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(269): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Auth')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Auth')
+ 4 SYSTEMPATH\CodeIgniter.php(890): class_exists('\\App\\Controllers\\Auth', true)
+ 5 SYSTEMPATH\CodeIgniter.php(484): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH\CodeIgniter.php(366): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\4\\Desktop\\jidox_codeigniter\\public\\index.php')
+CRITICAL - 2023-08-17 10:27:18 --> Undefined array key "password"
+in APPPATH\Controllers\Auth.php on line 22.
+ 1 APPPATH\Controllers\Auth.php(22): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key "password"', 'C:\\Users\\4\\Desktop\\jidox_codeigniter\\app\\Controllers\\Auth.php', 22)
+ 2 SYSTEMPATH\CodeIgniter.php(932): App\Controllers\Auth->loginCheck()
+ 3 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Auth))
+ 4 SYSTEMPATH\CodeIgniter.php(366): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Commands\Server\rewrite.php(47): require_once('C:\\Users\\4\\Desktop\\jidox_codeigniter\\public\\index.php')

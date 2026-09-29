@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalhes do Ser</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/detalhes.css">
+</head>
+<body>
+
+
+
+  <div class="container my-4">
+    <div class="titulo-container">
+      <h3>Detalhes</h3>
+    </div>
+
+    <br>
+    <div class="card p-3">
+      <div class="row g-4 detalhes-seres">
+        <!-- Coluna da imagem -->
+        <div class="col-imagem">
+          <div class="imagem-wrapper">
+            <img id="serImg" src="assets/images/default.png" alt="Imagem do ser" class="ser-img">
+          </div>
+        </div>
+
+        <!-- Coluna de informações -->
+        <div class="col-info">
+          <h3 id="nomeComum"></h3>
+          <h5 id="nomeCientifico" class="text-muted"></h5>
+
+          <div class="info-item"><i class="bi bi-tag-fill me-1 text-primary"></i><span id="tipo"></span></div>
+          <div class="info-item"><i class="bi bi-bookmark-fill me-1 text-success"></i><span id="especie"></span></div>
+          <div class="info-item"><i class="bi bi-list-ul me-1 text-warning"></i><span id="categoria"></span></div>
+          <div class="info-item"><i class="bi bi-exclamation-triangle-fill me-1 text-danger"></i><span id="statusConservacao"></span></div>
+          <div class="info-item"><i class="bi bi-person-fill me-1 text-info"></i><span id="registradoPor"></span></div>
+          <div class="info-item"><i class="bi bi-calendar-check-fill me-1 text-secondary"></i><span id="dataRegistro"></span></div>
+          <div class="info-item"><i class="bi bi-geo-alt-fill me-1 text-danger"></i><span id="localizacao"></span></div>
+        </div>
+      </div>
+        <br> <br>
+      <!-- Descrição -->
+      <h5>Descrição</h5>
+      <div class="descricao" id="descricao"></div>
+
+      <!-- Comentários -->
+      <div class="comentarios mt-4">
+        <h5>
+          Comentários 
+          <button id="toggleComentarios" class="btn btn-link p-0 ms-2">
+            <i id="iconToggle" class="bi bi-chevron-up"></i>
+          </button>
+        </h5>
+        <div id="listaComentarios" class="mb-3"></div>
+
+        <!-- Nova mensagem -->
+        <div class="textarea-wrapper">
+          <textarea id="novoComentario" placeholder="Escreva seu comentário..." rows="2"></textarea>
+          <button id="btnEnviarComentario" class="btn-send" type="button">
+            <i class="bi bi-send-fill"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/page/detalhes.js"></script>
+</body>
+</html>
